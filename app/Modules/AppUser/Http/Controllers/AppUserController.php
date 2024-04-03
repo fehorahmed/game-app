@@ -3,6 +3,7 @@
 namespace App\Modules\AppUser\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use Illuminate\Http\Request;
 
 class AppUserController extends Controller
@@ -13,8 +14,9 @@ class AppUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function welcome()
+    public function index(AppUsersDataTable $dataTable)
     {
-        return view("AppUser::welcome");
+        return $dataTable->render("AppUser::app-user-list");
+        // return view("AppUser::app-user-list");
     }
 }

@@ -1,21 +1,29 @@
 <div class="main-icon-menu">
     <a href="index.html" class="logo logo-metrica d-block text-center">
         <span>
-            <img src="assets/images/logo-sm.png" alt="logo-small" class="logo-sm">
+            <img src="{{asset('assets/images/logo-sm.png')}}" alt="logo-small" class="logo-sm">
         </span>
     </a>
     <div class="main-icon-menu-body">
         <div class="position-reletive h-100" data-simplebar style="overflow-x: hidden;">
             <ul class="nav nav-tabs" role="tablist" id="tab-menu">
+                @php
+                    $main_menu = ['dashboard'];
+                @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard"
                     data-bs-trigger="hover">
-                    <a href="#MetricaDashboard" id="dashboard-tab" class="nav-link active">
+                    <a href="#MetricaDashboard" id="dashboard-tab"
+                        class="nav-link {{ in_array(Route::currentRouteName(), $main_menu) ? 'active' : '' }}">
                         <i class="ti ti-smart-home menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
+                @php
+                    $main_menu = ['admin.index', 'app_user.index'];
+                @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Apps"
                     data-bs-trigger="hover">
-                    <a href="#MetricaApps" id="apps-tab" class="nav-link">
+                    <a href="#MetricaApps" id="apps-tab"
+                        class="nav-link {{ in_array(Route::currentRouteName(), $main_menu) ? 'active' : '' }}">
                         <i class="ti ti-apps menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
@@ -45,7 +53,7 @@
     </div><!--end main-icon-menu-body-->
     <div class="pro-metrica-end">
         <a href="#" class="profile">
-            <img src="assets/images/users/user-4.jpg" alt="profile-user" class="rounded-circle thumb-sm">
+            <img src="{{asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle thumb-sm">
         </a>
     </div><!--end pro-metrica-end-->
 </div>
@@ -56,27 +64,32 @@
     <div class="topbar-left">
         <a href="index.html" class="logo">
             <span>
-                <img src="assets/images/logo-dark.png" alt="logo-large" class="logo-lg logo-dark">
-                <img src="assets/images/logo.png" alt="logo-large" class="logo-lg logo-light">
+                <img src="{{asset('assets/images/logo-dark.png')}}" alt="logo-large" class="logo-lg logo-dark">
+                <img src="{{asset('assets/images/logo.png')}}" alt="logo-large" class="logo-lg logo-light">
             </span>
         </a><!--end logo-->
     </div><!--end topbar-left-->
     <!--end logo-->
     <div class="menu-body navbar-vertical tab-content" data-simplebar>
-        <div id="MetricaDashboard" class="main-icon-menu-pane tab-pane active show" role="tabpanel"
-            aria-labelledby="dasboard-tab">
+        @php
+            $main_menu = ['dashboard'];
+        @endphp
+        <div id="MetricaDashboard"
+            class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $main_menu) ? 'active show' : '' }}"
+            role="tabpanel" aria-labelledby="dasboard-tab">
             <div class="title-box">
                 <h6 class="menu-title">Dashboard</h6>
             </div>
 
             <ul class="nav flex-column">
+                @php
+                    $menus = ['dashboard'];
+                @endphp
                 <li class="nav-item menuitem-active">
-                    <a class="nav-link active" href="index.html">Analytics</a>
+                    <a class="nav-link {{ in_array(Route::currentRouteName(), $menus) ? 'active' : '' }}"
+                        href="{{ route('dashboard') }}">Dashboard 1</a>
                 </li><!--end nav-item-->
-                <li class="nav-item">
-                    <a class="nav-link" href="crypto-index.html">Crypto</a>
-                </li><!--end nav-item-->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="crm-index.html">CRM</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
@@ -90,11 +103,15 @@
                 </li><!--end nav-item-->
                 <li class="nav-item">
                     <a class="nav-link" href="hospital-index.html">Hospital</a>
-                </li><!--end nav-item-->
+                </li><!--end nav-item--> --}}
             </ul><!--end nav-->
         </div><!-- end Dashboards -->
-
-        <div id="MetricaApps" class="main-icon-menu-pane tab-pane" role="tabpanel" aria-labelledby="apps-tab">
+        @php
+            $main_menu = ['admin.index', 'app_user.index'];
+        @endphp
+        <div id="MetricaApps"
+            class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $main_menu) ? 'active show' : '' }}"
+            role="tabpanel" aria-labelledby="apps-tab">
             <div class="title-box">
                 <h6 class="menu-title">Apps</h6>
             </div>
@@ -102,315 +119,51 @@
             <div class="collapse navbar-collapse" id="sidebarCollapse">
                 <!-- Navigation -->
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
+                    @php
+                        $menus = ['admin.index'];
+                    @endphp
+                    <li class="nav-item  {{ in_array(Route::currentRouteName(), $menus) ? 'menuitem-active' : '' }}">
+                        <a class="nav-link {{ in_array(Route::currentRouteName(), $menus) ? '' : 'collapsed' }}" href="#sidebarAnalytics" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAnalytics">
-                            Analytics
+                            Admin
                         </a>
-                        <div class="collapse " id="sidebarAnalytics">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $menus) ? 'show' : '' }}"
+                            id="sidebarAnalytics">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a href="analytics-customers.html" class="nav-link ">Customers</a>
+                                @php
+                                    $sub_menu = ['admin.index'];
+                                @endphp
+                                <li class="nav-item {{ in_array(Route::currentRouteName(), $sub_menu) ? 'menuitem-active' : '' }}">
+                                    <a href="{{route('admin.index')}}" class="nav-link {{ in_array(Route::currentRouteName(), $sub_menu) ? 'active' : '' }}">Admin List</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a href="analytics-reports.html" class="nav-link ">Reports</a>
-                                </li><!--end nav-item-->
+                                {{-- <li class="nav-item">
+                                    <a href="asdfsdfsa/sdfsdf.html" class="nav-link">Admin fgdfgfd</a>
+                                </li><!--end nav-item--> --}}
+
                             </ul><!--end nav-->
                         </div><!--end sidebarAnalytics-->
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarCrypto" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarCrypto">
-                            Crypto
+                    @php
+                        $menus = ['app_user.index'];
+                    @endphp
+                    <li class="nav-item {{ in_array(Route::currentRouteName(), $menus) ? 'menuitem-active' : '' }}">
+                        <a class="nav-link {{ in_array(Route::currentRouteName(), $menus) ? '' : 'collapsed' }}" href="#appUsers" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="appUsers">
+                            App User
                         </a>
-                        <div class="collapse " id="sidebarCrypto">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $menus) ? 'show' : '' }}"
+                            id="appUsers">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crypto-exchange.html">Exchange</a>
+                                @php
+                                    $sub_menu = ['app_user.index'];
+                                @endphp
+                                <li class="nav-item {{ in_array(Route::currentRouteName(), $sub_menu) ? 'menuitem-active' : '' }}">
+                                    <a href="{{route('app_user.index')}}" class="nav-link {{ in_array(Route::currentRouteName(), $sub_menu) ? 'active' : '' }}">User List</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crypto-wallet.html">Wallet</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crypto-news.html">Crypto News</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crypto-ico.html">ICO List</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crypto-settings.html">Settings</a>
-                                </li><!--end nav-item-->
+
                             </ul><!--end nav-->
-                        </div><!--end sidebarCrypto-->
-                    </li><!--end nav-item-->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarCRM" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarCRM">
-                            CRM
-                        </a>
-                        <div class="collapse " id="sidebarCRM">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crm-contacts.html">Contacts</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crm-opportunities.html">Opportunities</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crm-leads.html">Leads</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="crm-customers.html">Customers</a>
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end sidebarCRM-->
-                    </li><!--end nav-item-->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarProjects" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarProjects">
-                            Projects
-                        </a>
-                        <div class="collapse " id="sidebarProjects">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-clients.html">Clients</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-team.html">Team</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-project.html">Project</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-task.html">Task</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-kanban-board.html">Kanban Board</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-chat.html">Chat</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-users.html">Users</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="projects-create.html">Project Create</a>
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end sidebarProjects-->
-                    </li><!--end nav-item-->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarEcommerce" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarEcommerce">
-                            Ecommerce
-                        </a>
-                        <div class="collapse " id="sidebarEcommerce">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ecommerce-products.html">Products</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ecommerce-product-list.html">Product List</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ecommerce-product-detail.html">Product Detail</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ecommerce-cart.html">Cart</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ecommerce-checkout.html">Checkout</a>
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end sidebarEcommerce-->
-                    </li><!--end nav-item-->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarHelpdesk" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarHelpdesk">
-                            Helpdesk
-                        </a>
-                        <div class="collapse " id="sidebarHelpdesk">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="helpdesk-teckets.html">Tickets</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="helpdesk-reports.html">Reports</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="helpdesk-agents.html">Agents</a>
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end sidebarHelpdesk-->
-                    </li><!--end nav-item-->
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#sidebarHospital" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="sidebarHospital">
-                            Hospital
-                        </a>
-                        <div class="collapse " id="sidebarHospital">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a href="#sidebarAppointments " class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarAppointments">
-                                        Appointments
-                                    </a>
-                                    <div class="collapse " id="sidebarAppointments">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-doctor-shedule.html">Dr.
-                                                    Shedule</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-appointments.html">All
-                                                    Appointments</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarAppointments-->
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a href="#sidebarDoctors" class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarDoctors">
-                                        Doctors
-                                    </a>
-                                    <div class="collapse" id="sidebarDoctors">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-doctors.html">All Doctors</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-add-doctor.html">Add Doctor</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-doctor-edit.html">Doctor Edit</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-doctor-profile.html">Doctor
-                                                    Profile</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarDoctors-->
-                                </li><!--end nav-item-->
-
-                                <li class="nav-item">
-                                    <a href="#sidebarPatients" class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarPatients">
-                                        Patients
-                                    </a>
-                                    <div class="collapse" id="sidebarPatients">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-patients.html">All Patients</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-add-patient.html">Add Patient</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-patient-edit.html">Patient Edit</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-patient-profile.html">Patient
-                                                    Profile</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarPatients-->
-                                </li><!--end nav-item-->
-
-                                <li class="nav-item">
-                                    <a href="#sidebarPayments" class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarPayments">
-                                        Payments
-                                    </a>
-                                    <div class="collapse" id="sidebarPayments">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-payments.html">All Payments</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-payment-invoice.html">Payment
-                                                    Invoice</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-cashless-payments.html">Cashless
-                                                    Payments</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarPayments-->
-                                </li><!--end nav-item-->
-
-                                <li class="nav-item">
-                                    <a href="#sidebarStaff" class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarStaff">
-                                        Staff
-                                    </a>
-                                    <div class="collapse" id="sidebarStaff">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-staff.html">All Staff</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-add-member.html">Add Member</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-edit-member.html">Edit Member</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-member-profile.html">Member
-                                                    Profile</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-salary.html">Staff Salary</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarStaff-->
-                                </li><!--end nav-item-->
-
-                                <li class="nav-item">
-                                    <a href="#sidebarGeneral" class="nav-link" data-bs-toggle="collapse"
-                                        role="button" aria-expanded="false" aria-controls="sidebarGeneral">
-                                        General
-                                    </a>
-                                    <div class="collapse" id="sidebarGeneral">
-                                        <ul class="nav flex-column">
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-all-rooms.html">Room Allotments</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-expenses.html">Expenses Report</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-departments.html">Departments</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-insurance-company.html">Insurance
-                                                    Co.</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-events.html">Events</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-leaves.html">Leaves</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-holidays.html">Holidays</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-attendance.html">Attendance</a>
-                                            </li><!--end nav-item-->
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="hospital-chat.html">Chat</a>
-                                            </li><!--end nav-item-->
-                                        </ul><!--end nav-->
-                                    </div><!--end sidebarGeneral-->
-                                </li><!--end nav-item-->
-                            </ul><!--end nav-->
-                        </div><!--end sidebarHospital-->
+                        </div><!--end appUsers-->
                     </li><!--end nav-item-->
 
                     <li class="nav-item">

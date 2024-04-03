@@ -19,9 +19,12 @@
 
 
     <!-- App css -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+
+    {{-- DataTable --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 
 </head>
 
@@ -58,7 +61,7 @@
                                     <li class="breadcrumb-item active">Analytics</li>
                                 </ol>
                             </div>
-                            <h4 class="page-title">Analytics</h4>
+                            <h4 class="page-title">@yield('title')</h4>
                         </div><!--end page-title-box-->
                     </div><!--end col-->
                 </div>
@@ -87,14 +90,17 @@
     <!-- Javascript  -->
     <!-- vendor js -->
 
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="{{asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('assets/libs/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{asset('assets/libs/feather-icons/feather.min.js')}}"></script>
 
-    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/js/pages/analytics-index.init.js"></script>
+    <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
+    <script src="{{asset('assets/js/pages/analytics-index.init.js')}}"></script>
     <!-- App js -->
-    <script src="assets/js/app.js"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
+    {{-- DataTable --}}
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+    @stack('scripts')
 
 </body>
 <!--end body-->
