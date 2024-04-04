@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\AdminsDataTable;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index(AdminsDataTable $dataTable){
 
-        return view('admin.list');
+        return $dataTable->render('admin.list');
     }
 }

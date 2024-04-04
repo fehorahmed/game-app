@@ -3,16 +3,16 @@
         <li class="dropdown">
             <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
                 aria-haspopup="false" aria-expanded="false">
-                <img src="assets/images/flags/us_flag.jpg" alt="" class="thumb-xxs rounded-circle">
+                <img src="{{asset('assets/images/flags/us_flag.jpg')}}" alt="" class="thumb-xxs rounded-circle">
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#"><img src="assets/images/flags/us_flag.jpg" alt=""
+                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/us_flag.jpg')}}" alt=""
                         height="15" class="me-2">English</a>
-                <a class="dropdown-item" href="#"><img src="assets/images/flags/spain_flag.jpg" alt=""
+                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/spain_flag.jpg')}}" alt=""
                         height="15" class="me-2">Spanish</a>
-                <a class="dropdown-item" href="#"><img src="assets/images/flags/germany_flag.jpg" alt=""
+                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/germany_flag.jpg')}}" alt=""
                         height="15" class="me-2">German</a>
-                <a class="dropdown-item" href="#"><img src="assets/images/flags/french_flag.jpg" alt=""
+                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/french_flag.jpg')}}" alt=""
                         height="15" class="me-2">French</a>
             </div>
         </li><!--end topbar-language-->
@@ -34,7 +34,7 @@
                         <small class="float-end text-muted ps-2">2 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="assets/images/users/user-1.jpg" alt=""
+                                <img src="{{asset('assets/images/users/user-1.jpg')}}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -48,7 +48,7 @@
                         <small class="float-end text-muted ps-2">10 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="assets/images/users/user-4.jpg" alt=""
+                                <img src="{{asset('assets/images/users/user-4.jpg')}}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -63,7 +63,7 @@
                         <small class="float-end text-muted ps-2">40 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="assets/images/users/user-2.jpg" alt=""
+                                <img src="{{asset('assets/images/users/user-2.jpg')}}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -77,7 +77,7 @@
                         <small class="float-end text-muted ps-2">1 hr ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="assets/images/users/user-5.jpg" alt=""
+                                <img src="{{asset('assets/images/users/user-5.jpg')}}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -92,7 +92,7 @@
                         <small class="float-end text-muted ps-2">2 hrs ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="assets/images/users/user-3.jpg" alt=""
+                                <img src="{{asset('assets/images/users/user-3.jpg')}}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -201,7 +201,7 @@
             <a class="nav-link dropdown-toggle nav-user" data-bs-toggle="dropdown" href="#" role="button"
                 aria-haspopup="false" aria-expanded="false">
                 <div class="d-flex align-items-center">
-                    <img src="assets/images/users/user-4.jpg" alt="profile-user"
+                    <img src="{{asset('assets/images/users/user-4.jpg')}}" alt="profile-user"
                         class="rounded-circle me-2 thumb-sm" />
                     <div>
                         <small class="d-none d-md-block font-11">Admin</small>

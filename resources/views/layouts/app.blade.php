@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
 
 
 
@@ -26,6 +26,7 @@
     {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 
+    @stack('styles')
 </head>
 
 <body id="body">
@@ -94,11 +95,12 @@
     <script src="{{asset('assets/libs/simplebar/simplebar.min.js')}}"></script>
     <script src="{{asset('assets/libs/feather-icons/feather.min.js')}}"></script>
 
-    <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
-    <script src="{{asset('assets/js/pages/analytics-index.init.js')}}"></script>
+    {{-- <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script> --}}
+    {{-- <script src="{{asset('assets/js/pages/analytics-index.init.js')}}"></script> --}}
     <!-- App js -->
     <script src="{{asset('assets/js/app.js')}}"></script>
     {{-- DataTable --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
     @stack('scripts')
 

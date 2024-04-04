@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title','App User List')
+
 @section('content')
 
     <div class="row">
@@ -11,7 +12,6 @@
                 <div class="card-body">
                     {{ $dataTable->table() }}
                     {{-- <div class="table-responsive">
-                        <div id="datatable-1"></div>
                     </div> --}}
                 </div>
             </div>
@@ -20,5 +20,7 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+{{ $dataTable->scripts() }}
+
 @endpush

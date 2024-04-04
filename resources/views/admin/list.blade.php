@@ -10,10 +10,15 @@
                 </div><!--end card-header-->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <div id="datatable-1"></div>
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
 @endsection
+@push('scripts')
+
+{{ $dataTable->scripts() }}
+
+@endpush
