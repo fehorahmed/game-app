@@ -1,36 +1,41 @@
 <div class="main-icon-menu">
     <a href="index.html" class="logo logo-metrica d-block text-center">
         <span>
-            <img src="{{asset('assets/images/logo-sm.png')}}" alt="logo-small" class="logo-sm">
+            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="logo-sm">
         </span>
     </a>
     <div class="main-icon-menu-body">
         <div class="position-reletive h-100" data-simplebar style="overflow-x: hidden;">
             <ul class="nav nav-tabs" role="tablist" id="tab-menu">
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard" data-bs-trigger="hover">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard"
+                    data-bs-trigger="hover">
                     <a href="#MetricaDashboard" id="dashboard-tab" class="nav-link">
                         <i class="ti ti-smart-home menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Apps" data-bs-trigger="hover">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Apps"
+                    data-bs-trigger="hover">
                     <a href="#MetricaApps" id="apps-tab" class="nav-link">
                         <i class="ti ti-apps menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
 
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit" data-bs-trigger="hover">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit"
+                    data-bs-trigger="hover">
                     <a href="#MetricaUikit" id="uikit-tab" class="nav-link">
                         <i class="ti ti-planet menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
 
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Pages" data-bs-trigger="hover">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Pages"
+                    data-bs-trigger="hover">
                     <a href="#MetricaPages" id="pages-tab" class="nav-link">
                         <i class="ti ti-files menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
 
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Authentication" data-bs-trigger="hover">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Authentication"
+                    data-bs-trigger="hover">
                     <a href="#MetricaAuthentication" id="authentication-tab" class="nav-link">
                         <i class="ti ti-shield-lock menu-icon"></i>
                     </a><!--end nav-link-->
@@ -40,7 +45,7 @@
     </div><!--end main-icon-menu-body-->
     <div class="pro-metrica-end">
         <a href="#" class="profile">
-            <img src="{{asset('assets/images/users/user-4.jpg')}}" alt="profile-user" class="rounded-circle thumb-sm">
+            <img src="{{ asset('assets/images/users/user-4.jpg') }}" alt="profile-user" class="rounded-circle thumb-sm">
         </a>
     </div><!--end pro-metrica-end-->
 </div>
@@ -51,27 +56,26 @@
     <div class="topbar-left">
         <a href="index.html" class="logo">
             <span>
-                <img src="{{asset('assets/images/logo-dark.png')}}" alt="logo-large" class="logo-lg logo-dark">
-                <img src="{{asset('assets/images/logo.png')}}" alt="logo-large" class="logo-lg logo-light">
+                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-large" class="logo-lg logo-dark">
+                <img src="{{ asset('assets/images/logo.png') }}" alt="logo-large" class="logo-lg logo-light">
             </span>
         </a><!--end logo-->
     </div><!--end topbar-left-->
     <!--end logo-->
     <div class="menu-body navbar-vertical tab-content" data-simplebar>
-        <div id="MetricaDashboard" class="main-icon-menu-pane tab-pane" role="tabpanel"
-            aria-labelledby="dasboard-tab">
+        <div id="MetricaDashboard" class="main-icon-menu-pane tab-pane" role="tabpanel" aria-labelledby="dasboard-tab">
             <div class="title-box">
                 <h6 class="menu-title">Dashboard</h6>
             </div>
 
             <ul class="nav flex-column">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="anaylll">Analytics</a>
-                </li><!--end nav-item-->
+                </li><!--end nav-item--> --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('dashboard')}}">Crypto</a>
+                    <a class="nav-link" href="{{ route('dashboard') }}">Crypto</a>
                 </li><!--end nav-item-->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="crm-index.html">CRM</a>
                 </li><!--end nav-item-->
                 <li class="nav-item">
@@ -85,12 +89,11 @@
                 </li><!--end nav-item-->
                 <li class="nav-item">
                     <a class="nav-link" href="hospital-index.html">Hospital</a>
-                </li><!--end nav-item-->
+                </li><!--end nav-item--> --}}
             </ul><!--end nav-->
         </div><!-- end Dashboards -->
 
-        <div id="MetricaApps" class="main-icon-menu-pane tab-pane" role="tabpanel"
-            aria-labelledby="apps-tab">
+        <div id="MetricaApps" class="main-icon-menu-pane tab-pane" role="tabpanel" aria-labelledby="apps-tab">
             <div class="title-box">
                 <h6 class="menu-title">Apps</h6>
             </div>
@@ -106,11 +109,11 @@
                         <div class="collapse " id="sidebarAppUser">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a href="{{route('app_user.index')}}" class="nav-link ">User List</a>
+                                    <a href="{{ route('app_user.index') }}" class="nav-link ">User List</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="analytics-reports.html" class="nav-link ">Reports</a>
-                                </li><!--end nav-item-->
+                                </li><!--end nav-item--> --}}
                             </ul><!--end nav-->
                         </div><!--end sidebarAppUser-->
                     </li><!--end nav-item-->
@@ -123,7 +126,7 @@
                         <div class="collapse " id="sideberAdmin">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('admin.index')}}">Admin List</a>
+                                    <a class="nav-link" href="{{ route('admin.index') }}">Admin List</a>
                                 </li><!--end nav-item-->
                                 {{-- <li class="nav-item">
                                     <a class="nav-link" href="crypto-wallet.html">Wallet</a>
@@ -426,8 +429,7 @@
             </div><!--end sidebarCollapse-->
         </div><!-- end Crypto -->
 
-        <div id="MetricaUikit" class="main-icon-menu-pane  tab-pane" role="tabpanel"
-            aria-labelledby="uikit-tab">
+        <div id="MetricaUikit" class="main-icon-menu-pane  tab-pane" role="tabpanel" aria-labelledby="uikit-tab">
             <div class="title-box">
                 <h6 class="menu-title">UI Kit</h6>
             </div>
@@ -437,7 +439,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarElements" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarElements">
-                        UI Elements
+                            UI Elements
                         </a>
                         <div class="collapse " id="sidebarElements">
                             <ul class="nav flex-column">
@@ -581,7 +583,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarCharts" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarCharts">
-                        Charts
+                            Charts
                         </a>
                         <div class="collapse " id="sidebarCharts">
                             <ul class="nav flex-column">
@@ -624,7 +626,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarIcons" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarIcons">
-                        Icons
+                            Icons
                         </a>
                         <div class="collapse " id="sidebarIcons">
                             <ul class="nav flex-column">
