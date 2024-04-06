@@ -1,23 +1,24 @@
 <nav class="navbar-custom" id="navbar-custom">
     <ul class="list-unstyled topbar-nav float-end mb-0">
-        <li class="dropdown">
+        {{-- <li class="dropdown">
             <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
                 aria-haspopup="false" aria-expanded="false">
-                <img src="{{asset('assets/images/flags/us_flag.jpg')}}" alt="" class="thumb-xxs rounded-circle">
+                <img src="{{ asset('assets/images/flags/us_flag.jpg') }}" alt=""
+                    class="thumb-xxs rounded-circle">
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/us_flag.jpg')}}" alt=""
-                        height="15" class="me-2">English</a>
-                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/spain_flag.jpg')}}" alt=""
-                        height="15" class="me-2">Spanish</a>
-                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/germany_flag.jpg')}}" alt=""
-                        height="15" class="me-2">German</a>
-                <a class="dropdown-item" href="#"><img src="{{asset('assets/images/flags/french_flag.jpg')}}" alt=""
-                        height="15" class="me-2">French</a>
+                <a class="dropdown-item" href="#"><img src="{{ asset('assets/images/flags/us_flag.jpg') }}"
+                        alt="" height="15" class="me-2">English</a>
+                <a class="dropdown-item" href="#"><img src="{{ asset('assets/images/flags/spain_flag.jpg') }}"
+                        alt="" height="15" class="me-2">Spanish</a>
+                <a class="dropdown-item" href="#"><img src="{{ asset('assets/images/flags/germany_flag.jpg') }}"
+                        alt="" height="15" class="me-2">German</a>
+                <a class="dropdown-item" href="#"><img src="{{ asset('assets/images/flags/french_flag.jpg') }}"
+                        alt="" height="15" class="me-2">French</a>
             </div>
-        </li><!--end topbar-language-->
+        </li><!--end topbar-language--> --}}
 
-        <li class="dropdown notification-list">
+        {{-- <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#"
                 role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="ti ti-mail"></i>
@@ -34,7 +35,7 @@
                         <small class="float-end text-muted ps-2">2 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="{{asset('assets/images/users/user-1.jpg')}}" alt=""
+                                <img src="{{ asset('assets/images/users/user-1.jpg') }}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -48,7 +49,7 @@
                         <small class="float-end text-muted ps-2">10 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="{{asset('assets/images/users/user-4.jpg')}}" alt=""
+                                <img src="{{ asset('assets/images/users/user-4.jpg') }}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -63,7 +64,7 @@
                         <small class="float-end text-muted ps-2">40 min ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="{{asset('assets/images/users/user-2.jpg')}}" alt=""
+                                <img src="{{ asset('assets/images/users/user-2.jpg') }}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -77,7 +78,7 @@
                         <small class="float-end text-muted ps-2">1 hr ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="{{asset('assets/images/users/user-5.jpg')}}" alt=""
+                                <img src="{{ asset('assets/images/users/user-5.jpg') }}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -92,7 +93,7 @@
                         <small class="float-end text-muted ps-2">2 hrs ago</small>
                         <div class="media">
                             <div class="avatar-md bg-soft-primary">
-                                <img src="{{asset('assets/images/users/user-3.jpg')}}" alt=""
+                                <img src="{{ asset('assets/images/users/user-3.jpg') }}" alt=""
                                     class="thumb-sm rounded-circle">
                             </div>
                             <div class="media-body align-self-center ms-2 text-truncate">
@@ -107,9 +108,9 @@
                     View all <i class="fi-arrow-right"></i>
                 </a>
             </div>
-        </li>
+        </li> --}}
 
-        <li class="dropdown notification-list">
+        {{-- <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#"
                 role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="ti ti-bell"></i>
@@ -195,29 +196,39 @@
                     View all <i class="fi-arrow-right"></i>
                 </a>
             </div>
-        </li>
+        </li> --}}
 
         <li class="dropdown">
             <a class="nav-link dropdown-toggle nav-user" data-bs-toggle="dropdown" href="#" role="button"
                 aria-haspopup="false" aria-expanded="false">
                 <div class="d-flex align-items-center">
-                    <img src="{{asset('assets/images/users/user-4.jpg')}}" alt="profile-user"
+                    <img src="{{ asset('assets/images/users/user-4.jpg') }}" alt="profile-user"
                         class="rounded-circle me-2 thumb-sm" />
                     <div>
                         <small class="d-none d-md-block font-11">Admin</small>
-                        <span class="d-none d-md-block fw-semibold font-12">Maria Gibson <i
+                        <span class="d-none d-md-block fw-semibold font-12">{{ auth()->user()->name }} <i
                                 class="mdi mdi-chevron-down"></i></span>
                     </div>
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item" href="#"><i class="ti ti-user font-16 me-1 align-text-bottom"></i>
+                <a class="dropdown-item" href="{{ route('profile.edit') }}"><i
+                        class="ti ti-user font-16 me-1 align-text-bottom"></i>
                     Profile</a>
-                <a class="dropdown-item" href="#"><i class="ti ti-settings font-16 me-1 align-text-bottom"></i>
-                    Settings</a>
+                {{-- <a class="dropdown-item" href="#"><i class="ti ti-settings font-16 me-1 align-text-bottom"></i>
+                    Settings</a> --}}
                 <div class="dropdown-divider mb-0"></div>
-                <a class="dropdown-item" href="#"><i class="ti ti-power font-16 me-1 align-text-bottom"></i>
-                    Logout</a>
+                <a class="dropdown-item" href="#">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                </a>
             </div>
         </li><!--end topbar-profile-->
         <li class="notification-list">
@@ -236,8 +247,7 @@
         </li>
         <li class="hide-phone app-search">
             <form role="search" action="#" method="get">
-                <input type="search" name="search" class="form-control top-search mb-0"
-                    placeholder="Type text...">
+                <input type="search" name="search" class="form-control top-search mb-0" placeholder="Type text...">
                 <button type="submit"><i class="ti ti-search"></i></button>
             </form>
         </li>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','App User List')
+@section('title', 'App User List')
 
 @push('styles')
     <!-- Include DataTables CSS -->
@@ -24,9 +24,7 @@
 @endsection
 
 @push('scripts')
-
-{{-- @include('datatable.js.data_table_js') --}}
-{!! $dataTable->scripts() !!}
-{{-- {{ $dataTable->scripts(attributes: ['type' => 'module']) }} --}}
-
+    @include('datatable.js.data_table_js')
+    {{-- {!! $dataTable->scripts() !!} --}}
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

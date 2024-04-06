@@ -53,12 +53,12 @@ class AdminsDataTable extends DataTable
             ->orderBy(0, 'desc')
             ->selectStyleSingle()
             ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
+                // Button::make('excel'),
+                // Button::make('csv'),
+                // Button::make('pdf'),
+                // Button::make('print'),
+                // Button::make('reset'),
+                // Button::make('reload')
             ]);
     }
 

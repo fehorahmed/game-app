@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Admin List')
+@section('title', 'Admin List')
 @push('styles')
     <!-- Include DataTables CSS -->
     @include('datatable.css.data_table_css')
@@ -13,16 +13,16 @@
                     <h4 class="card-title">Admin Details </h4>
                 </div><!--end card-header-->
                 <div class="card-body">
-                    <div class="table-responsive">
-                        {{ $dataTable->table() }}
-                    </div>
+                    {{-- <div class="table-responsive"> --}}
+                    {{ $dataTable->table() }}
+                    {{-- </div> --}}
                 </div>
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
 @endsection
 @push('scripts')
-    {{-- @include('datatable.js.data_table_js') --}}
+    @include('datatable.js.data_table_js')
     {{-- {!! $dataTable->scripts() !!} --}}
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

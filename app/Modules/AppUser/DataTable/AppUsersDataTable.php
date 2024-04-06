@@ -22,11 +22,11 @@ class AppUsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($data){
+            ->addColumn('action', function ($data) {
                 return '<a herf="" class="btn btn-secondary btn-sm">View</a>';
             })
-            ->editColumn('status', function($data){
-                return $data->status==1?'<p class="badge bg-primary">Active</p>':'<p class="badge bg-danger">Inactive</p>';
+            ->editColumn('status', function ($data) {
+                return $data->status == 1 ? '<p class="badge bg-primary">Active</p>' : '<p class="badge bg-danger">Inactive</p>';
             })
             ->setRowId('id')
             ->rawColumns(['status', 'action']);
@@ -46,20 +46,20 @@ class AppUsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('appusers-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('appusers-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                // Button::make('excel'),
+                // Button::make('csv'),
+                // Button::make('pdf'),
+                // Button::make('print'),
+                // Button::make('reset'),
+                // Button::make('reload')
+            ]);
     }
 
     /**
@@ -74,10 +74,10 @@ class AppUsersDataTable extends DataTable
             Column::make('email'),
             Column::make('status'),
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
 
         ];
     }

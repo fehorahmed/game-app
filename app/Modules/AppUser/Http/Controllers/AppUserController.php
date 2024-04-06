@@ -19,4 +19,12 @@ class AppUserController extends Controller
         return $dataTable->render("AppUser::app-user-list");
         // return view("AppUser::app-user-list");
     }
+    public function apiUserDetails()
+    {
+        return response()->json([
+            'status' => true,
+            'data' => auth()->user(),
+        ]);
+        // return view("AppUser::app-user-list");
+    }
 }
