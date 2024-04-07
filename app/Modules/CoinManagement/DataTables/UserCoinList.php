@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\AppUser\DataTable;
+namespace App\Modules\CoinManagement\DataTables;
 
-use App\Modules\AppUser\Models\AppUser;
+use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class AppUsersDataTable extends DataTable
+class UserCoinList extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,24 +23,19 @@ class AppUsersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
-                return '<a herf="" class="btn btn-secondary btn-sm">View</a>';
-            })
-            ->addColumn('coin', function ($data) {
-                return $data->coin->coin ?? 0;
-            })
-            ->editColumn('status', function ($data) {
-                return $data->status == 1 ? '<p class="badge bg-primary">Active</p>' : '<p class="badge bg-danger">Inactive</p>';
+
+                return '<a href="' . route('coin.user_coin.details', $data->id) . '" class="btn btn-secondary btn-sm">Details</a>';
             })
             ->setRowId('id')
-            ->rawColumns(['status', 'action']);
+            ->rawColumns(['status', 'action']);;
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(AppUser $model): QueryBuilder
+    public function query(UserCoin $model): QueryBuilder
     {
-        return $model->with('coin')->newQuery();
+        return $model->with('appuser')->newQuery();
     }
 
     /**
@@ -49,12 +44,12 @@ class AppUsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('appusers-table')
+            ->setTableId('usercoinlist-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(1)
-            ->selectStyleSingle()
+            ->orderBy(0)
+            // ->selectStyleSingle()
             ->buttons([
                 // Button::make('excel'),
                 // Button::make('csv'),
@@ -71,18 +66,16 @@ class AppUsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
             Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
+            Column::make('appuser.name')->title('User Name'),
             Column::make('coin'),
-            Column::make('status'),
+            // Column::make('created_at'),
+            // Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-
         ];
     }
 
@@ -91,6 +84,6 @@ class AppUsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'AppUsers_' . date('YmdHis');
+        return 'UserCoinList_' . date('YmdHis');
     }
 }

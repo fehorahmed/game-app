@@ -13,9 +13,13 @@
                         <i class="ti ti-smart-home menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
+                @php
+                    $app_menu = ['coin.user_coin.details'];
+                @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Apps"
                     data-bs-trigger="hover">
-                    <a href="#MetricaApps" id="apps-tab" class="nav-link">
+                    <a href="#MetricaApps" id="apps-tab"
+                        class="nav-link {{ in_array(Route::currentRouteName(), $app_menu) ? 'active' : '' }}">
                         <i class="ti ti-apps menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
@@ -92,8 +96,12 @@
                 </li><!--end nav-item--> --}}
             </ul><!--end nav-->
         </div><!-- end Dashboards -->
-
-        <div id="MetricaApps" class="main-icon-menu-pane tab-pane" role="tabpanel" aria-labelledby="apps-tab">
+        @php
+            $app_menu = ['coin.user_coin.details'];
+        @endphp
+        <div id="MetricaApps"
+            class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $app_menu) ? 'active show' : '' }}"
+            role="tabpanel" aria-labelledby="apps-tab">
             <div class="title-box">
                 <h6 class="menu-title">Apps</h6>
             </div>
@@ -112,7 +120,7 @@
                                     <a href="{{ route('app_user.index') }}" class="nav-link ">User List</a>
                                 </li><!--end nav-item-->
                                 {{-- <li class="nav-item">
-                                    <a href="analytics-reports.html" class="nav-link ">Reports</a>
+                                    <a href="dsss" class="nav-link ">User Coin List</a>
                                 </li><!--end nav-item--> --}}
                             </ul><!--end nav-->
                         </div><!--end sidebarAppUser-->
@@ -135,18 +143,24 @@
                             </ul><!--end nav-->
                         </div><!--end sideberAdmin-->
                     </li><!--end nav-item-->
-
-                    {{-- <li class="nav-item">
+                    @php
+                        $coin_management = ['coin.user_coin.details'];
+                    @endphp
+                    <li class="nav-item">
                         <a class="nav-link" href="#sidebarCRM" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarCRM">
-                            CRM
+                            Coin Management
                         </a>
-                        <div class="collapse " id="sidebarCRM">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $coin_management) ? 'show' : '' }}"
+                            id="sidebarCRM">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ccccc">Contacts</a>
+                                <li
+                                    class="nav-item {{ in_array(Route::currentRouteName(), $coin_management) ? 'menuitem-active' : '' }}">
+                                    <a href="{{ route('coin.user_coin.list') }}"
+                                        class="nav-link {{ in_array(Route::currentRouteName(), $coin_management) ? 'active' : '' }}">User
+                                        Coin List</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="crm-opportunities.html">Opportunities</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
@@ -154,12 +168,12 @@
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
                                     <a class="nav-link" href="crm-customers.html">Customers</a>
-                                </li><!--end nav-item-->
+                                </li><!--end nav-item--> --}}
                             </ul><!--end nav-->
                         </div><!--end sidebarCRM-->
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#sidebarProjects" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarProjects">
                             Projects

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_coin_details', function (Blueprint $table) {
             $table->id();
-            $table->enum('source', ['GAME', 'WEBSITE', 'INITIAL']);
+            $table->enum('source', ['GAME', 'WEBSITE', 'INITIAL'])->comment('GAME,WEBSITE,INITIAL');
+            $table->enum('coin_type', ['ADD', 'SUB'])->comment('ADD , SUB');
             $table->foreignId('user_coin_id');
             $table->foreign('user_coin_id')->on('user_coins')->references('id');
             $table->bigInteger('coin')->default(0);

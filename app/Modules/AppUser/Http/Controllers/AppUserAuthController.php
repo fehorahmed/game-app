@@ -107,6 +107,7 @@ class AppUserAuthController extends Controller
             if ($user_coin_create->save()) {
                 $u_c_details = new UserCoinDetail();
                 $u_c_details->source = 'INITIAL';
+                $u_c_details->coin_type = 'ADD';
                 $u_c_details->user_coin_id = $user_coin_create->id;
                 $u_c_details->coin = 100;
                 $u_c_details->save();

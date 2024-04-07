@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserGameSessionDetail;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 
@@ -75,30 +77,66 @@ class UserGameController extends Controller
                 ], 401);
             }
         }
+        // dd(auth()->id());
         //Check Coin balance
-        $u_coin = UserCoin::where('app_user_id' . auth()->id())->first();
+        $u_coin = UserCoin::where('app_user_id', auth()->id())->first();
         if (!$u_coin) {
             return response()->json([
                 'status' => false,
                 'message' => 'Coin account not found.'
             ], 401);
         }
-        //Game Session Update
-        $session_update = new AppUserGameSessionDetail();
-        $session_update->app_user_game_session_id = $session_ck->id;
-        $session_update->coin_type = $request->coin_type;
-        $session_update->coin = $request->coin;
-        $session_update->remark = $request->remark;
-        if ($session_update->save()) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Session update successfully'
-            ], 200);
-        } else {
+
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $session_update = new AppUserGameSessionDetail();
+            $session_update->app_user_game_session_id = $session_ck->id;
+            $session_update->coin_type = $request->coin_type;
+            $session_update->coin = $request->coin;
+            $session_update->remark = $request->remark;
+            if ($session_update->save()) {
+                $user_c_details = new UserCoinDetail();
+                if ($request->coin_type == "WIN") {
+                    $user_c_details->coin_type = "ADD";
+                    $u_coin->increment('coin', $request->coin);
+                } elseif ($request->coin_type == "LOSS") {
+                    $user_c_details->coin_type = "SUB";
+                    $u_coin->decrement('coin', $request->coin);
+                }
+                $user_c_details->source = "GAME";
+                $user_c_details->user_coin_id = $u_coin->id;
+                $user_c_details->coin = $request->coin;
+                $user_c_details->app_user_game_session_detail_id = $session_update->id;
+                if (!$user_c_details->save()) {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.'
+                ], 401);
+            } else {
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Session update successfully'
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
+                'message' => $th->getMessage()
             ], 401);
         }
+        //Game Session Update
+
     }
 }

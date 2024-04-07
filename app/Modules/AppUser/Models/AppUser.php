@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Models;
 
+use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ class AppUser extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -43,4 +44,10 @@ class AppUser extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function coin()
+    {
+        return $this->belongsTo(UserCoin::class, 'id', 'app_user_id');
+    }
 }

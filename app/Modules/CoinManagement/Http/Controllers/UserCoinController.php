@@ -3,26 +3,24 @@
 namespace App\Modules\CoinManagement\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\CoinManagement\DataTables\UserCoinList;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 
 class UserCoinController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function userCoinList(UserCoinList $dataTable)
     {
-        //
+        return $dataTable->render('CoinManagement::user-coin-list');
+    }
+    public function userCoinDetails($user_coin)
+    {
+        $datas = UserCoinDetail::where('user_coin_id', $user_coin)->paginate(1);
+        return view('CoinManagement::user-coin-details', compact('datas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
