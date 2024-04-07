@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>TokenManagement</title>
+        <title>CoinManagement</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -47,13 +47,13 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title">
-                    TokenManagement
+                    CoinManagement
                 </div>
                 <div class="subtitle">
-                    @if (Lang::has('TokenManagement::example.welcome'))
-                        {{ trans('TokenManagement::example.welcome') }}
+                    @if (Lang::has('CoinManagement::example.welcome'))
+                        {{ trans('CoinManagement::example.welcome') }}
                     @else
-                        Welcome, this is TokenManagement module.
+                        Welcome, this is CoinManagement module.
                     @endif
                 </div>
             </div>

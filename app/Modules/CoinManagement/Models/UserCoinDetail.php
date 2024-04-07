@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\TokenManagement\Models;
+namespace App\Modules\CoinManagement\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TokenManagement extends Model
+class UserCoinDetail extends Model
 {
     use HasFactory;
 }

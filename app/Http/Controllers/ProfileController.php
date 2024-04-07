@@ -8,8 +8,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Intervention\Image\ImageManager;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -41,18 +42,24 @@ class ProfileController extends Controller
         $data->phone = $request->phone;
         $data->designation = $request->designation;
         if ($request->photo) {
-
+            $existingFilePath = $data->photo;
+            if ($existingFilePath && Storage::disk('public')->exists($existingFilePath)) {
+                Storage::disk('public')->delete($existingFilePath);
+            }
             $imageFile = $request->file('photo');
 
             // Generate a unique filename
             $filename = time() . '_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
-
-            // Move the uploaded file to a storage directory
             $imagePath = $imageFile->storeAs('images', $filename, 'public');
 
-            $image = ImageManager::imagick()->read($request->photo);
-            $image->resize(300, 200);
+            $image = Image::read(Storage::disk('public')->path($imagePath));
+            $image->resize(200, 200);
+            // $image->resize(200, 200, function ($constraint) {
+            //     $constraint->aspectRatio();
+            //     $constraint->upsize();
+            // });
             $image->save();
+
 
             $data->photo =  $imagePath;
         }

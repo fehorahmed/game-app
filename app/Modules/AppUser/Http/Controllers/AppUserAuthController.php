@@ -7,6 +7,8 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserLoginLog;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
+use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -90,7 +92,6 @@ class AppUserAuthController extends Controller
         $app_user->user_id = $request->user_id;
         $app_user->password = Hash::make($request->password);
         if ($app_user->save()) {
-
             if ($request->referral_id) {
                 $referral_request = new AppUserReferralRequest();
                 $referral_request->app_user_id = $app_user->id;
@@ -98,6 +99,19 @@ class AppUserAuthController extends Controller
                 $referral_request->status = 1;
                 $referral_request->save();
             }
+
+            $user_coin_create = new UserCoin();
+            $user_coin_create->app_user_id = $app_user->id;
+            //  $coin_setting
+            $user_coin_create->coin = 100;
+            if ($user_coin_create->save()) {
+                $u_c_details = new UserCoinDetail();
+                $u_c_details->source = 'INITIAL';
+                $u_c_details->user_coin_id = $user_coin_create->id;
+                $u_c_details->coin = 100;
+                $u_c_details->save();
+            }
+
             return response()->json([
                 'status' => true,
                 'message' => 'Registration successfull.'

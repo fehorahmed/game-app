@@ -10,8 +10,8 @@
                                 <div class="card-body p-0">
                                     <div class="text-center p-3">
                                         <a href="index.html" class="logo logo-admin">
-                                            <img src="assets/images/logo-sm.png" height="50" alt="logo"
-                                                class="auth-logo">
+                                            <img src="{{ asset('assets/images/logo-sm.png') }}" height="50"
+                                                alt="logo" class="auth-logo">
                                         </a>
                                         <h4 class="mt-3 mb-1 fw-semibold font-18">Let's Get Started {{ env('APP_NAME') }}
                                         </h4>
@@ -63,23 +63,23 @@
                                             </div><!--end col-->
                                         </div> <!--end form-group-->
                                     </form><!--end form-->
-                                    <div class="m-3 text-center text-muted">
+                                    {{-- <div class="m-3 text-center text-muted">
                                         <p class="mb-0">Don't have an account ? <a href="auth-register-alt.html"
                                                 class="text-primary ms-2">Free Resister</a></p>
-                                    </div>
+                                    </div> --}}
                                     <hr class="hr-dashed mt-4">
                                     <div class="text-center mt-n5">
                                         <h6 class="card-bg px-3 my-4 d-inline-block">Or Login With</h6>
                                     </div>
                                     <div class="d-flex justify-content-center mb-1">
-                                        <a href="#"
+                                        {{-- <a href="#"
                                             class="d-flex justify-content-center align-items-center thumb-sm bg-soft-primary rounded-circle me-2">
                                             <i class="fab fa-facebook align-self-center"></i>
                                         </a>
                                         <a href="#"
                                             class="d-flex justify-content-center align-items-center thumb-sm bg-soft-info rounded-circle me-2">
                                             <i class="fab fa-twitter align-self-center"></i>
-                                        </a>
+                                        </a> --}}
                                         <a href="#"
                                             class="d-flex justify-content-center align-items-center thumb-sm bg-soft-danger rounded-circle">
                                             <i class="fab fa-google align-self-center"></i>
@@ -91,7 +91,7 @@
                         <div class="col-md-7 col-xl-9 col-lg-8  p-0 vh-100 d-flex justify-content-center auth-bg">
                             <div class="accountbg d-flex align-items-center">
                                 <div class="account-title text-center text-white">
-                                    <img src="assets/images/logo-sm.png" alt="" class="thumb-sm">
+                                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" class="thumb-sm">
                                     <h4 class="mt-3 text-white">Welcome To <span class="text-warning">Metrica</span>
                                     </h4>
                                     <h1 class="text-white">Let's Get Started</h1>

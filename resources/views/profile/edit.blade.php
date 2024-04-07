@@ -9,8 +9,14 @@
                             <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                 <div class="met-profile-main">
                                     <div class="met-profile-main-pic">
-                                        <img src="assets/images/users/user-4.jpg" alt="" height="110"
-                                            class="rounded-circle">
+                                        @if ($user->photo)
+                                            <img src="{{ asset('storage/' . $user->photo) }}" alt="" height="110"
+                                                class="rounded-circle">
+                                        @else
+                                            <img src="assets/images/users/user-4.jpg" alt="" height="110"
+                                                class="rounded-circle">
+                                        @endif
+
                                         <span class="met-profile_main-pic-change">
                                             <i class="fas fa-camera"></i>
                                         </span>

@@ -5,6 +5,7 @@ namespace App\Modules\AppUser\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserGameSessionDetail;
+use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
@@ -74,7 +75,14 @@ class UserGameController extends Controller
                 ], 401);
             }
         }
-
+        //Check Coin balance
+        $u_coin = UserCoin::where('app_user_id' . auth()->id())->first();
+        if (!$u_coin) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Coin account not found.'
+            ], 401);
+        }
         //Game Session Update
         $session_update = new AppUserGameSessionDetail();
         $session_update->app_user_game_session_id = $session_ck->id;
