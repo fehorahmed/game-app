@@ -11,6 +11,7 @@ use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -85,42 +86,65 @@ class AppUserAuthController extends Controller
                 }
             }
         }
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
 
-        $app_user = new AppUser();
-        $app_user->name = $request->name;
-        $app_user->email = $request->email;
-        $app_user->user_id = $request->user_id;
-        $app_user->password = Hash::make($request->password);
-        if ($app_user->save()) {
-            if ($request->referral_id) {
-                $referral_request = new AppUserReferralRequest();
-                $referral_request->app_user_id = $app_user->id;
-                $referral_request->requested_app_user_id = $ck_referral->id;
-                $referral_request->status = 1;
-                $referral_request->save();
+            $app_user = new AppUser();
+            $app_user->name = $request->name;
+            $app_user->email = $request->email;
+            $app_user->user_id = $request->user_id;
+            $app_user->password = Hash::make($request->password);
+            if ($app_user->save()) {
+                if ($request->referral_id) {
+                    $referral_request = new AppUserReferralRequest();
+                    $referral_request->app_user_id = $app_user->id;
+                    $referral_request->requested_app_user_id = $ck_referral->id;
+                    $referral_request->status = 1;
+                    if (!$referral_request->save()) {
+                        $transactionFail = true;
+                    }
+                }
+
+                $user_coin_create = new UserCoin();
+                $user_coin_create->app_user_id = $app_user->id;
+                //  $coin_setting
+                $user_coin_create->coin = 100;
+                if ($user_coin_create->save()) {
+                    $u_c_details = new UserCoinDetail();
+                    $u_c_details->source = 'INITIAL';
+                    $u_c_details->coin_type = 'ADD';
+                    $u_c_details->user_coin_id = $user_coin_create->id;
+                    $u_c_details->coin = 100;
+                    if (!$u_c_details->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
             }
 
-            $user_coin_create = new UserCoin();
-            $user_coin_create->app_user_id = $app_user->id;
-            //  $coin_setting
-            $user_coin_create->coin = 100;
-            if ($user_coin_create->save()) {
-                $u_c_details = new UserCoinDetail();
-                $u_c_details->source = 'INITIAL';
-                $u_c_details->coin_type = 'ADD';
-                $u_c_details->user_coin_id = $user_coin_create->id;
-                $u_c_details->coin = 100;
-                $u_c_details->save();
-            }
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Registration successfull.'
-            ], 200);
-        } else {
+            if ($transactionFail) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.'
+                ], 400);
+            } else {
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Registration successfull.'
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
+                'message' => $th->getMessage()
             ], 400);
         }
     }
