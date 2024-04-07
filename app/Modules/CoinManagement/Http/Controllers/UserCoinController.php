@@ -17,7 +17,7 @@ class UserCoinController extends Controller
     }
     public function userCoinDetails($user_coin)
     {
-        $datas = UserCoinDetail::where('user_coin_id', $user_coin)->paginate(1);
+        $datas = UserCoinDetail::where('user_coin_id', $user_coin)->paginate(15);
         return view('CoinManagement::user-coin-details', compact('datas'));
     }
 
