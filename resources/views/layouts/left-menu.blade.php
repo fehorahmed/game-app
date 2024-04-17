@@ -453,75 +453,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarElements" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarElements">
-                            UI Elements
+                            Configuration
                         </a>
                         <div class="collapse " id="sidebarElements">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="ui-alerts.html">Alerts</a>
+                                    <a class="nav-link" href="{{ route('global.config') }}">Global Config</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="ui-avatar.html">Avatar</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
                                     <a class="nav-link" href="ui-buttons.html">Buttons</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-badges.html">Badges</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-cards.html">Cards</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-carousels.html">Carousels</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-dropdowns.html">Dropdowns</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-grids.html">Grids</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-images.html">Images</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-list.html">List</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-modals.html">Modals</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-navs.html">Navs</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-navbar.html">Navbar</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-paginations.html">Paginations</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-popover-tooltips.html">Popover & Tooltips</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-progress.html">Progress</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-spinners.html">Spinners</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-tabs-accordions.html">Tabs & Accordions</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-typography.html">Typography</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="ui-videos.html">Videos</a>
-                                </li><!--end nav-item-->
+                                </li><!--end nav-item--> --}}
+
                             </ul><!--end nav-->
                         </div><!--end sidebarElements-->
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#sidebarAdvancedUI" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAdvancedUI">
                             Advanced UI
@@ -698,7 +648,7 @@
                                 </li><!--end nav-item-->
                             </ul><!--end nav-->
                         </div><!--end sidebarEmailTemplates-->
-                    </li><!--end nav-item-->
+                    </li><!--end nav-item--> --}}
                 </ul><!--end navbar-nav--->
             </div><!--end sidebarCollapse_2-->
         </div><!-- end Others -->
