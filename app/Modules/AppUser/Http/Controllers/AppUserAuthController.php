@@ -7,6 +7,7 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserLoginLog;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
+use App\Modules\AppUser\Models\NormalGameUser;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
@@ -148,14 +149,14 @@ class AppUserAuthController extends Controller
             ], 400);
         }
     }
-    public function gameLogin(Request $request)
+    public function normalGameUserLogin(Request $request)
     {
 
         $rules = [
             'email' => 'required|email',
             'password' => 'required|string|max:255',
-            'user_type' => 'required|string',
-            'game_name' => 'required|in:LUDO,POOL,CARROM,DOTANDBLOCK',
+            // 'user_type' => 'required|string',
+            // 'game_name' => 'required|in:LUDO,POOL,CARROM,DOTANDBLOCK',
         ];
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
@@ -164,70 +165,62 @@ class AppUserAuthController extends Controller
                 'message' => $validate->getMessageBag()->first()
             ], 403);
         }
-        if ($request->user_type == "APP") {
-            $credentials = $request->only('email', 'password');
 
-            if (Auth::guard('appuser')->attempt($credentials)) {
-                $user = Auth::guard('appuser')->user();
-                AppUserLoginLog::storeUserloginlog($user->id, 'APP', $request->game_name);
 
-                $token = $user->createToken('appuser')->plainTextToken;
+        $user = NormalGameUser::where('email', $request->email)->first();
+
+        if ($user) {
+
+            if (Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'status' => true,
-                    'token' => $token,
-                    'user' => $user,
-                    'game_name' => $request->game_name
+                    'message' => 'Login successfull.'
                 ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Password not match !!'
+                ], 401);
             }
-
-            return response()->json([
-                'status' => false,
-                'message' => 'Email or password not valied.'
-            ], 401);
-        } elseif ($request->user_type == "NORMAL") {
-            return response()->json([
-                'status' => false,
-                'message' => 'You are select Normal User!!'
-            ], 401);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'You are not selectiong APP or NORMAL.'
+                'message' => 'Email not registered.'
             ], 401);
         }
     }
-    public function gameRegistration(Request $request)
+    public function normalGameUserRegistration(Request $request)
     {
 
-        // $rules = [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:app_users,email',
-        //     'user_id' => 'required|digits:10|unique:app_users,user_id',
-        //     'password' => 'required|confirmed|min:6|max:255'
-        // ];
-        // $validate = Validator::make($request->all(), $rules);
-        // if ($validate->fails()) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $validate->getMessageBag()->first()
-        //     ], 400);
-        // }
-
-        // $app_user = new AppUser();
-        // $app_user->name = $request->name;
-        // $app_user->email = $request->email;
-        // $app_user->user_id = $request->user_id;
-        // $app_user->password = Hash::make($request->password);
-        // if ($app_user->save()) {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Registration successfull.'
-        //     ], 200);
-        // } else {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Something went wrong.'
-        //     ], 400);
-        // }
+        $rules = [
+            'name' => 'required|string|max:255',
+            'game_name' => 'required|string|in:LUDO,POOL,CARROM,DOTANDBLOCK',
+            'email' => 'required|email|unique:normal_game_users,email',
+            'password' => 'required|confirmed|min:6|max:255'
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->getMessageBag()->first()
+            ], 400);
+        }
+        //dd($request->all());
+        $app_user = new NormalGameUser();
+        $app_user->name = $request->name;
+        $app_user->email = $request->email;
+        $app_user->game_name = $request->game_name;
+        $app_user->password = Hash::make($request->password);
+        if ($app_user->save()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Registration successfull.'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong.'
+            ], 400);
+        }
     }
 }
