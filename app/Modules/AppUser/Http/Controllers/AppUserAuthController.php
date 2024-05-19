@@ -174,6 +174,7 @@ class AppUserAuthController extends Controller
             if (Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'status' => true,
+                    'user' => $user,
                     'message' => 'Login successfull.'
                 ], 200);
             } else {
