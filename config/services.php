@@ -24,6 +24,11 @@ return [
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'http://127.0.0.1:8000/api/app-user/google/auth-receiver',
+    ],
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),

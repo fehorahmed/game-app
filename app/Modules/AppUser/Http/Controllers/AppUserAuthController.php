@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 
 class AppUserAuthController extends Controller
 {
@@ -223,5 +224,12 @@ class AppUserAuthController extends Controller
                 'message' => 'Something went wrong.'
             ], 400);
         }
+    }
+
+    public function redirectToGoogleByApi()
+    {
+
+        // return Socialite::driver('google')->stateless()->user();
+        return Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
     }
 }
