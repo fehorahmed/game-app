@@ -114,6 +114,20 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('initialize_percentage');
+                                        @endphp
+                                        <label for="initialize_percentage" class="mb-2">Game Initialize Percentage (%)</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="initialize_percentage"
+                                                class="form-control @error('initialize_percentage') is-invalid @enderror"
+                                                name="initialize_percentage" value="{{ $data }}">
+                                            @error('initialize_percentage')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

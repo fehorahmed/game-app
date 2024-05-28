@@ -27,6 +27,16 @@ class UserGameController extends Controller
             ]);
         }
 
+        //Check Coin balance
+        $u_coin = UserCoin::where('app_user_id', auth()->id())->first();
+        if (!$u_coin) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You don\'t have any coin. Please earn coin first.'
+            ], 401);
+        }
+
+
         //Game Session Create
         $session = new AppUserGameSession();
         $session->app_user_id = auth()->id();

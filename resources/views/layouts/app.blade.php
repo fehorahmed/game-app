@@ -53,15 +53,19 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="page-title-box">
-                            {{-- <div class="float-end">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Metrica</a>
-                                    </li><!--end nav-item-->
-                                    <li class="breadcrumb-item"><a href="#">Dashboard</a>
-                                    </li><!--end nav-item-->
-                                    <li class="breadcrumb-item active">Analytics</li>
-                                </ol>
-                            </div> --}}
+                            @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show border-0 b-round" role="alert">
+                                <strong>Success !</strong> 👍 {{session('success')}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+                            @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show border-0 b-round" role="alert">
+                                <strong>Success !</strong> 👍 {{session('error')}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
+
                             <h4 class="page-title">@yield('title')</h4>
                         </div><!--end page-title-box-->
                     </div><!--end col-->
