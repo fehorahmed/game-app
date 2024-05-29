@@ -116,14 +116,28 @@
                                     </div>
                                     <div class="col-12 col-sm-12 col-xs m-auto">
                                         @php
-                                            $data = \App\Helpers\Helper::get_config('initialize_percentage');
+                                            $data = \App\Helpers\Helper::get_config('game_initialize_coin_amount');
                                         @endphp
-                                        <label for="initialize_percentage" class="mb-2">Game Initialize Percentage (%)</label>
+                                        <label for="game_initialize_coin_amount" class="mb-2">Game Initialize Coin Amount</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" id="initialize_percentage"
-                                                class="form-control @error('initialize_percentage') is-invalid @enderror"
-                                                name="initialize_percentage" value="{{ $data }}">
-                                            @error('initialize_percentage')
+                                            <input type="text" id="game_initialize_coin_amount"
+                                                class="form-control @error('game_initialize_coin_amount') is-invalid @enderror"
+                                                name="game_initialize_coin_amount" value="{{ $data }}">
+                                            @error('game_initialize_coin_amount')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('game_win_coin_deduct_percentage');
+                                        @endphp
+                                        <label for="game_win_coin_deduct_percentage" class="mb-2">Game Win Coin Deduct Percentage (%)</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="game_win_coin_deduct_percentage"
+                                                class="form-control @error('game_win_coin_deduct_percentage') is-invalid @enderror"
+                                                name="game_win_coin_deduct_percentage" value="{{ $data }}">
+                                            @error('game_win_coin_deduct_percentage')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
