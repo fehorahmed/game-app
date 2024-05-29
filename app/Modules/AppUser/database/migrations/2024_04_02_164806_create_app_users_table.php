@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->foreignId('user_id')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password');
             $table->string('photo')->nullable();
             $table->string('referral_id')->index()->nullable();

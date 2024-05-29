@@ -83,7 +83,7 @@ class AppUserAuthController extends Controller
                 if (!$ck_referral) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Referral user over limit. Please use others referral code '
+                        'message' => 'Referral user over limit. Please use others referral code. '
                     ], 404);
                 }
             }

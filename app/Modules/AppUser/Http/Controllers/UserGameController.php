@@ -60,7 +60,7 @@ class UserGameController extends Controller
     public function apiGameSessionUpdate(Request $request)
     {
         $rules = [
-            'game_session_id' => 'required|string',
+            'game_session' => 'required|string',
             'coin_type' => 'required|in:WIN,LOSS',
             'coin' => 'required|numeric',
             'remark' => 'nullable|string',
@@ -73,7 +73,7 @@ class UserGameController extends Controller
             ]);
         }
         //Game Session Check
-        $session_ck = AppUserGameSession::where('session', $request->game_session_id)->first();
+        $session_ck = AppUserGameSession::where('session', $request->game_session)->first();
         if (!$session_ck) {
             return response()->json([
                 'status' => false,
