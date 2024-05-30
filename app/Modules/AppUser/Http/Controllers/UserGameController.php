@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserGameSessionDetail;
@@ -33,28 +34,76 @@ class UserGameController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'You don\'t have any coin. Please earn coin first.'
-            ], 401);
+            ]);
         }
-
-
-        //Game Session Create
-        $session = new AppUserGameSession();
-        $session->app_user_id = auth()->id();
-        $session->session = Uuid::uuid4()->toString();
-        $session->game_name = $request->game_name;
-        $session->status = 1;
-        $session->init_time = now();
-        if ($session->save()) {
-            return response()->json([
-                'status' => true,
-                'session_id' => $session->session,
-                'game_name' => $request->game_name
-            ], 200);
-        } else {
+        if (!Helper::game_init_coin_exist()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Something went wrong.'
-            ], 401);
+                'message' => 'You don\'t have enough coin for play this game. Please earn coin from other options.'
+            ]);
+        }
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+
+            //Game Session Create
+            $session = new AppUserGameSession();
+            $session->app_user_id = auth()->id();
+            $session->session = Uuid::uuid4()->toString();
+            $session->game_name = $request->game_name;
+            $session->status = 1;
+            $session->init_time = now();
+            if ($session->save()) {
+                $amount = Helper::get_config('game_initialize_coin_amount');
+                $session_update = new AppUserGameSessionDetail();
+                $session_update->app_user_game_session_id = $session->id;
+                $session_update->coin_type = 'FEE';
+                $session_update->coin = $amount;
+                $session_update->remark = 'Game Initial Fee';
+                if ($session_update->save()) {
+
+                    $user_c_details = new UserCoinDetail();
+                    $user_c_details->coin_type = "SUB";
+                    $u_coin->decrement('coin', $amount);
+                    $user_c_details->source = "GAME";
+                    $user_c_details->user_coin_id = $u_coin->id;
+                    $user_c_details->coin = $amount;
+                    $user_c_details->app_user_game_session_detail_id = $session_update->id;
+                    if (!$user_c_details->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+
+            } else {
+                $transactionFail = true;
+
+            }
+
+            if($transactionFail==true){
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.'
+                ]);
+            }else{
+
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'session_id' => $session->session,
+                    'game_name' => $request->game_name
+                ], 200);
+            }
+
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
         }
     }
     public function apiGameSessionUpdate(Request $request)

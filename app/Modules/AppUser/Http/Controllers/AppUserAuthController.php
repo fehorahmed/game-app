@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
@@ -107,17 +108,17 @@ class AppUserAuthController extends Controller
                         $transactionFail = true;
                     }
                 }
-
+                $amount= Helper::get_config('registration_bonus')??0;
                 $user_coin_create = new UserCoin();
                 $user_coin_create->app_user_id = $app_user->id;
                 //  $coin_setting
-                $user_coin_create->coin = 100;
+                $user_coin_create->coin = $amount;
                 if ($user_coin_create->save()) {
                     $u_c_details = new UserCoinDetail();
                     $u_c_details->source = 'INITIAL';
                     $u_c_details->coin_type = 'ADD';
                     $u_c_details->user_coin_id = $user_coin_create->id;
-                    $u_c_details->coin = 100;
+                    $u_c_details->coin = $amount;
                     if (!$u_c_details->save()) {
                         $transactionFail = true;
                     }
