@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Models\AppUser;
@@ -45,7 +46,24 @@ class AppUserController extends Controller
             ]);
         }
         if ($request->referral_id) {
-            $r_count = AppUser::where('user_id', $request->referral_id)->count();
+
+            $r_ck = AppUser::where('user_id', $request->referral_id)->first();
+            if (!$r_ck) {
+                return response([
+                    'status' => false,
+                    'message' => 'Referral user not exist. Please check referral id.',
+                ]);
+            }
+
+            $r_count = AppUser::where('referral_id', $request->referral_id)->count();
+
+            $max_referral_user = Helper::get_config('max_referral_user') ?? 0;
+            if ($r_count >= $max_referral_user) {
+                return response([
+                    'status' => false,
+                    'message' => 'Referral user\'s on max limit.',
+                ]);
+            }
         }
 
         $user = AppUser::find(auth()->id());
@@ -57,7 +75,7 @@ class AppUserController extends Controller
         if ($user->update()) {
             return response()->json([
                 'status' => true,
-                'data' => auth()->user(),
+                'data' =>  $user,
                 'message' => 'Profile updated successfully.',
             ]);
         } else {

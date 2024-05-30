@@ -71,6 +71,18 @@
                                     @enderror
                                 </div>
                                 @php
+                                    $data = \App\Helpers\Helper::get_config('max_referral_user') ?? '';
+                                @endphp
+                                <label for="max_referral_user" class="mb-2"> Max Referral User</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="max_referral_user"
+                                        class="form-control @error('max_referral_user') is-invalid @enderror"
+                                        name="max_referral_user" value="{{ $data }}">
+                                    @error('max_referral_user')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                @php
                                     $data = \App\Helpers\Helper::get_config('company_address') ?? '';
                                 @endphp
                                 <label for="company_address" class="mb-2">Company Address</label>
@@ -118,7 +130,8 @@
                                         @php
                                             $data = \App\Helpers\Helper::get_config('game_initialize_coin_amount');
                                         @endphp
-                                        <label for="game_initialize_coin_amount" class="mb-2">Game Initialize Coin Amount</label>
+                                        <label for="game_initialize_coin_amount" class="mb-2">Game Initialize Coin
+                                            Amount</label>
                                         <div class="input-group mb-3">
                                             <input type="text" id="game_initialize_coin_amount"
                                                 class="form-control @error('game_initialize_coin_amount') is-invalid @enderror"
@@ -132,7 +145,8 @@
                                         @php
                                             $data = \App\Helpers\Helper::get_config('game_win_coin_deduct_percentage');
                                         @endphp
-                                        <label for="game_win_coin_deduct_percentage" class="mb-2">Game Win Coin Deduct Percentage (%)</label>
+                                        <label for="game_win_coin_deduct_percentage" class="mb-2">Game Win Coin Deduct
+                                            Percentage (%)</label>
                                         <div class="input-group mb-3">
                                             <input type="text" id="game_win_coin_deduct_percentage"
                                                 class="form-control @error('game_win_coin_deduct_percentage') is-invalid @enderror"
