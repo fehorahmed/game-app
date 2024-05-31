@@ -16,6 +16,7 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('user-details', [AppUserController::class, 'apiUserDetails'])->name('api.app_user.details');
         Route::post('profile-update', [AppUserController::class, 'apiUserProfileUpdate'])->name('api.app_user.profile_update');
+        Route::post('profile-photo-update', [AppUserController::class, 'apiUserProfilePhotoUpdate'])->name('api.app_user.profile_photo_update');
         Route::get('total-coin', [AppUserController::class, 'apiUserTotalCoin'])->name('api.app_user.total_coin');
     });
 });

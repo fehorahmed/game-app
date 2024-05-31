@@ -8,7 +8,10 @@ use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Laravel\Facades\Image;
+
 
 class AppUserController extends Controller
 {
@@ -84,6 +87,58 @@ class AppUserController extends Controller
                 'message' => 'Something went wrong',
             ]);
         }
+
+
+        // return view("AppUser::app-user-list");
+    }
+    public function apiUserProfilePhotoUpdate(Request $request)
+    {
+        $rules = [
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $resizedImage = Image::make($image)
+                ->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio(); // Maintain aspect ratio
+                });
+
+            $path = Storage::disk('public')->put('images/profile/' . $filename, (string) $resizedImage->encode()); // Store the resized image
+
+
+            // Resize the image
+            // $resizedImage = Image::make($image)->resize(300, 300, function ($constraint) {
+            //     $constraint->aspectRatio();
+            // })->encode('jpg');
+
+            // Store the image in the public disk
+            // Storage::disk('public')->put($imagePath, $resizedImage);
+
+            AppUser::find(auth()->id())->update([
+                'photo' => $path
+            ]);
+
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Image uploaded successfully',
+                'path' => $path
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Image upload failed'
+        ], 422);
 
 
         // return view("AppUser::app-user-list");
