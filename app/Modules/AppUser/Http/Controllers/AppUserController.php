@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
 
 
 class AppUserController extends Controller
@@ -106,13 +107,17 @@ class AppUserController extends Controller
         }
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $resizedImage = Image::make($image)
-                ->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio(); // Maintain aspect ratio
-                });
+            $filename = time() . '-' . auth()->id() . '.' . $image->getClientOriginalExtension();
 
-            $path = Storage::disk('public')->put('images/profile/' . $filename, (string) $resizedImage->encode()); // Store the resized image
+            $image = ImageManager::imagick()->read($image);
+            $image->resize(300, 200);
+
+            // $resizedImage = Image::make($image)
+            //     ->resize(300, 300, function ($constraint) {
+            //         $constraint->aspectRatio(); // Maintain aspect ratio
+            //     });
+            $img_path = 'images/profile/' . $filename;
+            $path = Storage::disk('public')->put($img_path, (string) $image->encode()); // Store the resized image
 
 
             // Resize the image
@@ -123,15 +128,14 @@ class AppUserController extends Controller
             // Store the image in the public disk
             // Storage::disk('public')->put($imagePath, $resizedImage);
 
-            AppUser::find(auth()->id())->update([
-                'photo' => $path
+            AppUser::where('id', auth()->id())->update([
+                'photo' => $img_path
             ]);
-
 
             return response()->json([
                 'status' => true,
                 'message' => 'Image uploaded successfully',
-                'path' => $path
+                'path' => asset('storage/' . $img_path),
             ]);
         }
 
