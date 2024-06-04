@@ -4,6 +4,7 @@ namespace App\Modules\AppUser\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserLoginLog;
@@ -44,7 +45,7 @@ class AppUserAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'token' => $token,
-                'user' => $user
+                'user' => new AppUserResource($user)
             ], 200);
         }
 
@@ -108,7 +109,7 @@ class AppUserAuthController extends Controller
                         $transactionFail = true;
                     }
                 }
-                $amount= Helper::get_config('registration_bonus')??0;
+                $amount = Helper::get_config('registration_bonus') ?? 0;
                 $user_coin_create = new UserCoin();
                 $user_coin_create->app_user_id = $app_user->id;
                 //  $coin_setting
