@@ -5,7 +5,9 @@ namespace App\Modules\AppUser\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
+use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
+use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,13 +29,20 @@ class AppUserController extends Controller
         return $dataTable->render("AppUser::app-user-list");
         // return view("AppUser::app-user-list");
     }
+    public function view($user)
+    {
+        $appUser = AppUser::findOrFail($user);
+
+        return view("AppUser::app-user-view", compact('appUser'));
+        // return view("AppUser::app-user-list");
+    }
     public function apiUserDetails()
     {
+
         return response()->json([
             'status' => true,
-            'data' => auth()->user(),
+            'data' => new AppUserResource(auth()->user()),
         ]);
-        // return view("AppUser::app-user-list");
     }
     public function apiUserProfileUpdate(Request $request)
     {
@@ -155,5 +164,45 @@ class AppUserController extends Controller
             'coin' => $coin,
         ]);
         // return view("AppUser::app-user-list");
+    }
+    public function apiUserGameHistory()
+    {
+
+        $myArr = [];
+        $datas = AppUserGameSession::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        foreach ($datas as $data) {
+            $sum_amount = 0;
+            // dd($data->appUserGameSession);
+            // $myArr[$data->game_name]= ;
+            foreach ($data->appUserGameSession as $item) {
+                if ($item->coin_type == 'WIN') {
+                    $sum_amount += $item->coin;
+                } elseif ($item->coin_type == 'LOSS') {
+                    $sum_amount -= $item->coin;
+                }
+            }
+            if ($sum_amount < 0) {
+                $myArr[] = [
+                    'game_name' => $data->game_name,
+                    'date' => $data->init_time,
+                    'status' => 'LOSS',
+                    'coin' => $sum_amount,
+                ];
+            } else {
+                $myArr[] = [
+                    'game_name' => $data->game_name,
+                    'date' => $data->init_time,
+                    'status' => 'WIN',
+                    'coin' => $sum_amount,
+                ];
+            }
+        }
+
+
+        dd($myArr);
+        return response()->json([
+            'status' => true,
+            // 'coin' => $coin,
+        ]);
     }
 }

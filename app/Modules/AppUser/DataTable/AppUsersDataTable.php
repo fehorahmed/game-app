@@ -23,8 +23,9 @@ class AppUsersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
-                return '<a herf="" class="btn btn-secondary btn-sm">View</a>';
+                return '<a title="View" class="btn btn-secondary btn-sm" href="' . route('app_user.view', $data->id) . '">View</a>';
             })
+
             ->addColumn('coin', function ($data) {
                 return $data->coin->coin ?? 0;
             })
@@ -54,7 +55,7 @@ class AppUsersDataTable extends DataTable
             ->minifiedAjax()
             //->dom('Bfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
+            // ->selectStyleSingle()
             ->buttons([
                 // Button::make('excel'),
                 // Button::make('csv'),
@@ -77,9 +78,9 @@ class AppUsersDataTable extends DataTable
             Column::make('email'),
             Column::make('coin'),
             Column::make('status'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
+            Column::make('action')
+                // ->exportable(false)
+                // ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
 

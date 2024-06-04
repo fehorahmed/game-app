@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Customers Details </h4>
+                    <h4 class="card-title">App User List </h4>
                 </div><!--end card-header-->
                 <div class="card-body">
                     {{ $dataTable->table() }}

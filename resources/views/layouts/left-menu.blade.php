@@ -97,7 +97,7 @@
             </ul><!--end nav-->
         </div><!-- end Dashboards -->
         @php
-            $app_menu = ['coin.user_coin.details'];
+            $app_menu = ['coin.user_coin.details', 'app_user.view'];
         @endphp
         <div id="MetricaApps"
             class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $app_menu) ? 'active show' : '' }}"
@@ -109,12 +109,16 @@
             <div class="collapse navbar-collapse" id="sidebarCollapse">
                 <!-- Navigation -->
                 <ul class="navbar-nav">
+                    @php
+                        $app_user = ['coin.user_coin.details', 'app_user.view'];
+                    @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarAppUser" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAppUser">
                             App User
                         </a>
-                        <div class="collapse " id="sidebarAppUser">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}"
+                            id="sidebarAppUser">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a href="{{ route('app_user.index') }}" class="nav-link ">User List</a>
