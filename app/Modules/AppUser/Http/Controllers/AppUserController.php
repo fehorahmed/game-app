@@ -169,7 +169,7 @@ class AppUserController extends Controller
     {
 
         $myArr = [];
-        $datas = AppUserGameSession::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        $datas = AppUserGameSession::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->limit(10)->get();
         foreach ($datas as $data) {
             $sum_amount = 0;
             // dd($data->appUserGameSession);
@@ -197,12 +197,9 @@ class AppUserController extends Controller
                 ];
             }
         }
-
-
-        dd($myArr);
         return response()->json([
             'status' => true,
-            // 'coin' => $coin,
+            'data' => $myArr,
         ]);
     }
 }
