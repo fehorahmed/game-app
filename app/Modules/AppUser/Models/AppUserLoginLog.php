@@ -134,7 +134,7 @@ class AppUserLoginLog extends Model
         );
     }
 
-    public static function storeUserloginlog($user_id, $login_type, $game_name = null)
+    public static function storeUserloginlog($user_id, $login_type, $game_id = null)
     {
         date_default_timezone_set('Asia/Dhaka');
         $location = self::ip_visitor_country();
@@ -167,7 +167,7 @@ class AppUserLoginLog extends Model
 
         $logModel = new AppUserLoginLog();
         $logModel->login_type = $login_type;
-        $logModel->game_name = $game_name;
+        $logModel->game_id = $game_id;
         $logModel->app_user_id = $user_id;
         $logModel->ip_address = $ip;
         $logModel->session_id = $session_id;

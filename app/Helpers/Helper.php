@@ -39,13 +39,13 @@ class Helper
 
         return $value;
     }
-    public static function game_init_coin_exist()
+    public static function game_init_coin_exist($user_id)
     {
-        $u_coin = UserCoin::where('app_user_id', auth()->id())->first();
+        $u_coin = UserCoin::where('app_user_id', $user_id)->first();
         $config = GlobalConfig::where('key', 'game_initialize_coin_amount')->first();
-        if($u_coin->coin >= $config->value){
+        if ($u_coin->coin >= $config->value) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

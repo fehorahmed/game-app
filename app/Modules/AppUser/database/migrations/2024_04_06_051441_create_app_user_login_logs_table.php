@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('app_user_login_logs', function (Blueprint $table) {
             $table->id();
             $table->enum('login_type', ['APP', 'GAME']);
-            $table->enum('game_name', ['LUDO', 'POOL', 'CARROM', 'DOTANDBLOCK'])->nullable();
+            // $table->enum('game_name', ['LUDO', 'POOL', 'CARROM', 'DOTANDBLOCK'])->nullable();
+            $table->foreignId('game_id')->nullable();
             $table->foreignId('app_user_id');
             $table->foreign('app_user_id')->on('app_users')->references('id');
 

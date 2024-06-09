@@ -21,15 +21,3 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('game-history', [AppUserController::class, 'apiUserGameHistory'])->name('api.app_user.game_history');
     });
 });
-
-
-//For Game User
-Route::group(['prefix' => 'api/game', 'middleware' => 'throttle:1000,10'], function () {
-    Route::post('login', [AppUserAuthController::class, 'normalGameUserLogin'])->name('api.game.login');
-    Route::post('registration', [AppUserAuthController::class, 'normalGameUserRegistration'])->name('api.game.register');
-    // Route::group(['middleware' => ['auth:sanctum', 'apiemailverified']], function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('session-initiate', [UserGameController::class, 'apiGameInit'])->name('api.game.init');
-        Route::post('session-update', [UserGameController::class, 'apiGameSessionUpdate'])->name('api.game.session_update');
-    });
-});

@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('user_coin_details', function (Blueprint $table) {
             $table->id();
-            $table->enum('source', ['GAME', 'WEBSITE', 'INITIAL'])->comment('GAME,WEBSITE,INITIAL');
+            $table->enum('source', ['GAME', 'WEBSITE', 'INITIAL', 'BONUS'])->comment('GAME,WEBSITE,INITIAL,BONUS');
             $table->enum('coin_type', ['ADD', 'SUB'])->comment('ADD , SUB');
             $table->foreignId('user_coin_id');
             $table->foreign('user_coin_id')->on('user_coins')->references('id');
             $table->bigInteger('coin')->default(0);
-            $table->foreignId('app_user_game_session_detail_id')->nullable();
-            $table->foreign('app_user_game_session_detail_id')->on('app_user_game_session_details')->references('id');
+            $table->foreignId('game_session_detail_id')->nullable();
+
+            $table->foreignId('creator')->nullable();
+            $table->foreign('game_session_detail_id')->on('game_session_details')->references('id');
+            $table->foreign('creator')->references('id')->on('users');
             $table->timestamps();
         });
     }

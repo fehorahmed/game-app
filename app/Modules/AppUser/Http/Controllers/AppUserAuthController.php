@@ -26,7 +26,8 @@ class AppUserAuthController extends Controller
 
         $rules = [
             'email' => 'required|email',
-            'password' => 'required|string|max:255'
+            'password' => 'required|string|max:255',
+            'game_id' => 'nullable|numeric|max:255'
         ];
         $validate = Validator::make($request->all(), $rules);
         if ($validate->fails()) {
@@ -40,7 +41,7 @@ class AppUserAuthController extends Controller
 
         if (Auth::guard('appuser')->attempt($credentials)) {
             $user = Auth::guard('appuser')->user();
-            AppUserLoginLog::storeUserloginlog($user->id, 'APP');
+            AppUserLoginLog::storeUserloginlog($user->id, 'APP', $request->game_id);
             $token = $user->createToken('appuser')->plainTextToken;
             return response()->json([
                 'status' => true,
@@ -198,7 +199,7 @@ class AppUserAuthController extends Controller
 
         $rules = [
             'name' => 'required|string|max:255',
-            'game_name' => 'required|string|in:LUDO,POOL,CARROM,DOTANDBLOCK',
+            'game_id' => 'required|numeric',
             'email' => 'required|email|unique:normal_game_users,email',
             'password' => 'required|confirmed|min:6|max:255'
         ];
@@ -213,7 +214,7 @@ class AppUserAuthController extends Controller
         $app_user = new NormalGameUser();
         $app_user->name = $request->name;
         $app_user->email = $request->email;
-        $app_user->game_name = $request->game_name;
+        $app_user->game_id = $request->game_id;
         $app_user->password = Hash::make($request->password);
         if ($app_user->save()) {
             return response()->json([

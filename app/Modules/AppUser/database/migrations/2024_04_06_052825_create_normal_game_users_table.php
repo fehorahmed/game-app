@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->unique();
-            $table->enum('game_name', ['LUDO', 'POOL', 'CARROM', 'DOTANDBLOCK']);
+            $table->foreignId('game_id')->nullable();
             $table->foreignId('user_id')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

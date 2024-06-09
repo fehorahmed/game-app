@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\AppUser\Models;
+namespace App\Modules\Game\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AppUserGameSessionDetail extends Model
+class GameSessionDetail extends Model
 {
     use HasFactory;
 }
