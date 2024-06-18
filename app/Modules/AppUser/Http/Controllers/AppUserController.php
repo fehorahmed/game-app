@@ -158,48 +158,11 @@ class AppUserController extends Controller
     }
     public function apiUserTotalCoin()
     {
-        $coin = UserCoin::where('app_user_id', auth()->id())->first()->value('coin') ?? 0;
+        $coin = UserCoin::where('app_user_id', auth()->id())->value('coin') ?? 0;
         return response()->json([
             'status' => true,
             'coin' => $coin,
         ]);
         // return view("AppUser::app-user-list");
-    }
-    public function apiUserGameHistory()
-    {
-
-        $myArr = [];
-        $datas = AppUserGameSession::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->limit(10)->get();
-        foreach ($datas as $data) {
-            $sum_amount = 0;
-            // dd($data->appUserGameSession);
-            // $myArr[$data->game_name]= ;
-            foreach ($data->appUserGameSession as $item) {
-                if ($item->coin_type == 'WIN') {
-                    $sum_amount += $item->coin;
-                } elseif ($item->coin_type == 'LOSS') {
-                    $sum_amount -= $item->coin;
-                }
-            }
-            if ($sum_amount < 0) {
-                $myArr[] = [
-                    'game_name' => $data->game_name,
-                    'date' => $data->init_time,
-                    'status' => 'LOSS',
-                    'coin' => $sum_amount,
-                ];
-            } else {
-                $myArr[] = [
-                    'game_name' => $data->game_name,
-                    'date' => $data->init_time,
-                    'status' => 'WIN',
-                    'coin' => $sum_amount,
-                ];
-            }
-        }
-        return response()->json([
-            'status' => true,
-            'data' => $myArr,
-        ]);
     }
 }

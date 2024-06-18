@@ -15,5 +15,6 @@ Route::group(['prefix' => 'api/game', 'middleware' => 'throttle:1000,10'], funct
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('session-initiate', [GameController::class, 'apiGameInit'])->name('api.game.init');
         Route::post('session-update', [GameController::class, 'apiGameSessionUpdate'])->name('api.game.session_update');
+        Route::get('game-history', [GameController::class, 'apiUserGameHistory'])->name('api.game.game_history');
     });
 });
