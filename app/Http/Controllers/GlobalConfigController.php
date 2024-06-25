@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GlobalConfig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GlobalConfigController extends Controller
 {
@@ -58,5 +59,33 @@ class GlobalConfigController extends Controller
 
             return $config->save();
         }
+    }
+
+
+    public function getConfigByApi(Request $request){
+        $rules = [
+            'key'=>'required|string|max:255',
+        ];
+
+        $validation = Validator::make($request->all(),$rules);
+        if($validation->fails()){
+            return response()->json([
+                'status'=>false,
+                'message'=>$validation->errors()->first()
+            ]);
+        }
+        $config = GlobalConfig::where('key', $request->key)->first();
+        if($config){
+            return response()->json([
+                'status'=>true,
+                'value'=>$config->value
+            ]);
+        }
+        return response()->json([
+            'status'=>false,
+            'message'=>'Value not found for this key.'
+        ]);
+
+
     }
 }

@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
+use App\Modules\Game\Http\Resources\GameSessionDetailResource;
 use App\Modules\Game\Models\Game;
 use App\Modules\Game\Models\GameSession;
 use App\Modules\Game\Models\GameSessionDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -314,40 +316,16 @@ class GameController extends Controller
     public function apiUserGameHistory()
     {
 
-        $myArr = [];
-        $datas = GameSessionDetail::select('app_user_id', auth()->id())->orderBy('id', 'DESC')
-            ->limit(10)
+
+        $today = Carbon::today();
+        $datas = GameSessionDetail::where('app_user_id', auth()->id())
+            ->whereDate('created_at', $today)
+            ->orderBy('id', 'DESC')
             ->get();
-        foreach ($datas as $data) {
-            $sum_amount = 0;
-            // dd($data->appUserGameSession);
-            // $myArr[$data->game_name]= ;
-            foreach ($data->appUserGameSession as $item) {
-                if ($item->coin_type == 'WIN') {
-                    $sum_amount += $item->coin;
-                } elseif ($item->coin_type == 'LOSS') {
-                    $sum_amount -= $item->coin;
-                }
-            }
-            if ($sum_amount < 0) {
-                $myArr[] = [
-                    'game_name' => $data->game_name,
-                    'date' => $data->init_time,
-                    'status' => 'LOSS',
-                    'coin' => $sum_amount,
-                ];
-            } else {
-                $myArr[] = [
-                    'game_name' => $data->game_name,
-                    'date' => $data->init_time,
-                    'status' => 'WIN',
-                    'coin' => $sum_amount,
-                ];
-            }
-        }
+
         return response()->json([
             'status' => true,
-            'data' => $myArr,
+            'data' =>  GameSessionDetailResource::collection($datas)
         ]);
     }
 }
