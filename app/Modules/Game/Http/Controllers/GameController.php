@@ -5,6 +5,7 @@ namespace App\Modules\Game\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
@@ -326,6 +327,24 @@ class GameController extends Controller
         return response()->json([
             'status' => true,
             'data' =>  GameSessionDetailResource::collection($datas)
+        ]);
+    }
+    public function apiGameProfile()
+    {
+        $user = AppUser::find(auth()->id());
+
+        $datas = GameSessionDetail::selectRaw('game_session_id, count(case when coin_type = "WIN" then 1 end) as win_count, sum(case when coin_type = "WIN" then coin else 0 end) as win_coin')
+            ->groupBy('game_session_id')
+            ->where('app_user_id', auth()->id())
+            ->orderBy('game_session_id', 'DESC')
+            ->get();
+
+
+        // dd($datas);
+        return response()->json([
+            'status' => true,
+            'data' =>  $datas,
+            'user' =>  new AppUserResource($user)
         ]);
     }
 }
