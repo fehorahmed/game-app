@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('coin');
             $table->unsignedBigInteger('game_fee')->nullable();
             $table->unsignedInteger('game_fee_percentage')->nullable();
+            $table->unsignedInteger('streak')->default(0);
             $table->string('remark')->nullable();
             $table->timestamps();
 
