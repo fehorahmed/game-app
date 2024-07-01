@@ -335,14 +335,20 @@ class GameController extends Controller
 
 
         $today = Carbon::today();
-        $datas = GameSessionDetail::where('app_user_id', auth()->id())
+        $datas = GameSessionDetail::selectRaw('game_session_id, count(case when coin_type = "WIN" then 1 end) as win_count, sum(case when coin_type = "WIN" then coin else 0 end) as win_coin, sum(case when coin_type = "FEE" then coin else 0 end) as fee_coin')
+            ->groupBy('game_session_id')
             ->whereDate('created_at', $today)
-            ->orderBy('id', 'DESC')
+            ->where('app_user_id', auth()->id())
+            ->orderBy('game_session_id', 'DESC')
             ->get();
+        // $datas = GameSessionDetail::where('app_user_id', auth()->id())
+        //     ->whereDate('created_at', $today)
+        //     ->orderBy('id', 'DESC')
+        //     ->get();
 
         return response()->json([
             'status' => true,
-            'data' =>  GameSessionDetailResource::collection($datas)
+            'data' =>  $datas
         ]);
     }
     public function apiGameProfile()
