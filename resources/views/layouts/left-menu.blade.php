@@ -475,17 +475,17 @@
                         </div><!--end sidebarElements-->
                     </li><!--end nav-item-->
 
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="#sidebarAdvancedUI" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAdvancedUI">
-                            Advanced UI
+                            Website Config
                         </a>
                         <div class="collapse " id="sidebarAdvancedUI">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="advanced-animation.html">Animation</a>
+                                    <a class="nav-link" href="{{route('admin.website.list')}}">Website</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="advanced-clipboard.html">Clip Board</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
@@ -511,12 +511,12 @@
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
                                     <a class="nav-link" href="advanced-toasts.html">Toasts</a>
-                                </li><!--end nav-item-->
+                                </li><!--end nav-item--> --}}
                             </ul><!--end nav-->
                         </div><!--end sidebarAdvancedUI-->
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
+                    {{--  <li class="nav-item">
                         <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarForms">
                             Forms
