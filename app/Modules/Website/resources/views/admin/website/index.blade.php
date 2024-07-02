@@ -14,7 +14,7 @@
                         </div><!--end col-->
                         <div class="col-auto">
                             <a href="{{ route('admin.website.create') }}" type="button"
-                                class="btn btn-primary btn-sm mb-3">Create Website</button>
+                                class="btn btn-primary btn-sm mb-3">Create Website</a>
                         </div><!--end col-->
                     </div> <!--end row-->
                 </div>
@@ -30,6 +30,7 @@
                                     <th>#SL</th>
                                     <th>Name</th>
                                     <th>URL</th>
+                                    <th>Time (In Second)</th>
                                     <th>Coin</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -41,9 +42,20 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->name ?? '' }}</td>
                                         <td>{{ $data->url ?? '' }}</td>
+                                        <td>{{ $data->time ?? '' }}</td>
                                         <td>{{ $data->coin ?? 0 }}</td>
-                                        <td>{{ $data->status ?? 0 }}</td>
-                                        <td class="text-end"></td>
+                                        <td>
+                                            @if ($data->status == 1)
+                                                <span class="badge bg-success">Active</span>
+                                            @else
+                                                <span class="badge bg-danger">Inactive</span>
+                                            @endif
+
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ route('admin.website.edit', $data->id) }}" type="button"
+                                                class="btn btn-primary btn-sm ">Edit</a>
+                                        </td>
 
                                     </tr>
                                 @endforeach

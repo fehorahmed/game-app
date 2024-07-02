@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
+            $table->unsignedBigInteger('time')->default(0)->comment('Time in second');
             $table->unsignedBigInteger('coin');
             $table->boolean('status')->default(1);
             $table->timestamps();

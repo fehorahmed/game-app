@@ -16,6 +16,7 @@
                 @php
                     $app_menu = ['coin.user_coin.details'];
                 @endphp
+
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Apps"
                     data-bs-trigger="hover">
                     <a href="#MetricaApps" id="apps-tab"
@@ -23,10 +24,13 @@
                         <i class="ti ti-apps menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
-
+                @php
+                    $app_menu = ['admin.website.create', 'admin.website.edit'];
+                @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit"
                     data-bs-trigger="hover">
-                    <a href="#MetricaUikit" id="uikit-tab" class="nav-link">
+                    <a href="#MetricaUikit" id="uikit-tab"
+                        class="nav-link {{ in_array(Route::currentRouteName(), $app_menu) ? 'active' : '' }}">
                         <i class="ti ti-planet menu-icon"></i>
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
@@ -446,8 +450,12 @@
                 </ul><!--end navbar-nav--->
             </div><!--end sidebarCollapse-->
         </div><!-- end Crypto -->
-
-        <div id="MetricaUikit" class="main-icon-menu-pane  tab-pane" role="tabpanel" aria-labelledby="uikit-tab">
+        @php
+            $app_menu = ['admin.website.create', 'admin.website.edit'];
+        @endphp
+        <div id="MetricaUikit"
+            class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $app_menu) ? 'active show' : '' }}"
+            role="tabpanel" aria-labelledby="uikit-tab">
             <div class="title-box">
                 <h6 class="menu-title">UI Kit</h6>
             </div>
@@ -474,16 +482,19 @@
                             </ul><!--end nav-->
                         </div><!--end sidebarElements-->
                     </li><!--end nav-item-->
-
+                    @php
+                        $app_user = ['admin.website.create', 'admin.website.edit'];
+                    @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarAdvancedUI" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAdvancedUI">
                             Website Config
                         </a>
-                        <div class="collapse " id="sidebarAdvancedUI">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}"
+                            id="sidebarAdvancedUI">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('admin.website.list')}}">Website</a>
+                                    <a class="nav-link" href="{{ route('admin.website.list') }}">Website</a>
                                 </li><!--end nav-item-->
                                 {{-- <li class="nav-item">
                                     <a class="nav-link" href="advanced-clipboard.html">Clip Board</a>
