@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Website Create ')
+@section('title', 'Payment Method Create ')
 
 
 @section('content')
@@ -10,17 +10,17 @@
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h4 class="card-title">Website Create</h4>
+                            <h4 class="card-title">Payment Method Create</h4>
                         </div><!--end col-->
                         <div class="col-auto">
-                            <a href="{{ route('admin.website.list') }}" type="button" class="btn btn-primary btn-sm mb-3"><i
-                                    class="fas fa-list"></i> List</a>
+                            <a href="{{ route('config.payment-method.index') }}" type="button"
+                                class="btn btn-primary btn-sm mb-3"><i class="fas fa-list"></i> List</a>
                         </div><!--end col-->
                     </div> <!--end row-->
                 </div>
 
                 <div class="card-body">
-                    <form action="" method="POST">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
 
@@ -40,11 +40,11 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
-                                    <label for="example-url-input" class="col-sm-3 col-form-label text-end">URL</label>
+                                    <label for="account_no" class="col-sm-3 col-form-label text-end">Account No</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="url" value="{{ old('url') }}"
-                                            name="url" id="example-url-input">
-                                        @error('url')
+                                        <input class="form-control" type="text" value="{{ old('account_no') }}"
+                                            name="account_no" id="account_no">
+                                        @error('account_no')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -54,37 +54,34 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
-                                    <label for="example-coin-input" class="col-sm-3 col-form-label text-end">Coin</label>
+                                    <label for="account_type" class="col-sm-3 col-form-label text-end">Account Type</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="number" value="{{ old('coin') }}"
-                                            name="coin" id="example-coin-input">
-                                        @error('coin')
+                                        <input class="form-control" type="text" value="{{ old('account_type') }}"
+                                            name="account_type" id="account_type">
+                                        @error('account_type')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
-
                                 </div>
-
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
-                                    <label for="example-coin-input" class="col-sm-3 col-form-label text-end">Time (In
-                                        Second)</label>
+                                    <label for="transaction_fee" class="col-sm-3 col-form-label text-end">Transaction
+                                        Fee</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="number" value="{{ old('time') }}"
-                                            name="time" id="example-coin-input">
-                                        @error('time')
+                                        <input class="form-control" type="number" value="{{ old('transaction_fee') }}"
+                                            name="transaction_fee" id="transaction_fee">
+                                        @error('transaction_fee')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
-
                                 </div>
-
                             </div>
+
 
                             <div class="col-lg-6">
 
@@ -109,9 +106,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="logo" class="col-sm-3 col-form-label text-end">Logo</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="file" name="logo" id="logo">
+                                        @error('logo')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-sm-12 text-end">
-                                <button type="submit" class="btn btn-de-primary px-4">Store Website</button>
+                                <button type="submit" class="btn btn-primary px-4">Store Method</button>
                             </div>
                         </div>
                     </form>

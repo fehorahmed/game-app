@@ -18,5 +18,10 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::post('profile-update', [AppUserController::class, 'apiUserProfileUpdate'])->name('api.app_user.profile_update');
         Route::post('profile-photo-update', [AppUserController::class, 'apiUserProfilePhotoUpdate'])->name('api.app_user.profile_photo_update');
         Route::get('total-coin', [AppUserController::class, 'apiUserTotalCoin'])->name('api.app_user.total_coin');
+
+
+        //Referral
+        Route::get('my-referral', [AppUserController::class, 'apiMyReferral'])->name('api.app_user.my-referral');
+        Route::get('my-referral-request', [AppUserController::class, 'apiMyReferralRequest'])->name('api.app_user.my-referral-request');
     });
 });

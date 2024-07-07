@@ -5,9 +5,11 @@ namespace App\Modules\AppUser\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
+use App\Modules\AppUser\Http\Resources\AppUserReferralRequestResource;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
+use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -162,6 +164,26 @@ class AppUserController extends Controller
         return response()->json([
             'status' => true,
             'coin' => $coin,
+        ]);
+        // return view("AppUser::app-user-list");
+    }
+    public function apiMyReferral()
+    {
+
+        $users = AppUser::where('referral_id', auth()->id())->get();
+        return response()->json([
+            'status' => true,
+            'referral_users' => AppUserResource::collection($users),
+        ]);
+        // return view("AppUser::app-user-list");
+    }
+    public function apiMyReferralRequest()
+    {
+
+        $users = AppUserReferralRequest::where('requested_app_user_id', auth()->id())->get();
+        return response()->json([
+            'status' => true,
+            'referral_requests' => AppUserReferralRequestResource::collection($users),
         ]);
         // return view("AppUser::app-user-list");
     }

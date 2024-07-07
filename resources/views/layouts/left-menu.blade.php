@@ -451,7 +451,12 @@
             </div><!--end sidebarCollapse-->
         </div><!-- end Crypto -->
         @php
-            $app_menu = ['admin.website.create', 'admin.website.edit'];
+            $app_menu = [
+                'admin.website.create',
+                'admin.website.edit',
+                'config.payment-method.create',
+                'config.payment-method.edit',
+            ];
         @endphp
         <div id="MetricaUikit"
             class="main-icon-menu-pane tab-pane {{ in_array(Route::currentRouteName(), $app_menu) ? 'active show' : '' }}"
@@ -462,20 +467,25 @@
             <div class="collapse navbar-collapse" id="sidebarCollapse_2">
                 <!-- Navigation -->
                 <ul class="navbar-nav">
+                    @php
+                        $app_user = ['config.payment-method.create', 'config.payment-method.edit'];
+                    @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarElements" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarElements">
                             Configuration
                         </a>
-                        <div class="collapse " id="sidebarElements">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}"
+                            id="sidebarElements">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('global.config') }}">Global Config</a>
                                 </li><!--end nav-item-->
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" href="ui-avatar.html">Avatar</a>
-                                </li><!--end nav-item-->
                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('config.payment-method.index') }}">Payment
+                                        Methods</a>
+                                </li><!--end nav-item-->
+                                {{--  <li class="nav-item">
                                     <a class="nav-link" href="ui-buttons.html">Buttons</a>
                                 </li><!--end nav-item--> --}}
 
