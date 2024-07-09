@@ -33,7 +33,8 @@ class AppUserAuthController extends Controller
         if ($validate->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => $validate->getMessageBag()->first()
+                'message' => $validate->getMessageBag()->first(),
+                'request_datas' => $request->all(),
             ]);
         }
         //   dd('asdsad');
@@ -52,7 +53,8 @@ class AppUserAuthController extends Controller
 
         return response()->json([
             'status' => false,
-            'message' => 'Email or password not valied.'
+            'message' => 'Email or password not valied.',
+            'request_datas' => $request->all(),
         ], 401);
     }
     public function appRegistration(Request $request)
@@ -139,10 +141,21 @@ class AppUserAuthController extends Controller
                     'message' => 'Something went wrong.'
                 ], 400);
             } else {
+
+                $credentials = $request->only('email', 'password');
+
+                if (Auth::guard('appuser')->attempt($credentials)) {
+                    $user = Auth::guard('appuser')->user();
+                    AppUserLoginLog::storeUserloginlog($user->id, 'APP', $request->game_id);
+                    $token = $user->createToken('appuser')->plainTextToken;
+                }
+
                 DB::commit();
                 return response()->json([
                     'status' => true,
-                    'message' => 'Registration successfull.'
+                    'message' => 'Registration successfull.',
+                    'token' => $token ?? '',
+                    'user' => new AppUserResource($user)
                 ], 200);
             }
         } catch (\Throwable $th) {

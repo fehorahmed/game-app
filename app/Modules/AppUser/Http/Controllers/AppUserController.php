@@ -187,4 +187,25 @@ class AppUserController extends Controller
         ]);
         // return view("AppUser::app-user-list");
     }
+    public function apiGetReferralByUser(Request $request)
+    {
+        $rules = [
+            'user_id' => 'required|numeric',
+
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+        $users = AppUser::where('referral_id', $request->user_id)->get();
+        return response()->json([
+            'status' => true,
+            'referral_users' => AppUserResource::collection($users),
+        ]);
+        // return view("AppUser::app-user-list");
+    }
 }
