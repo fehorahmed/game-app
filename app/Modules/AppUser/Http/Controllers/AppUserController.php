@@ -12,6 +12,8 @@ use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Laravel\Facades\Image;
@@ -207,5 +209,50 @@ class AppUserController extends Controller
             'referral_users' => AppUserResource::collection($users),
         ]);
         // return view("AppUser::app-user-list");
+    }
+
+    public function apiPasswordResetForm(Request $request)
+    {
+        // dd('asdas');
+
+        $tokenData = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+        if (!$tokenData) {
+            return response()->view('errors.404', [], 404);
+        }
+
+        return view('auth.api-reset-password')->with(
+            ['token' => $tokenData->token, 'email' => $tokenData->email]
+        );
+    }
+    public function apiPasswordReset(Request $request)
+    {
+        // dd('asdas');
+
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $tokenData = DB::table('password_reset_tokens')->where([
+            'email' => $request->email,
+            'token' => $request->token,
+        ])->first();
+
+        if (!$tokenData) {
+            return back()->withErrors(['email' => 'Invalid token or email']);
+        }
+
+        $user = AppUser::where('email', $request->email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'User not found']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+
+        return view('auth.api-reset-password-success')->with('status', 'Password has been reset.');
     }
 }

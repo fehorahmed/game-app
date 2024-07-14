@@ -3,6 +3,7 @@
 namespace App\Modules\AppUser\Models;
 
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +15,7 @@ class AppUser extends Authenticatable
 
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'app_users';
     /**
      * The attributes that are mass assignable.
      *
@@ -45,6 +47,10 @@ class AppUser extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 
     public function coin()
     {

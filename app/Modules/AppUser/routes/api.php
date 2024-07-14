@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], function () {
+
     Route::post('login', [AppUserAuthController::class, 'appLogin'])->name('api.app_user.login');
     Route::post('registration', [AppUserAuthController::class, 'appRegistration'])->name('api.app_user.register');
+    Route::post('password/email', [AppUserAuthController::class, 'sendResetLinkEmail']);
+    Route::post('password/reset', [AppUserAuthController::class, 'reset']);
+
+
     //Google
     Route::get('auth/google', [AppUserAuthController::class, 'redirectToGoogleByApi'])->name('api.app_user,google.login');
     Route::get('google/auth-receiver', [AppUserAuthController::class, 'redirectToGoogleByApi'])->name('api.app_user.google.auth-receive');

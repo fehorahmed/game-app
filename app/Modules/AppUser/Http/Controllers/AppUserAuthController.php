@@ -16,8 +16,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AppUserAuthController extends Controller
 {
@@ -247,5 +250,52 @@ class AppUserAuthController extends Controller
 
         // return Socialite::driver('google')->stateless()->user();
         return Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email'
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        // $request->validate(['email' => 'required|email']);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first()
+            ], 400);
+        }
+
+        $user = AppUser::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $token = Str::random(60);
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $request->email],
+            [
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]
+        );
+
+        $user->sendPasswordResetNotification($token);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Reset link sent to your email.'
+        ], 200);
+
+
+
+        // $status = Password::sendResetLink(
+        //     $request->only('email')
+        // );
+
+        // return $status === Password::RESET_LINK_SENT
+        //     ? response()->json(['message' => __($status)], 200)
+        //     : response()->json(['email' => __($status)], 400);
     }
 }
