@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProfileController;
+use App\Modules\Website\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/brawse', [WebsiteController::class, 'brawse'])->name('user.brawse');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -54,16 +54,20 @@
                     <div class="col-sm-12">
                         <div class="page-title-box">
                             @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show border-0 b-round" role="alert">
-                                <strong>Success !</strong> 👍 {{session('success')}}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
+                                <div class="alert alert-success alert-dismissible fade show border-0 b-round"
+                                    role="alert">
+                                    <strong>Success !</strong> 👍 {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
                             @endif
                             @if (session('error'))
-                            <div class="alert alert-danger alert-dismissible fade show border-0 b-round" role="alert">
-                                <strong>Success !</strong> 👍 {{session('error')}}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
+                                <div class="alert alert-danger alert-dismissible fade show border-0 b-round"
+                                    role="alert">
+                                    <strong>Success !</strong> 👍 {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
                             @endif
 
                             <h4 class="page-title">@yield('title')</h4>

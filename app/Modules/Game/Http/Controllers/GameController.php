@@ -373,6 +373,17 @@ GROUP BY game_session_id) as grouped"))
         } else {
             $current_streak =  0;
         }
+        if ($total_game <= 0) {
+            return response()->json([
+                'status' => true,
+                'total_game' => $total_game,
+                'total_win_game' => 0,
+                'total_win_sum' => 0,
+                'win_rate' => 0,
+                'current_streak' => 0,
+                'best_win_streak' => 0,
+            ]);
+        }
         $best_win_streak = GameSessionDetail::where('app_user_id', auth()->id())->max('streak');
         $win_rate = ($results->total_win_game / $total_game) * 100;
         return response()->json([
@@ -383,7 +394,6 @@ GROUP BY game_session_id) as grouped"))
             'win_rate' =>  number_format($win_rate, 2) ?? 0,
             'current_streak' =>  $current_streak ?? 0,
             'best_win_streak' =>  $best_win_streak ?? 0,
-            'user' =>  new AppUserResource($user)
         ]);
     }
 }

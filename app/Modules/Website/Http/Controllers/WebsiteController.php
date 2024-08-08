@@ -5,6 +5,7 @@ namespace App\Modules\Website\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Modules\Website\Models\Website;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class WebsiteController extends Controller
 {
@@ -78,5 +79,18 @@ class WebsiteController extends Controller
     public function welcome()
     {
         return view("Website::welcome");
+    }
+    public function brawse(Request $request)
+    {
+        $rules = [
+            'url' => 'required|url',
+            'time' => 'required|numeric',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return view('errors.404');
+        }
+        // dd($request->all());
+        return view('brawse');
     }
 }
