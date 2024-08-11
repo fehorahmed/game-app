@@ -12,6 +12,7 @@ use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -254,5 +255,71 @@ class AppUserController extends Controller
         DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 
         return view('auth.api-reset-password-success')->with('status', 'Password has been reset.');
+    }
+
+    public function appUserLogin()
+    {
+
+
+        return view('frontend.auth.login');
+    }
+    public function appUserLoginStore(Request $request)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6',
+        ]);
+
+        // Attempt to authenticate the user using the 'appuser' guard
+        if (Auth::guard('appuser')->attempt($request->only('email', 'password'))) {
+            // Authentication passed, redirect to the intended page or a default page
+            return redirect()->route('user.profile'); // Replace with your intended route
+        }
+
+        // Authentication failed, redirect back with input and error message
+        return back()->withInput()->withErrors(['email' => 'Invalid credentials.']);
+    }
+    public function register()
+    {
+
+        return view('frontend.auth.register');
+    }
+    public function registerStore(Request $request)
+    {
+
+        //return view('frontend.auth.register');
+    }
+    public function appUserProfile()
+    {
+        // dd('profile');
+        return view('frontend.auth.profile');
+    }
+    public function appUserLogout(Request $request)
+    {
+        // if (Auth::guard('appuser')->check()) {
+        //     \Log::info('User is logged in before logout');
+        // }
+
+        // Auth::guard('appuser')->logout();
+
+        // // Check if user is still authenticated after logout
+        // if (!Auth::guard('appuser')->check()) {
+        //     \Log::info('User is logged out successfully');
+        // }
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        // Invalidate the session to prevent re-use
+        //$request->session()->invalidate();
+
+        // Regenerate the session token to prevent CSRF attacks
+        //$request->session()->regenerateToken();
+
+        // Redirect to the login page or wherever you want
+        session()->flush(); // Optional, clear all session data
+        $request->session()->invalidate();
+        return redirect()->route('home'); // Replace with your desired route
+        // dd('profile');
+
     }
 }
