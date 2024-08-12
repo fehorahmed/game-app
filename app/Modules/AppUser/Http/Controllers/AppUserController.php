@@ -297,29 +297,15 @@ class AppUserController extends Controller
     }
     public function appUserLogout(Request $request)
     {
-        // if (Auth::guard('appuser')->check()) {
-        //     \Log::info('User is logged in before logout');
-        // }
-
         // Auth::guard('appuser')->logout();
+        Auth::logout();
 
-        // // Check if user is still authenticated after logout
-        // if (!Auth::guard('appuser')->check()) {
-        //     \Log::info('User is logged out successfully');
-        // }
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
-        // Invalidate the session to prevent re-use
-        //$request->session()->invalidate();
-
-        // Regenerate the session token to prevent CSRF attacks
-        //$request->session()->regenerateToken();
-
-        // Redirect to the login page or wherever you want
-        session()->flush(); // Optional, clear all session data
         $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
         return redirect()->route('home'); // Replace with your desired route
-        // dd('profile');
+
 
     }
 }

@@ -28,19 +28,16 @@
                     </li>
 
 
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="why.html">Profile</a>
+                    @auth('appuser')
+                        <li class="nav-item {{ request()->routeIs('user.profile') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('user.profile')}}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
 
                                 <form action="{{ route('appuser.logout') }}" method="POST">
                                     @csrf
                                     <input type="submit" value="LOG OUT">
                                 </form>
-                            </form>
                         </li>
                     @else
                         <li class="nav-item {{ request()->routeIs('user.login') ? 'active' : '' }}">

@@ -26,6 +26,9 @@
     {{-- DataTable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 
+     {{-- tinymce Editor --}}
+     <script src="{{ asset('assets/libs/tinymce/tinymce.js') }}" referrerpolicy="origin"></script>
+
     @stack('styles')
 </head>
 

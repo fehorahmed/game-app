@@ -24,7 +24,9 @@ Route::get('/user-register', [AppUserController::class, 'register'])->name('user
 Route::post('/user-login', [AppUserController::class, 'appUserLoginStore']);
 Route::post('/user-register', [AppUserController::class, 'registerStore']);
 
+Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->name('appuser.logout');
+
 Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/user_profile', [AppUserController::class, 'appUserProfile'])->name('user.profile');
-    Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->name('appuser.logout');
+
 });

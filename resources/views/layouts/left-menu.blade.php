@@ -25,7 +25,7 @@
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
                 @php
-                    $app_menu = ['admin.website.create', 'admin.website.edit'];
+                    $app_menu = ['admin.website.create', 'admin.website.edit','config.home-slide.create'];
                 @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit"
                     data-bs-trigger="hover">
@@ -456,6 +456,7 @@
                 'admin.website.edit',
                 'config.payment-method.create',
                 'config.payment-method.edit',
+                'config.home-slide.create',
             ];
         @endphp
         <div id="MetricaUikit"
@@ -536,40 +537,25 @@
                             </ul><!--end nav-->
                         </div><!--end sidebarAdvancedUI-->
                     </li><!--end nav-item-->
-
-                    {{--  <li class="nav-item">
+                    @php
+                        $app_user = ['config.home-slide.create', 'admin.website.edit'];
+                    @endphp
+                    <li class="nav-item">
                         <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarForms">
-                            Forms
+                            Home Slider
                         </a>
-                        <div class="collapse " id="sidebarForms">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}" id="sidebarForms">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="forms-elements.html">Basic Elements</a>
+                                    <a class="nav-link" href="{{ route('config.home-slide.index') }}">List</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-advanced.html">Advance Elements</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-validation.html">Validation</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-wizard.html">Wizard</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-editors.html">Editors</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-uploads.html">File Upload</a>
-                                </li><!--end nav-item-->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="forms-img-crop.html">Image Crop</a>
-                                </li><!--end nav-item-->
+
                             </ul><!--end nav-->
                         </div><!--end sidebarForms-->
                     </li><!--end nav-item-->
 
-                    <li class="nav-item">
+                    {{--   <li class="nav-item">
                         <a class="nav-link" href="#sidebarCharts" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarCharts">
                             Charts
