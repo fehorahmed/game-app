@@ -1,8 +1,50 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+    <section class="client_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center psudo_white_primary mb_45">
+                <h2>
+                    Our <span>Games</span>
+                </h2>
+            </div>
+            <div class="carousel-wrap ">
+                <div class="owl-carousel client_owl-carousel">
+                    @foreach ($games as $game)
+                        <div class="item">
+                            <a href="{{route('home.game.detail',$game->name)}}">
+                                <div class="box">
+                                    <div class="img-box">
+                                        @if ($game->image)
+                                        @else
+                                            <img src="{{ asset('assets') }}/images/game_logo.png" alt=""
+                                                class="box-img">
+                                        @endif
 
+                                    </div>
+                                    <div class="detail-box">
+                                        <div class="client_id">
+                                            <div class="client_info">
+                                                <h6>
+                                                    {{ $game->name }}
+                                                </h6>
+
+                                            </div>
+                                            <i class="fa fa-quote-left" aria-hidden="true"></i>
+                                        </div>
+                                        <p>
+                                            Click here for know about the game details.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- service section -->
+
 
     <section class="service_section layout_padding">
         <div class="service_container">
@@ -379,117 +421,7 @@
 
     <!-- client section -->
 
-    <section class="client_section layout_padding">
-        <div class="container">
-            <div class="heading_container heading_center psudo_white_primary mb_45">
-                <h2>
-                    What says our <span>Customers</span>
-                </h2>
-            </div>
-            <div class="carousel-wrap ">
-                <div class="owl-carousel client_owl-carousel">
-                    <div class="item">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/client1.jpg" alt=""
-                                    class="box-img">
-                            </div>
-                            <div class="detail-box">
-                                <div class="client_id">
-                                    <div class="client_info">
-                                        <h6>
-                                            LusDen
-                                        </h6>
-                                        <p>
-                                            magna aliqua. Ut
-                                        </p>
-                                    </div>
-                                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/client2.jpg" alt=""
-                                    class="box-img">
-                            </div>
-                            <div class="detail-box">
-                                <div class="client_id">
-                                    <div class="client_info">
-                                        <h6>
-                                            Zen Court
-                                        </h6>
-                                        <p>
-                                            magna aliqua. Ut
-                                        </p>
-                                    </div>
-                                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/client1.jpg" alt=""
-                                    class="box-img">
-                            </div>
-                            <div class="detail-box">
-                                <div class="client_id">
-                                    <div class="client_info">
-                                        <h6>
-                                            LusDen
-                                        </h6>
-                                        <p>
-                                            magna aliqua. Ut
-                                        </p>
-                                    </div>
-                                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/client2.jpg" alt=""
-                                    class="box-img">
-                            </div>
-                            <div class="detail-box">
-                                <div class="client_id">
-                                    <div class="client_info">
-                                        <h6>
-                                            Zen Court
-                                        </h6>
-                                        <p>
-                                            magna aliqua. Ut
-                                        </p>
-                                    </div>
-                                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- end client section -->
-
-
 @endsection

@@ -13,7 +13,7 @@
                             <h4 class="card-title">Website Create</h4>
                         </div><!--end col-->
                         <div class="col-auto">
-                            <a href="{{ route('config.home-slide.store') }}" type="button"
+                            <a href="{{ route('config.home-slide.index') }}" type="button"
                                 class="btn btn-primary btn-sm mb-3"><i class="fas fa-list"></i> List</a>
                         </div><!--end col-->
                     </div> <!--end row-->

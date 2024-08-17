@@ -15,6 +15,9 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('image')->nullable();
+            $table->string('youtube_url')->nullable();
+            $table->mediumText('text')->nullable();
             $table->boolean('status')->default(1);
             $table->foreignId('creator');
             $table->foreignId('updator')->nullable();

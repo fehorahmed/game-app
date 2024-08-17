@@ -11,6 +11,7 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -288,6 +289,93 @@ class AppUserController extends Controller
     public function registerStore(Request $request)
     {
 
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:app_users,email',
+            'user_id' => 'required|digits:10|unique:app_users,user_id',
+            'password' => 'required|confirmed|min:6|max:255',
+            'referral_id' => 'nullable|digits:10'
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if ($validate->fails()) {
+            return redirect()->back()->withInput()->withErrors($validate);
+        }
+        if ($request->referral_id) {
+            $ck_referral = AppUser::where('user_id', $request->referral_id)->first();
+            if (!$ck_referral) {
+                $validate->errors()->add(
+                    'referral_id', 'Referral user not found!'
+                );
+                return redirect()->back()->withInput()->withErrors($validate);
+
+            }
+
+            $user_ref_ck = AppUser::where('referral_id', $request->referral_id)->get();
+            $chk_value= Helper::get_config('max_referral_user')??5;
+            if (count($user_ref_ck) >= $chk_value) {
+                $validate->errors()->add(
+                    'referral_id', 'Referral user over limit. Please use others referral code !'
+                );
+                return redirect()->back()->withInput()->withErrors($validate);
+
+            }
+        }
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+
+            $app_user = new AppUser();
+            $app_user->name = $request->name;
+            $app_user->email = $request->email;
+            $app_user->user_id = $request->user_id;
+            $app_user->password = Hash::make($request->password);
+            if ($app_user->save()) {
+                if ($request->referral_id) {
+                    $referral_request = new AppUserReferralRequest();
+                    $referral_request->app_user_id = $app_user->id;
+                    $referral_request->requested_app_user_id = $ck_referral->id;
+                    $referral_request->status = 1;
+                    if (!$referral_request->save()) {
+                        $transactionFail = true;
+                    }
+                }
+                $amount = Helper::get_config('registration_bonus') ?? 0;
+                $user_coin_create = new UserCoin();
+                $user_coin_create->app_user_id = $app_user->id;
+                //  $coin_setting
+                $user_coin_create->coin = $amount;
+                if ($user_coin_create->save()) {
+                    $u_c_details = new UserCoinDetail();
+                    $u_c_details->source = 'INITIAL';
+                    $u_c_details->coin_type = 'ADD';
+                    $u_c_details->user_coin_id = $user_coin_create->id;
+                    $u_c_details->coin = $amount;
+                    if (!$u_c_details->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->withInput()->with('error','Something went wrong!');
+
+            } else {
+
+                DB::commit();
+                return redirect()->route('user.login')->with('success','Registration successfully. Please Login.');
+
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error',$th->getMessage());
+
+        }
         //return view('frontend.auth.register');
     }
     public function appUserProfile()

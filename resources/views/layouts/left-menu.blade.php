@@ -25,7 +25,7 @@
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
                 @php
-                    $app_menu = ['admin.website.create', 'admin.website.edit','config.home-slide.create'];
+                    $app_menu = ['admin.website.create', 'admin.website.edit','config.home-slide.create','config.home-slide.edit','admin.game.create', 'admin.game.edit'];
                 @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit"
                     data-bs-trigger="hover">
@@ -457,6 +457,8 @@
                 'config.payment-method.create',
                 'config.payment-method.edit',
                 'config.home-slide.create',
+                'config.home-slide.edit',
+                'admin.game.create', 'admin.game.edit'
             ];
         @endphp
         <div id="MetricaUikit"
@@ -492,6 +494,23 @@
 
                             </ul><!--end nav-->
                         </div><!--end sidebarElements-->
+                    </li><!--end nav-item-->
+                    @php
+                        $app_user = ['admin.game.create', 'admin.game.edit'];
+                    @endphp
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gameConfig" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="gameConfig">
+                            Game Config
+                        </a>
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}"
+                            id="gameConfig">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.game.index') }}">Game List</a>
+                                </li><!--end nav-item-->
+                            </ul><!--end nav-->
+                        </div><!--end gameConfig-->
                     </li><!--end nav-item-->
                     @php
                         $app_user = ['admin.website.create', 'admin.website.edit'];
@@ -538,7 +557,7 @@
                         </div><!--end sidebarAdvancedUI-->
                     </li><!--end nav-item-->
                     @php
-                        $app_user = ['config.home-slide.create', 'admin.website.edit'];
+                        $app_user = ['config.home-slide.create', 'config.home-slide.edit'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"

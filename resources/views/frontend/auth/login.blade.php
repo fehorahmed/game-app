@@ -9,6 +9,11 @@
                 <h2>
                     Log <span>In</span>
                 </h2>
+                @if (session('success'))
+                    <div class="alert alert-success mt-2">
+                        {{ session('success') }}
+                    </div>
+                @endif
 
             </div>
             <div class="row">

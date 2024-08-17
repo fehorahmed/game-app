@@ -21,8 +21,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{name}/detail', [HomeController::class, 'gameDetail'])->name('home.game.detail');
 
 Route::get('/brawse', [WebsiteController::class, 'brawse'])->name('user.brawse');
+
+
+// Route::middleware(['auth:appuser'])->group(function () {
+//     Route::get('/user_profile', [AppUserController::class, 'appUserProfile'])->name('user.profile');
+
+// });
 
 
 Route::middleware('auth', 'verified')->group(function () {

@@ -26,7 +26,8 @@ class GameController extends Controller
      */
     public function index()
     {
-        //
+        $games = Game::all();
+        return view('Game::admin.index',compact('games'));
     }
 
     /**
@@ -56,17 +57,39 @@ class GameController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Game $game)
+    public function edit($id)
     {
-        //
+        $game = Game::findOrFail($id);
+        return view('Game::admin.edit',compact('game'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Game $game)
+    public function update(Request $request, $id)
     {
-        //
+
+        $request->validate([
+            "name" => 'required|string',
+            "youtube_url" => 'required|string|max:255',
+            "status" => 'required|boolean',
+            "text" => 'required|string|max:200000'
+        ]);
+
+        $game = Game::findOrFail($id);
+        $game->name = $request->name;
+        $game->youtube_url = $request->youtube_url;
+        $game->text = $request->text;
+        $game->status = $request->status;
+        $game->updator = auth()->id();
+        if($game->update()){
+            return redirect()->route('admin.game.index')->with('success','Game information update successfully.');
+        }else{
+            return redirect()->back()->with('error','Something went wrong.');
+        }
+
+
+
     }
 
     public function apiGameList()
