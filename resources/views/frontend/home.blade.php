@@ -12,7 +12,7 @@
                 <div class="owl-carousel client_owl-carousel">
                     @foreach ($games as $game)
                         <div class="item">
-                            <a href="{{route('home.game.detail',$game->name)}}">
+                            <a href="{{ route('home.game.detail', $game->name) }}">
                                 <div class="box">
                                     <div class="img-box">
                                         @if ($game->image)
@@ -46,143 +46,61 @@
     <!-- service section -->
 
 
-    <section class="service_section layout_padding">
-        <div class="service_container">
-            <div class="container ">
-                <div class="heading_container heading_center">
-                    <h2>
-                        Our <span>Services</span>
-                    </h2>
-                    <p>
-                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                        alteration
-                    </p>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 ">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/s1.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Currency Wallet
-                                </h5>
-                                <p>
-                                    fact that a reader will be distracted by the readable content of a page when looking
-                                    at its layout.
-                                    The
-                                    point of using
-                                </p>
-                                <a href="">
-                                    Read More
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 ">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/s2.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Security Storage
-                                </h5>
-                                <p>
-                                    fact that a reader will be distracted by the readable content of a page when looking
-                                    at its layout.
-                                    The
-                                    point of using
-                                </p>
-                                <a href="">
-                                    Read More
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 ">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/s3.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Expert Support
-                                </h5>
-                                <p>
-                                    fact that a reader will be distracted by the readable content of a page when looking
-                                    at its layout.
-                                    The
-                                    point of using
-                                </p>
-                                <a href="">
-                                    Read More
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn-box">
-                    <a href="">
-                        View All
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- end service section -->
-
-
-    <!-- about section -->
-
-    <section class="about_section layout_padding">
-        <div class="container  ">
+    <!-- team section -->
+    <section class="team_section layout_padding">
+        <div class="container-fluid">
             <div class="heading_container heading_center">
-                <h2>
-                    About <span>Us</span>
+                <h2 class="">
+                    Our <span> Best Players</span>
                 </h2>
-                <p>
-                    Magni quod blanditiis non minus sed aut voluptatum illum quisquam aspernatur ullam vel beatae rerum
-                    ipsum voluptatibus
-                </p>
             </div>
-            <div class="row">
-                <div class="col-md-6 ">
-                    <div class="img-box">
-                        <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="detail-box">
-                        <h3>
-                            We Are Finexo
-                        </h3>
-                        <p>
-                            There are many variations of passages of Lorem Ipsum available, but the majority have
-                            suffered alteration
-                            in some form, by injected humour, or randomised words which don't look even slightly
-                            believable. If you
-                            are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything
-                            embarrassing hidden in
-                            the middle of text. All
-                        </p>
-                        <p>
-                            Molestiae odio earum non qui cumque provident voluptates, repellendus exercitationem,
-                            possimus at iste corrupti officiis unde alias eius ducimus reiciendis soluta eveniet. Nobis
-                            ullam ab omnis quasi expedita.
-                        </p>
-                        <a href="">
-                            Read More
-                        </a>
-                    </div>
+
+            <div class="team_container">
+                <div class="row">
+                    @foreach ($app_users as $app_user)
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="box ">
+                                <div class="img-box">
+                                    @if ($app_user->photo)
+                                        <img src="{{ asset('storage/' . $app_user->photo) }}" class="img1" alt="" width="200px" height="130px">
+                                    @else
+                                        <img src="{{ asset('frontend') }}/images/team-1.jpg" class="img1" alt="">
+                                    @endif
+
+                                </div>
+                                <div class="detail-box">
+                                    <h5>
+                                        {{ $app_user->name }}
+                                    </h5>
+                                    <p>
+                                        ID: {{ $app_user->user_id }}
+                                    </p>
+                                </div>
+                                <div class="social_box">
+                                    <a href="#">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+
                 </div>
             </div>
         </div>
     </section>
+    <!-- end team section -->
 
-    <!-- end about section -->
+
 
     <!-- why section -->
 
@@ -272,155 +190,6 @@
     </section>
 
     <!-- end why section -->
-
-    <!-- team section -->
-    <section class="team_section layout_padding">
-        <div class="container-fluid">
-            <div class="heading_container heading_center">
-                <h2 class="">
-                    Our <span> Team</span>
-                </h2>
-            </div>
-
-            <div class="team_container">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/team-1.jpg" class="img1" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Joseph Brown
-                                </h5>
-                                <p>
-                                    Marketing Head
-                                </p>
-                            </div>
-                            <div class="social_box">
-                                <a href="#">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/team-2.jpg" class="img1" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Nancy White
-                                </h5>
-                                <p>
-                                    Marketing Head
-                                </p>
-                            </div>
-                            <div class="social_box">
-                                <a href="#">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/team-3.jpg" class="img1" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Earl Martinez
-                                </h5>
-                                <p>
-                                    Marketing Head
-                                </p>
-                            </div>
-                            <div class="social_box">
-                                <a href="#">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="box ">
-                            <div class="img-box">
-                                <img src="{{ asset('frontend') }}/images/team-4.jpg" class="img1" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>
-                                    Josephine Allard
-                                </h5>
-                                <p>
-                                    Marketing Head
-                                </p>
-                            </div>
-                            <div class="social_box">
-                                <a href="#">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end team section -->
-
-
-    <!-- client section -->
-
 
 
     <!-- end client section -->

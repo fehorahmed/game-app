@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HomeSlide;
+use App\Modules\AppUser\Models\AppUser;
 use App\Modules\Game\Models\Game;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,9 @@ class HomeController extends Controller
         $home_page = true;
         $home_sliders = HomeSlide::where('status',1)->get();
         $games = Game::where('status',1)->get();
-        return view('frontend.home',compact('home_page','home_sliders','games'));
+
+        $app_users= AppUser::where('status',1)->limit(8)->get();
+        return view('frontend.home',compact('home_page','home_sliders','games','app_users'));
         // return view('welcome');
     }
     public function gameDetail($name){

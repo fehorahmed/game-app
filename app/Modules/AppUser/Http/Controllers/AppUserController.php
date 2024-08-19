@@ -110,7 +110,7 @@ class AppUserController extends Controller
     public function apiUserProfilePhotoUpdate(Request $request)
     {
         $rules = [
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
 
         ];
         $validation = Validator::make($request->all(), $rules);
@@ -124,24 +124,20 @@ class AppUserController extends Controller
             $image = $request->file('photo');
             $filename = time() . '-' . auth()->id() . '.' . $image->getClientOriginalExtension();
 
-            $image = ImageManager::imagick()->read($image);
-            $image->resize(300, 200);
 
-            // $resizedImage = Image::make($image)
-            //     ->resize(300, 300, function ($constraint) {
-            //         $constraint->aspectRatio(); // Maintain aspect ratio
-            //     });
+           // $user = AppUser::find(auth()->id());
+
+            // Check if a previous photo exists and delete it
+            // if ($user->photo) {
+            //     Storage::disk('public')->delete($user->photo);
+            // }
+
+            $manager = new ImageManager(['driver' => 'imagick']);
+
+            $image = $manager->make($image)->resize(200, 200);
+
             $img_path = 'images/profile/' . $filename;
             $path = Storage::disk('public')->put($img_path, (string) $image->encode()); // Store the resized image
-
-
-            // Resize the image
-            // $resizedImage = Image::make($image)->resize(300, 300, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // })->encode('jpg');
-
-            // Store the image in the public disk
-            // Storage::disk('public')->put($imagePath, $resizedImage);
 
             AppUser::where('id', auth()->id())->update([
                 'photo' => $img_path
@@ -382,6 +378,11 @@ class AppUserController extends Controller
     {
         // dd('profile');
         return view('frontend.auth.profile');
+    }
+    public function appUserDashboard()
+    {
+        // dd('profile');
+        return view('frontend.dashboard');
     }
     public function appUserLogout(Request $request)
     {

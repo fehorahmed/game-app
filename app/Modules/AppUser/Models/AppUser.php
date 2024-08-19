@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Models;
 
+use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -55,5 +56,9 @@ class AppUser extends Authenticatable
     public function coin()
     {
         return $this->belongsTo(UserCoin::class, 'id', 'app_user_id');
+    }
+    public function balance()
+    {
+        return $this->belongsTo(AppUserBalance::class, 'id', 'app_user_id');
     }
 }

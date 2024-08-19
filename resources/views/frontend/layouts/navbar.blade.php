@@ -14,32 +14,39 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav  ">
-                    <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html"> About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="service.html">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="why.html">Why Us</a>
-                    </li>
+
+
 
 
                     @auth('appuser')
+                        <li class="nav-item {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('user.dashboard') }}">Dashboard
+                                {{-- <span class="sr-only">(current)</span> --}}
+                            </a>
+                        </li>
+                        <li class="nav-item {{ request()->routeIs('user.deposit') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('user.deposit') }}">Deposit</a>
+                        </li>
+                        <li class="nav-item {{ request()->routeIs('user.withdraw') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('user.withdraw') }}">Withdraw</a>
+                        </li>
                         <li class="nav-item {{ request()->routeIs('user.profile') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{route('user.profile')}}">Profile</a>
+                            <a class="nav-link" href="{{ route('user.profile') }}">Profile</a>
                         </li>
                         <li class="nav-item">
 
-                                <form action="{{ route('appuser.logout') }}" method="POST">
-                                    @csrf
-                                    <input type="submit" value="LOG OUT">
-                                </form>
+                            <form action="{{ route('appuser.logout') }}" method="POST">
+                                @csrf
+                                <input type="submit" value="LOG OUT">
+                            </form>
                         </li>
                     @else
+                        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html"> About</a>
+                        </li>
                         <li class="nav-item {{ request()->routeIs('user.login') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('user.login') }}"> <i class="fa fa-user"
                                     aria-hidden="true"></i>
@@ -50,7 +57,6 @@
                                     aria-hidden="true"></i>
                                 Sing Up</a>
                         </li>
-
                     @endauth
 
                     {{-- <form class="form-inline">

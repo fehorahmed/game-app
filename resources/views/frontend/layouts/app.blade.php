@@ -33,7 +33,7 @@
     <!-- responsive style -->
     <link href="{{ asset('frontend') }}/css/responsive.css" rel="stylesheet" />
 
-
+    @stack('style')
 </head>
 
 <body class="{{ isset($home_page) ? '' : 'sub_page' }}">

@@ -28,5 +28,8 @@ Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->nam
 
 Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/user_profile', [AppUserController::class, 'appUserProfile'])->name('user.profile');
+    Route::get('/user_dashboard', [AppUserController::class, 'appUserDashboard'])->name('user.dashboard');
+    Route::get('/user_deposit', [AppUserController::class, 'appUserDeposit'])->name('user.deposit');
+    Route::get('/user_withdraw', [AppUserController::class, 'appUserWithdraw'])->name('user.withdraw');
 
 });
