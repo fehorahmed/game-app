@@ -4,6 +4,7 @@ namespace App\Modules\AppUser\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\PaymentMethod;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Http\Resources\AppUserReferralRequestResource;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
@@ -383,6 +384,19 @@ class AppUserController extends Controller
     {
         // dd('profile');
         return view('frontend.dashboard');
+    }
+    public function appUserDeposit()
+    {
+        $methods = PaymentMethod::where('status',1)->get();
+        return view('frontend.deposit.deposit_page',compact('methods'));
+    }
+    public function appUserDepositMethodSubmit(Request $request)
+    {
+        $request->validate([
+            'method'=>'required|numeric',
+            'amount'=>'required|numeric'
+        ]);
+
     }
     public function appUserLogout(Request $request)
     {
