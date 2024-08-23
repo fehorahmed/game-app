@@ -14,7 +14,8 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('global.config-store') }}" method="POST" class="my-1 form" autocomplete="off">
+        <form action="{{ route('global.config-store') }}" method="POST" class="my-1 form" autocomplete="off"
+            enctype="multipart/form-data">
             <div class="card-body">
 
                 @csrf
@@ -160,9 +161,63 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Application Configuration</h4>
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- <button wire:click="list" class="btn btn-primary">@lang('common.btn.list')</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $login_image = \App\Helpers\Helper::get_config('login_image');
+                                        @endphp
+                                        <label for="login_image" class="mb-2">Log In Page Image</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="login_image" id="login_image"
+                                                class="form-control">
 
+                                            @error('login_image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+
+                                        </div>
+                                        @if ($login_image)
+                                            <img src="{{ asset($login_image) }}" class="mt-1 mb-1" alt=""
+                                                width="140px" height="100px">
+                                        @endif
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $registration_image = \App\Helpers\Helper::get_config('registration_image');
+                                        @endphp
+                                        <label for="registration_image" class="mb-2">Registration Page Image</label>
+                                        <div class="mb-3">
+                                            <input type="file" name="registration_image" id="registration_image"
+                                                class="form-control">
+
+                                            @error('registration_image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+
+                                        </div>
+                                        @if ($registration_image)
+                                            <img src="{{ asset($registration_image) }}" class="mt-2" alt=""
+                                                width="140px" height="100px">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
             <div class="card-footer">
                 <div class="row mt-2 mb-2 align-items-center">

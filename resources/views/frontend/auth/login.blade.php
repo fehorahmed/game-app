@@ -19,7 +19,15 @@
             <div class="row">
                 <div class="col-md-6 ">
                     <div class="img-box">
-                        <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
+                        @php
+                            $login_image = \App\Helpers\Helper::get_config('login_image');
+                        @endphp
+                        @if ($login_image)
+                            <img src="{{ asset($login_image) }}" alt="">
+                        @else
+                            <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
+                        @endif
+
                     </div>
                 </div>
                 <div class="col-md-6">

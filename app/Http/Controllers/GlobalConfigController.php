@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\GlobalConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -28,11 +29,21 @@ class GlobalConfigController extends Controller
             "game_initialize_coin_amount" => 'required|numeric',
             "game_win_coin_deduct_percentage" => 'required|numeric|max:100',
             "max_referral_user" => 'required|numeric',
+            "login_image" => 'nullable|image|mimes:png,jpg,jpeg|max:600',
+            "registration_image" => 'nullable|image|mimes:png,jpg,jpeg|max:600',
         ]);
 
         $request->request->remove('_token');
         foreach ($request->all() as $key => $value) {
-            $this->configUpdate($key, $value);
+
+            if($key == 'login_image' || $key == 'registration_image'){
+                $des = 'home_image';
+                $path =  Helper::saveImage($des, $request->$key, 555, 439);
+                $this->configUpdate($key, $path);
+            }else{
+                $this->configUpdate($key, $value);
+            }
+
         }
         return redirect()->back()->with('success', 'Configuration update successfully.');
     }

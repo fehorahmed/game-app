@@ -14,7 +14,16 @@
             <div class="row">
                 <div class="col-md-6 ">
                     <div class="img-box">
-                        <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
+                        @php
+                            $login_image = \App\Helpers\Helper::get_config('login_image');
+                        @endphp
+                        @if ($login_image)
+                            <img src="{{ asset($login_image) }}" alt="">
+                        @else
+                            <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
+                        @endif
+
+
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -25,23 +34,26 @@
                         <form action="" method="POST">
                             @csrf
                             <label for="name" class="pt-3">Name</label>
-                            <input type="text" name="name" id="name" required value="{{old('name')}}" class="form-control">
+                            <input type="text" name="name" id="name" required value="{{ old('name') }}"
+                                class="form-control">
                             @error('name')
-                               <div class="m-2 text-warning">
+                                <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
                             <label for="email" class="pt-3">Email</label>
-                            <input type="email" name="email" id="email" required  value="{{old('email')}}" class="form-control">
+                            <input type="email" name="email" id="email" required value="{{ old('email') }}"
+                                class="form-control">
                             @error('email')
-                               <div class="m-2 text-warning">
+                                <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
                             <label for="user_id" class="pt-3">User ID</label>
-                            <input type="number" name="user_id" id="user_id" required  value="{{old('user_id')}}" class="form-control">
+                            <input type="number" name="user_id" id="user_id" required value="{{ old('user_id') }}"
+                                class="form-control">
                             @error('user_id')
-                               <div class="m-2 text-warning">
+                                <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
@@ -49,7 +61,7 @@
                             <label for="password" class="pt-3">Password</label>
                             <input type="password" name="password" id="password" required class="form-control">
                             @error('password')
-                               <div class="m-2 text-warning">
+                                <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
@@ -58,9 +70,10 @@
                                 class="form-control">
 
                             <label for="referral_id" class="pt-3">Referral ID </label>
-                            <input type="number" name="referral_id" id="referral_id"  value="{{old('referral_id')}}" class="form-control">
+                            <input type="number" name="referral_id" id="referral_id" value="{{ old('referral_id') }}"
+                                class="form-control">
                             @error('referral_id')
-                               <div class="m-2 text-warning">
+                                <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
