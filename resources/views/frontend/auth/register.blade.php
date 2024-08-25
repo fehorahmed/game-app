@@ -15,10 +15,10 @@
                 <div class="col-md-6 ">
                     <div class="img-box">
                         @php
-                            $login_image = \App\Helpers\Helper::get_config('login_image');
+                            $registration_image = \App\Helpers\Helper::get_config('registration_image');
                         @endphp
-                        @if ($login_image)
-                            <img src="{{ asset($login_image) }}" alt="">
+                        @if ($registration_image)
+                            <img src="{{ asset($registration_image) }}" alt="">
                         @else
                             <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
                         @endif

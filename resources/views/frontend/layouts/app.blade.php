@@ -80,6 +80,8 @@
     </script>
     <!-- End Google Map -->
 
+    @stack('script')
+
 </body>
 
 </html>

@@ -19,10 +19,12 @@ return new class extends Migration
             $table->bigInteger('balance')->default(0);
             $table->foreignId('user_coin_convert_log_id')->nullable();
             $table->foreignId('balance_transfer_log_id')->nullable();
+            $table->foreignId('deposit_log_id')->nullable();
 
             $table->foreign('app_user_balance_id')->on('app_user_balances')->references('id');
             $table->foreign('user_coin_convert_log_id')->on('user_coin_convert_logs')->references('id');
             $table->foreign('balance_transfer_log_id')->on('balance_transfer_logs')->references('id');
+            $table->foreign('deposit_log_id')->on('deposit_logs')->references('id');
 
             $table->timestamps();
         });

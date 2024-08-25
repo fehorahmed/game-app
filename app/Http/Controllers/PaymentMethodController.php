@@ -39,6 +39,9 @@ class PaymentMethodController extends Controller
             'account_type' => 'nullable|string|max:255',
             'transaction_fee' => 'required|numeric|max:100',
             'status' => 'required|boolean',
+            'limit_start' => 'required|numeric|min:0',
+            'limit_end' => 'required|numeric|min:0',
+            'manual_text' => 'required|string|max:65000',
         ]);
 
         $data = new PaymentMethod();
@@ -46,6 +49,9 @@ class PaymentMethodController extends Controller
         $data->account_no = $request->account_no;
         $data->account_type = $request->account_type;
         $data->transaction_fee = $request->transaction_fee;
+        $data->limit_start = $request->limit_start;
+        $data->limit_end = $request->limit_end;
+        $data->manual_text = $request->manual_text;
         $data->status = $request->status;
         if ($request->logo) {
             $des = 'payment_method';
@@ -88,6 +94,9 @@ class PaymentMethodController extends Controller
             'account_type' => 'nullable|string|max:255',
             'transaction_fee' => 'required|numeric|max:100',
             'status' => 'required|boolean',
+            'limit_start' => 'required|numeric|min:0',
+            'limit_end' => 'required|numeric|min:0',
+            'manual_text' => 'required|string|max:65000',
         ]);
         //dd($request->all());
 
@@ -95,6 +104,9 @@ class PaymentMethodController extends Controller
         $paymentMethod->account_no = $request->account_no;
         $paymentMethod->account_type = $request->account_type;
         $paymentMethod->transaction_fee = $request->transaction_fee;
+        $paymentMethod->limit_start = $request->limit_start;
+        $paymentMethod->limit_end = $request->limit_end;
+        $paymentMethod->manual_text = $request->manual_text;
         $paymentMethod->status = $request->status;
         if ($request->logo) {
 

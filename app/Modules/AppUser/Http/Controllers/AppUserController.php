@@ -394,8 +394,35 @@ class AppUserController extends Controller
     {
         $request->validate([
             'method'=>'required|numeric',
-            'amount'=>'required|numeric'
+            'amount'=>'required|numeric',
+            'transaction_fee'=>'required|numeric'
         ]);
+
+        $method = PaymentMethod::findOrFail($request->method);
+
+        $data = [
+            'method'=>$method,
+            'amount'=>$request->amount,
+            'transaction_fee'=>$request->transaction_fee
+        ];
+        return view('frontend.deposit.deposit_final_page')->with($data);
+
+
+    }
+    public function appUserDepositFinalSubmit(Request $request)
+    {
+
+        dd($request->all());
+        $request->validate([
+            'method'=>'required|numeric',
+            'amount'=>'required|numeric',
+            'transaction_id'=>'required|numeric'
+        ]);
+
+        $method = PaymentMethod::findOrFail($request->method);
+
+
+
 
     }
     public function appUserLogout(Request $request)

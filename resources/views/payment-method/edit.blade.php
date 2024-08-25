@@ -85,21 +85,66 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="limit_start" class="col-sm-3 col-form-label text-end">Limit Start</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="number"
+                                            value="{{ old('limit_start', $paymentMethod->limit_start) }}" name="limit_start"
+                                            id="limit_start">
+                                        @error('limit_start')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="limit_end" class="col-sm-3 col-form-label text-end">Limit End</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="number"
+                                            value="{{ old('limit_end', $paymentMethod->limit_end) }}" name="limit_end"
+                                            id="limit_end">
+                                        @error('limit_end')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="manual_text" class="col-sm-3 col-form-label text-end">Manual Text</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="manual_text" id="manual_text" class="form-control" cols="30" rows="10">{{$paymentMethod->manual_text}}</textarea>
+                                        @error('manual_text')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
 
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="row mb-3">
                                     <label class="col-md-3 my-1 control-label text-end">Status</label>
                                     <div class="col-md-9">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1"
+                                            <input class="form-check-input" type="radio" name="status"
+                                                id="inlineRadio1"
                                                 {{ old('status', $paymentMethod->status) == '1' ? 'checked' : '' }}
                                                 value="1">
                                             <label class="form-check-label" for="inlineRadio1">Active</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2"
+                                            <input class="form-check-input" type="radio" name="status"
+                                                id="inlineRadio2"
                                                 {{ old('status', $paymentMethod->status) == '0' ? 'checked' : '' }}
                                                 value="0">
                                             <label class="form-check-label" for="inlineRadio2">Inactive</label>
@@ -111,8 +156,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
                                 <div class="mb-3 row">
                                     <label for="logo" class="col-sm-3 col-form-label text-end">Logo</label>
                                     <div class="col-sm-9">
@@ -140,8 +183,14 @@
                 </div>
             </div><!--end card-body-->
         </div><!--end card-->
-    </div> <!-- end col -->
+    </div>
 
-
-    </div> <!-- end row -->
 @endsection
+@push('scripts')
+    <script>
+        tinymce.init({
+            selector: 'textarea#manual_text',
+
+        });
+    </script>
+@endpush

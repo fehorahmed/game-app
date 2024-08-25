@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('account_no');
             $table->string('account_type')->nullable();
+            $table->text('manual_text')->nullable();
+            $table->unsignedInteger('limit_start')->default(0);
+            $table->unsignedInteger('limit_end')->default(1000);
             $table->unsignedInteger('transaction_fee')->comment('Proti Hazar a');
             $table->string('logo')->nullable();
             $table->boolean('status')->default(1)->comment('1=active, 0=inactive');
