@@ -29,6 +29,7 @@ Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->nam
 Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/user_profile', [AppUserController::class, 'appUserProfile'])->name('user.profile');
     Route::get('/user_dashboard', [AppUserController::class, 'appUserDashboard'])->name('user.dashboard');
+    Route::get('/user_deposit_history', [AppUserController::class, 'appUserDepositHistory'])->name('user.deposit.history');
     Route::get('/user_deposit', [AppUserController::class, 'appUserDeposit'])->name('user.deposit');
     Route::get('/user_deposit_method', [AppUserController::class, 'appUserDepositMethodSubmit'])->name('user.deposit.method.submit');
     Route::post('/user_deposit_final_submit', [AppUserController::class, 'appUserDepositFinalSubmit'])->name('user.deposit.method.final_submit');

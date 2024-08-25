@@ -11,6 +11,7 @@ use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
+use App\Modules\AppUserBalance\Models\DepositLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
@@ -390,6 +391,11 @@ class AppUserController extends Controller
         $methods = PaymentMethod::where('status',1)->get();
         return view('frontend.deposit.deposit_page',compact('methods'));
     }
+    public function appUserDepositHistory()
+    {
+        $deposits = DepositLog::orderBy('status')->get();
+        return view('frontend.deposit.deposit_history_page',compact('deposits'));
+    }
     public function appUserDepositMethodSubmit(Request $request)
     {
         $request->validate([
@@ -399,11 +405,11 @@ class AppUserController extends Controller
         ]);
 
         $method = PaymentMethod::findOrFail($request->method);
-
+        $transaction_fee = ($request->amount / 1000)*$method->transaction_fee;
         $data = [
             'method'=>$method,
             'amount'=>$request->amount,
-            'transaction_fee'=>$request->transaction_fee
+            'transaction_fee'=>$transaction_fee
         ];
         return view('frontend.deposit.deposit_final_page')->with($data);
 
@@ -412,18 +418,35 @@ class AppUserController extends Controller
     public function appUserDepositFinalSubmit(Request $request)
     {
 
-        dd($request->all());
+        //  dd($request->all());
         $request->validate([
             'method'=>'required|numeric',
             'amount'=>'required|numeric',
-            'transaction_id'=>'required|numeric'
+            'transaction_id'=>'required|string|max:255'
         ]);
 
         $method = PaymentMethod::findOrFail($request->method);
 
+        $amount = $request->amount;
+        $charge =  ($request->amount / 1000)*$method->transaction_fee;
+        $total = $amount + $charge;
 
-
-
+        $log = new DepositLog();
+        $log->payment_method_id = $method->id;
+        $log->app_user_id = auth()->id();
+        $log->deposit_date = now();
+        $log->amount = $amount;
+        $log->charge = $charge;
+        $log->total = $total;
+        $log->transaction_id = $request->transaction_id;
+        $log->creator = 'user';
+        $log->created_by = auth()->id();
+        $log->status = 1;
+        if($log->save()){
+            return redirect()->route('user.deposit.history')->with('success','Deposit request submited successfully.');
+        }else{
+            return redirect()->back()->with('error','Something went wrong.');
+        }
     }
     public function appUserLogout(Request $request)
     {

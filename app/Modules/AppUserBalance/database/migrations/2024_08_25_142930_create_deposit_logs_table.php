@@ -18,8 +18,9 @@ return new class extends Migration
             $table->foreignId('app_user_id');
             $table->foreign('app_user_id')->on('app_users')->references('id');
             $table->date('deposit_date');
-            $table->unsignedInteger('amount');
-            $table->unsignedInteger('charge');
+            $table->unsignedFloat('amount',8,2);
+            $table->unsignedFloat('charge',8,2);
+            $table->unsignedFloat('total',8,2);
             $table->string('transaction_id');
             $table->enum('creator',['user','admin'])->default('user');
             $table->date('accept_date')->nullable();
