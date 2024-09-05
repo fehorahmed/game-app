@@ -16,7 +16,9 @@
                 <ul class="navbar-nav  ">
 
 
-
+                    <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
+                    </li>
 
                     @auth('appuser')
                         <li class="nav-item {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
@@ -41,9 +43,7 @@
                             </form>
                         </li>
                     @else
-                        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="about.html"> About</a>
                         </li>
