@@ -34,5 +34,6 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/user_deposit_method', [AppUserController::class, 'appUserDepositMethodSubmit'])->name('user.deposit.method.submit');
     Route::post('/user_deposit_final_submit', [AppUserController::class, 'appUserDepositFinalSubmit'])->name('user.deposit.method.final_submit');
     Route::get('/user_withdraw', [AppUserController::class, 'appUserWithdraw'])->name('user.withdraw');
+    Route::get('/user_withdraw_method', [AppUserController::class, 'appUserWithdrawMethodSubmit'])->name('user.withdraw.method.submit');
 
 });

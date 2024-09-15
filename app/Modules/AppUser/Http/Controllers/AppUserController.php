@@ -461,4 +461,30 @@ class AppUserController extends Controller
 
 
     }
+
+    public function appUserWithdraw()
+    {
+        $methods = PaymentMethod::where('status',1)->get();
+        return view('frontend.withdraw.withdraw_page',compact('methods'));
+    }
+
+    public function appUserWithdrawMethodSubmit(Request $request)
+    {
+        $request->validate([
+            'method'=>'required|numeric',
+            'amount'=>'required|numeric',
+            'transaction_fee'=>'required|numeric'
+        ]);
+
+        $method = PaymentMethod::findOrFail($request->method);
+        $transaction_fee = ($request->amount / 1000)*$method->transaction_fee;
+        $data = [
+            'method'=>$method,
+            'amount'=>$request->amount,
+            'transaction_fee'=>$transaction_fee
+        ];
+        return view('frontend.deposit.deposit_final_page')->with($data);
+
+
+    }
 }

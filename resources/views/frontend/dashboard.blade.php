@@ -84,7 +84,7 @@
                                 Total Diposit
                             </h5>
                             <p>
-                                120 tk
+                                {{auth()->user()->deposit->sum('amount')}} tk
                             </p>
                             {{-- <a href="">
                                 Read More
@@ -126,7 +126,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                    <a href="{{route('user.withdraw')}}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>

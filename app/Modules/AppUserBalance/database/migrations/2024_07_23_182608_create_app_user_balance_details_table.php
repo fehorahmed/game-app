@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('app_user_balance_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('app_user_balance_id');
-            $table->enum('source', ['COIN_CONVERT', 'BALANCE_TRANSFER'])->comment('COIN_CONVERT,BALANCE_TRANSFER');
+            $table->enum('source', ['COIN_CONVERT', 'BALANCE_TRANSFER','DEPOSIT'])->comment('COIN_CONVERT,BALANCE_TRANSFER,DEPOSIT');
             $table->enum('balance_type', ['ADD', 'SUB'])->comment('ADD , SUB');
             $table->bigInteger('balance')->default(0);
             $table->foreignId('user_coin_convert_log_id')->nullable();
