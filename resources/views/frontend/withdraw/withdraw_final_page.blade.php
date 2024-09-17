@@ -21,21 +21,21 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card payment-box">
-                        <form action="{{ route('user.deposit.method.final_submit') }}" method="POST">
+                        <form action="{{ route('user.withdraw.method.final_submit') }}" method="POST">
                             @csrf
                             <div class="card-body payment-body">
 
-                                <div id="details-area">
+                                {{-- <div id="details-area">
                                     {!! $method->manual_text !!}
-                                </div>
+                                </div> --}}
                                 <hr>
                                 <h5 class="text-center">Total Amount : {{$amount + $transaction_fee}} BDT</h5>
                                 <input type="hidden" name="transaction_fee" id="transaction_fee" value="{{$transaction_fee}}">
                                 <input type="hidden" name="amount" id="amount" value="{{$amount}}">
                                 <input type="hidden" name="method" id="method" value="{{$method->id}}">
-                                <label for="" class="mt-2">Transaction ID <span class="text-danger">*</span></label>
-                                <input type="text" name="transaction_id" class="form-control" id="transaction_id">
-                                @error('transaction_id')
+                                <label for="" class="mt-2">{{$method->name}} Number <span class="text-danger">*</span></label>
+                                <input type="number" name="account_no" class="form-control" id="account_no">
+                                @error('account_no')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
                                 <br>

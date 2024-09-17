@@ -12,6 +12,7 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\AppUserBalance\Models\DepositLog;
+use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
@@ -127,7 +128,7 @@ class AppUserController extends Controller
             $filename = time() . '-' . auth()->id() . '.' . $image->getClientOriginalExtension();
 
 
-           // $user = AppUser::find(auth()->id());
+            // $user = AppUser::find(auth()->id());
 
             // Check if a previous photo exists and delete it
             // if ($user->photo) {
@@ -302,20 +303,20 @@ class AppUserController extends Controller
             $ck_referral = AppUser::where('user_id', $request->referral_id)->first();
             if (!$ck_referral) {
                 $validate->errors()->add(
-                    'referral_id', 'Referral user not found!'
+                    'referral_id',
+                    'Referral user not found!'
                 );
                 return redirect()->back()->withInput()->withErrors($validate);
-
             }
 
             $user_ref_ck = AppUser::where('referral_id', $request->referral_id)->get();
-            $chk_value= Helper::get_config('max_referral_user')??5;
+            $chk_value = Helper::get_config('max_referral_user') ?? 5;
             if (count($user_ref_ck) >= $chk_value) {
                 $validate->errors()->add(
-                    'referral_id', 'Referral user over limit. Please use others referral code !'
+                    'referral_id',
+                    'Referral user over limit. Please use others referral code !'
                 );
                 return redirect()->back()->withInput()->withErrors($validate);
-
             }
         }
         $transactionFail = false;
@@ -361,18 +362,15 @@ class AppUserController extends Controller
 
             if ($transactionFail) {
                 DB::rollBack();
-                return redirect()->back()->withInput()->with('error','Something went wrong!');
-
+                return redirect()->back()->withInput()->with('error', 'Something went wrong!');
             } else {
 
                 DB::commit();
-                return redirect()->route('user.login')->with('success','Registration successfully. Please Login.');
-
+                return redirect()->route('user.login')->with('success', 'Registration successfully. Please Login.');
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withInput()->with('error',$th->getMessage());
-
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
         //return view('frontend.auth.register');
     }
@@ -388,47 +386,51 @@ class AppUserController extends Controller
     }
     public function appUserDeposit()
     {
-        $methods = PaymentMethod::where('status',1)->get();
-        return view('frontend.deposit.deposit_page',compact('methods'));
+        $methods = PaymentMethod::where('status', 1)->get();
+        return view('frontend.deposit.deposit_page', compact('methods'));
     }
     public function appUserDepositHistory()
     {
         $deposits = DepositLog::orderBy('status')->get();
-        return view('frontend.deposit.deposit_history_page',compact('deposits'));
+        return view('frontend.deposit.deposit_history_page', compact('deposits'));
+    }
+    public function appUserWithdrawHistory()
+    {
+        $withdraws = WithdrawLog::orderBy('status')->get();
+
+        return view('frontend.withdraw.withdraw_history_page', compact('withdraws'));
     }
     public function appUserDepositMethodSubmit(Request $request)
     {
         $request->validate([
-            'method'=>'required|numeric',
-            'amount'=>'required|numeric',
-            'transaction_fee'=>'required|numeric'
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'transaction_fee' => 'required|numeric'
         ]);
 
         $method = PaymentMethod::findOrFail($request->method);
-        $transaction_fee = ($request->amount / 1000)*$method->transaction_fee;
+        $transaction_fee = ($request->amount / 1000) * $method->transaction_fee;
         $data = [
-            'method'=>$method,
-            'amount'=>$request->amount,
-            'transaction_fee'=>$transaction_fee
+            'method' => $method,
+            'amount' => $request->amount,
+            'transaction_fee' => $transaction_fee
         ];
         return view('frontend.deposit.deposit_final_page')->with($data);
-
-
     }
     public function appUserDepositFinalSubmit(Request $request)
     {
 
         //  dd($request->all());
         $request->validate([
-            'method'=>'required|numeric',
-            'amount'=>'required|numeric',
-            'transaction_id'=>'required|string|max:255'
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'transaction_id' => 'required|string|max:255'
         ]);
 
         $method = PaymentMethod::findOrFail($request->method);
 
         $amount = $request->amount;
-        $charge =  ($request->amount / 1000)*$method->transaction_fee;
+        $charge =  ($request->amount / 1000) * $method->transaction_fee;
         $total = $amount + $charge;
 
         $log = new DepositLog();
@@ -442,10 +444,10 @@ class AppUserController extends Controller
         $log->creator = 'user';
         $log->created_by = auth()->id();
         $log->status = 1;
-        if($log->save()){
-            return redirect()->route('user.deposit.history')->with('success','Deposit request submited successfully.');
-        }else{
-            return redirect()->back()->with('error','Something went wrong.');
+        if ($log->save()) {
+            return redirect()->route('user.deposit.history')->with('success', 'Deposit request submited successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
     public function appUserLogout(Request $request)
@@ -464,27 +466,58 @@ class AppUserController extends Controller
 
     public function appUserWithdraw()
     {
-        $methods = PaymentMethod::where('status',1)->get();
-        return view('frontend.withdraw.withdraw_page',compact('methods'));
+        $methods = PaymentMethod::where('status', 1)->get();
+        return view('frontend.withdraw.withdraw_page', compact('methods'));
     }
 
     public function appUserWithdrawMethodSubmit(Request $request)
     {
         $request->validate([
-            'method'=>'required|numeric',
-            'amount'=>'required|numeric',
-            'transaction_fee'=>'required|numeric'
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'transaction_fee' => 'required|numeric'
         ]);
 
         $method = PaymentMethod::findOrFail($request->method);
-        $transaction_fee = ($request->amount / 1000)*$method->transaction_fee;
+        $transaction_fee = ($request->amount / 1000) * $method->transaction_fee;
         $data = [
-            'method'=>$method,
-            'amount'=>$request->amount,
-            'transaction_fee'=>$transaction_fee
+            'method' => $method,
+            'amount' => $request->amount,
+            'transaction_fee' => $transaction_fee
         ];
-        return view('frontend.deposit.deposit_final_page')->with($data);
+        return view('frontend.withdraw.withdraw_final_page')->with($data);
+    }
+    public function appUserWithdrawFinalSubmit(Request $request)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'account_no' => 'required|string|max:255'
+        ]);
 
+        $method = PaymentMethod::findOrFail($request->method);
 
+        $amount = $request->amount;
+        $charge =  ($request->amount / 1000) * $method->transaction_fee;
+        $total = $amount + $charge;
+
+        $log = new WithdrawLog();
+        $log->payment_method_id = $method->id;
+        $log->app_user_id = auth()->id();
+        $log->withdraw_date = now();
+        $log->amount = $amount;
+        $log->charge = $charge;
+        $log->total = $total;
+        $log->account_no = $request->account_no;
+       // $log->transaction_id = $request->transaction_id;
+        $log->creator = 'user';
+        $log->created_by = auth()->id();
+        $log->status = 1;
+        if ($log->save()) {
+            return redirect()->route('user.withdraw.history')->with('success', 'Withdraw request submited successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 }

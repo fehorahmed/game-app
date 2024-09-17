@@ -28,11 +28,11 @@
                             <th>Amount</th>
                             <th>Status</th>
                         </tr>
-                        @foreach ($deposits as $deposit)
+                        @foreach ($withdraws as $deposit)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$deposit->method->name??''}}</td>
-                                <td>{{$deposit->deposit_date}}</td>
+                                <td>{{$deposit->withdraw_date}}</td>
                                 <td>{{$deposit->amount}}</td>
                                 <td>
                                     @if ($deposit->status == 1)
