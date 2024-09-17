@@ -3,26 +3,45 @@
 @section('content')
     <!-- about section -->
 
-    <section class="about_section layout_padding">
+    <section style="background: #00204a;color:#ffffff;" class=" layout_padding">
         <div class="container  ">
-            <div class="heading_container heading_center">
-                <h2>
-                    Profile <span>Page</span>
-                </h2>
-
+            @if (session('success'))
+                <p class="alert alert-success">{{session('success')}}</p>
+            @endif
+            <div style="flex-direction: row; " class="row heading_container  d-flex justify-content-between">
+                    <h2>
+                        Profile <span>Page</span>
+                    </h2>
+                    <a href="{{route('user.change_password')}}" class="btn btn-primary">Change Password</a>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-md-6 ">
-                    <div class="img-box">
-                        <img src="{{ asset('frontend') }}/images/about-img.png" alt="">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" readonly value="{{$user->name}}" class="form-control" id="name">
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" readonly value="{{$user->email}}" class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Mobile</label>
+                        <input type="numeric" name="mobile" readonly value="{{$user->mobile}}" class="form-control" id="mobile">
+                    </div>
+                     <div class="form-group">
+                        <label for="mobile">User ID</label>
+                        <input type="numeric" name="user_id" readonly value="{{$user->user_id}}" class="form-control" id="user_id">
+                    </div>
+
                 </div>
                 <div class="col-md-6">
-                    <div class="detail-box">
-                        <h3>
-                            Profile Page
-                        </h3>
-
+                    <div class="form-group">
+                        <label for="photo">Profile Photo</label>
+                        <input type="file" name="photo"  class="form-control" id="photo">
+                        @if ($user->photo)
+                            <img src="{{asset($user->photo)}}" alt="" height="200px" width="200px">
+                        @endif
                     </div>
                 </div>
             </div>

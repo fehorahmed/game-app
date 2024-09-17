@@ -39,4 +39,8 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::post('/user_withdraw_final_submit', [AppUserController::class, 'appUserWithdrawFinalSubmit'])->name('user.withdraw.method.final_submit');
     Route::get('/user_withdraw_history', [AppUserController::class, 'appUserWithdrawHistory'])->name('user.withdraw.history');
 
+
+    Route::get('/user_change_password', [AppUserController::class, 'appUserChangePassword'])->name('user.change_password');
+    Route::post('/user_change_password', [AppUserController::class, 'appUserChangePasswordAction']);
+
 });

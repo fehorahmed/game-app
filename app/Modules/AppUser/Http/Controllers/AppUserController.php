@@ -377,7 +377,9 @@ class AppUserController extends Controller
     public function appUserProfile()
     {
         // dd('profile');
-        return view('frontend.auth.profile');
+        $user = auth()->user();
+        // dd($user);
+        return view('frontend.auth.profile', compact('user'));
     }
     public function appUserDashboard()
     {
@@ -510,7 +512,7 @@ class AppUserController extends Controller
         $log->charge = $charge;
         $log->total = $total;
         $log->account_no = $request->account_no;
-       // $log->transaction_id = $request->transaction_id;
+        // $log->transaction_id = $request->transaction_id;
         $log->creator = 'user';
         $log->created_by = auth()->id();
         $log->status = 1;
@@ -519,5 +521,33 @@ class AppUserController extends Controller
         } else {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
+    }
+
+    public function appUserChangePassword()
+    {
+        return view('frontend.auth.change_password');
+    }
+    public function appUserChangePasswordAction(Request $request)
+    {
+
+        $request->validate([
+            "present_password" => 'required|string',
+            "password" =>  'required|string|confirmed|min:6|max:20',
+        ]);
+       // dd(Auth::user());
+
+        // Check if the current password matches the one stored in the database
+        if (!Hash::check($request->present_password, Auth::user()->password)) {
+            return back()->withErrors(['present_password' => 'Present password does not match']);
+        }
+
+        // Update the user's password
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('user.profile')->with('success', 'Password changed successfully!');
+
+
     }
 }
