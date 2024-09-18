@@ -5,6 +5,7 @@ namespace App\Modules\AppUser\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
+use App\Models\User;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Http\Resources\AppUserReferralRequestResource;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
@@ -547,7 +548,14 @@ class AppUserController extends Controller
         $user->save();
 
         return redirect()->route('user.profile')->with('success', 'Password changed successfully!');
+    }
+
+    public function appUserReferralRequest(){
 
 
+        $r_requests = AppUserReferralRequest::where('requested_app_user_id',auth()->id())->where('status',1)->get();
+        $total_ref= AppUser::where('referral_id', auth()->user()->user_id)->count();
+
+        return view('frontend.referral.request',compact('r_requests','total_ref'));
     }
 }

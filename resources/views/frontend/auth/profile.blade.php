@@ -12,7 +12,11 @@
                     <h2>
                         Profile <span>Page</span>
                     </h2>
-                    <a href="{{route('user.change_password')}}" class="btn btn-primary">Change Password</a>
+                    <div>
+                        <a href="{{route('user.change_password')}}" class="btn btn-primary">Change Password</a>
+                        <a href="{{route('user.referral_request')}}" class="btn btn-warning">Referral Request</a>
+                    </div>
+
             </div>
             <hr>
             <div class="row">
@@ -40,7 +44,7 @@
                         <label for="photo">Profile Photo</label>
                         <input type="file" name="photo"  class="form-control" id="photo">
                         @if ($user->photo)
-                            <img src="{{asset($user->photo)}}" alt="" height="200px" width="200px">
+                            <img src="{{asset('storage/'.$user->photo)}}" alt="" class="mt-2" height="200px" width="200px">
                         @endif
                     </div>
                 </div>
