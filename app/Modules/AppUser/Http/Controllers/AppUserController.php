@@ -535,7 +535,7 @@ class AppUserController extends Controller
             "present_password" => 'required|string',
             "password" =>  'required|string|confirmed|min:6|max:20',
         ]);
-       // dd(Auth::user());
+        // dd(Auth::user());
 
         // Check if the current password matches the one stored in the database
         if (!Hash::check($request->present_password, Auth::user()->password)) {
@@ -550,12 +550,63 @@ class AppUserController extends Controller
         return redirect()->route('user.profile')->with('success', 'Password changed successfully!');
     }
 
-    public function appUserReferralRequest(){
+    public function appUserReferralRequest()
+    {
 
 
-        $r_requests = AppUserReferralRequest::where('requested_app_user_id',auth()->id())->where('status',1)->get();
-        $total_ref= AppUser::where('referral_id', auth()->user()->user_id)->count();
+        $r_requests = AppUserReferralRequest::where('requested_app_user_id', auth()->id())->where('status', 1)->get();
+        $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
 
-        return view('frontend.referral.request',compact('r_requests','total_ref'));
+        return view('frontend.referral.request', compact('r_requests', 'total_ref'));
+    }
+    public function appUserReferralRequestAccept($id)
+    {
+        $r_request = AppUserReferralRequest::where(['requested_app_user_id' => auth()->id(), 'id' => $id])
+            ->where('status', 1)->first();
+        if (!$r_request) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+        $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
+        if ($total_ref >= 5) {
+            return redirect()->back()->with('error', 'You have maximum referral user. You can not added more.');
+        }
+
+        $user = AppUser::find($r_request->app_user_id);
+        $user->referral_id = auth()->user()->user_id;
+        if ($user->update()) {
+            $r_request->type = 'ACCEPT';
+            $r_request->status = 0;
+            $r_request->update();
+        }
+        return redirect()->back()->with('success', 'User added as your referral.');
+    }
+    public function appUserReferralRequestCancel($id)
+    {
+        $r_request = AppUserReferralRequest::where(['requested_app_user_id' => auth()->id(), 'id' => $id])
+            ->where('status', 1)->first();
+        if (!$r_request) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+
+        $r_request->type = 'REJECT';
+        $r_request->status = 0;
+        $r_request->update();
+
+        return redirect()->back()->with('success', 'User referral request canceled.');
+    }
+    public function appUserReferralMemberList()
+    {
+        $users = AppUser::where('referral_id',auth()->user()->user_id)->get();
+
+        return view('frontend.referral.member_list', compact('users'));
+
+    }
+    public function appUserReferralMemberDetail($id)
+    {
+        $user= AppUser::find($id);
+        $users = AppUser::where('referral_id',$user->user_id)->get();
+
+        return view('frontend.referral.member_list', compact('users'));
+
     }
 }

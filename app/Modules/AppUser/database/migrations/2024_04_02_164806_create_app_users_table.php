@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('photo')->nullable();
             $table->string('referral_id')->index()->nullable();
+            $table->unsignedTinyInteger('user_type')->default(1)->comment('1 = user ,  2 = agent');
             $table->boolean('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

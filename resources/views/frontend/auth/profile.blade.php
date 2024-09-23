@@ -15,6 +15,7 @@
                     <div>
                         <a href="{{route('user.change_password')}}" class="btn btn-primary">Change Password</a>
                         <a href="{{route('user.referral_request')}}" class="btn btn-warning">Referral Request</a>
+                        <a href="{{route('user.member_list')}}" class="btn btn-info">Member List</a>
                     </div>
 
             </div>

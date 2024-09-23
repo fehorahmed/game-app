@@ -44,5 +44,9 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::post('/user_change_password', [AppUserController::class, 'appUserChangePasswordAction']);
 
     Route::get('/referral_request', [AppUserController::class, 'appUserReferralRequest'])->name('user.referral_request');
+    Route::get('/referral_request/{id}/accept', [AppUserController::class, 'appUserReferralRequestAccept'])->name('user.referral_request_accept');
+    Route::get('/referral_request/{id}/cancel', [AppUserController::class, 'appUserReferralRequestCancel'])->name('user.referral_request_cancel');
 
+    Route::get('/member_list', [AppUserController::class, 'appUserReferralMemberList'])->name('user.member_list');
+    Route::get('/referral_member/{id}/detail', [AppUserController::class, 'appUserReferralMemberDetail'])->name('user.referral_member_detail');
 });

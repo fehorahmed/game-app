@@ -13,11 +13,11 @@
             @endif
             <div style="flex-direction: row; " class="row heading_container  d-flex justify-content-between">
                     <h2>
-                        Referral <span>Request</span>
+                        Member <span>List</span>
                     </h2>
-                    <div>
+                    {{-- <div>
                         <p>Your total referral : {{$total_ref}}</p>
-                    </div>
+                    </div> --}}
 
             </div>
             <hr>
@@ -29,16 +29,16 @@
                             <th>User ID</th>
                             <th>Action</th>
                         </tr>
-                        @foreach ($r_requests as $item)
+                        @foreach ($users as $item)
                         <tr>
                             <td>
-                                Name : {{$item->appUser->name}} <br>
-                                Email : {{$item->appUser->email}}
+                                Name : {{$item->name}} <br>
+                                Email : {{$item->email}}
                             </td>
-                            <td> {{$item->appUser->user_id}} </td>
+                            <td> {{$item->user_id}} </td>
                             <td>
-                                <a href="{{route('user.referral_request_accept',$item->id)}}" class="btn btn-info btn-sm">Accept</a>
-                                <a href="{{route('user.referral_request_cancel',$item->id)}}" class="btn btn-danger btn-sm">Cancel</a>
+                                <a href="{{route('user.referral_member_detail',$item->id)}}" class="btn btn-info btn-sm">Details</a>
+
                             </td>
                         </tr>
                         @endforeach
