@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            {{-- <div class="col-lg-6">
                                 <div class="mb-3 row">
                                     <label for="example-url-input" class="col-sm-3 col-form-label text-end">URL</label>
                                     <div class="col-sm-9">
@@ -51,7 +51,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
                                     <label for="example-coin-input" class="col-sm-3 col-form-label text-end">Coin</label>
@@ -68,7 +68,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-lg-6">
+                            {{-- <div class="col-lg-6">
                                 <div class="mb-3 row">
                                     <label for="example-coin-input" class="col-sm-3 col-form-label text-end">Time (In
                                         Second)</label>
@@ -84,7 +84,7 @@
 
                                 </div>
 
-                            </div>
+                            </div> --}}
 
                             <div class="col-lg-6">
 
@@ -109,9 +109,36 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>url</th>
+                                        <th>Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="website_name[]" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="url[]" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="time[]" class="form-control">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm">X</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <button class="btn btn-info">Add More</button>
+                                </div>
+                            </div>
 
                             <div class="col-sm-12 text-end">
-                                <button type="submit" class="btn btn-de-primary px-4">Store Website</button>
+                                <button type="submit" class="btn btn-primary px-4">Store Website</button>
                             </div>
                         </div>
                     </form>
@@ -120,6 +147,20 @@
         </div><!--end card-->
     </div> <!-- end col -->
 
-
-    </div> <!-- end row -->
+    <template>
+        <tr>
+            <td>
+                <input type="text" name="website_name[]" class="form-control">
+            </td>
+            <td>
+                <input type="text" name="url[]" class="form-control">
+            </td>
+            <td>
+                <input type="number" name="time[]" class="form-control">
+            </td>
+            <td>
+                <button class="btn btn-danger btn-sm">X</button>
+            </td>
+        </tr>
+    </template>
 @endsection

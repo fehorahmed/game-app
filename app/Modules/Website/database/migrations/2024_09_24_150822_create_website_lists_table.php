@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('websites', function (Blueprint $table) {
+        Schema::create('website_lists', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('coin');
-            $table->boolean('status')->default(1);
+            $table->foreignId('website_id');
+            $table->string('url');
+            $table->unsignedBigInteger('time')->default(0)->comment('Time in second');
+            $table->foreign('website_id')->on('websites')->references('id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('websites');
+        Schema::dropIfExists('website_lists');
     }
 };
