@@ -16,6 +16,8 @@ use App\Modules\AppUserBalance\Models\DepositLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
+use App\Modules\Website\Models\Website;
+use App\Modules\Website\Models\WebsiteVisitLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -596,17 +598,43 @@ class AppUserController extends Controller
     }
     public function appUserReferralMemberList()
     {
-        $users = AppUser::where('referral_id',auth()->user()->user_id)->get();
+        $users = AppUser::where('referral_id', auth()->user()->user_id)->get();
 
         return view('frontend.referral.member_list', compact('users'));
-
     }
     public function appUserReferralMemberDetail($id)
     {
-        $user= AppUser::find($id);
-        $users = AppUser::where('referral_id',$user->user_id)->get();
+        $user = AppUser::find($id);
+        $users = AppUser::where('referral_id', $user->user_id)->get();
 
         return view('frontend.referral.member_list', compact('users'));
+    }
+    public function appUserWebsiteList()
+    {
 
+        $website_visit_logs = WebsiteVisitLog::where(['date'=>now()->format('Y-m-d'),'app_user_id'=>auth()->id()])->pluck('website_id');
+        // dd($website_visit_logs);
+        $websites = Website::where('status',1)->whereNotIn('id',$website_visit_logs)->get();
+
+
+        return view('frontend.website.website_list', compact('websites'));
+    }
+    public function appUserWebsiteVisitCount(Website $website)
+    {
+
+        $website_visit_log = WebsiteVisitLog::where(['date'=>now()->format('Y-m-d'),'app_user_id'=>auth()->id(),'website_id'=>$website->id])
+        ->first();
+        if($website_visit_log){
+
+        }else{
+            $website_visit_log_store = new WebsiteVisitLog();
+            $website_visit_log_store->website_id = $website->id;
+            $website_visit_log_store->app_user_id = auth()->id();
+            $website_visit_log_store->date = now();
+            $website_visit_log_store->coin = $website->coin;
+            $website_visit_log_store->save();
+        }
+
+        return redirect()->route('user.website_list');
     }
 }

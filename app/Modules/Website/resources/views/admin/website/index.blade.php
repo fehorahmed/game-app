@@ -29,8 +29,6 @@
                                 <tr>
                                     <th>#SL</th>
                                     <th>Name</th>
-                                    <th>URL</th>
-                                    <th>Time (In Second)</th>
                                     <th>Coin</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -41,8 +39,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->name ?? '' }}</td>
-                                        <td>{{ $data->url ?? '' }}</td>
-                                        <td>{{ $data->time ?? '' }}</td>
+
                                         <td>{{ $data->coin ?? 0 }}</td>
                                         <td>
                                             @if ($data->status == 1)
@@ -52,7 +49,7 @@
                                             @endif
 
                                         </td>
-                                        <td class="text-end">
+                                        <td class="text-center">
                                             <a href="{{ route('admin.website.edit', $data->id) }}" type="button"
                                                 class="btn btn-primary btn-sm ">Edit</a>
                                         </td>

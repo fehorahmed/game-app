@@ -164,8 +164,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                <div class="col-md-4">
+                    <a href="{{route('user.member_list')}}" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -177,7 +177,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-4 ">
+                <div class="col-md-4">
                     <a href="" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
@@ -204,7 +204,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                    <a href="{{route('user.website_list')}}" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>

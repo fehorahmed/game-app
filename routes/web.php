@@ -24,6 +24,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/{name}/detail', [HomeController::class, 'gameDetail'])->name('home.game.detail');
 
 Route::get('/brawse', [WebsiteController::class, 'brawse'])->name('user.brawse');
+Route::get('/visiting', [WebsiteController::class, 'visiting'])->name('user.visiting');
 
 
 // Route::middleware(['auth:appuser'])->group(function () {

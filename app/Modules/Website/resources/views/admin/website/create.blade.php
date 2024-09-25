@@ -111,29 +111,57 @@
                             </div>
                             <div class="col-md-12">
                                 <table class="table table-striped">
+                                    <thead></thead>
                                     <tr>
                                         <th>Name</th>
                                         <th>url</th>
                                         <th>Time</th>
                                         <th>Action</th>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="text" name="website_name[]" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="text" name="url[]" class="form-control">
-                                        </td>
-                                        <td>
-                                            <input type="number" name="time[]" class="form-control">
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-danger btn-sm">X</button>
-                                        </td>
-                                    </tr>
+                                    <tbody id="product-container">
+                                        @if (old('website_name') != null && sizeof(old('website_name')) > 0)
+                                            @foreach (old('website_name') as $key => $item)
+                                                <tr class="product-item">
+                                                    <td>
+                                                        <input type="text" name="website_name[]" class="form-control {{ $errors->has('website_name.' . $loop->index) ? 'is-invalid' : '' }}"
+                                                            value="{{ old('website_name.' . $key) }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="url[]" class="form-control {{ $errors->has('url.' . $key) ? 'is-invalid' : '' }}"
+                                                            value="{{ old('url.' . $key) }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="time[]" class="form-control {{ $errors->has('time.' . $key) ? 'is-invalid' : '' }}"
+                                                            value="{{ old('time.' . $key) }}">
+                                                    </td>
+                                                    <td>
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm btn-remove">X</button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr class="product-item">
+                                                <td>
+                                                    <input type="text" name="website_name[]" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="url[]" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="time[]" class="form-control">
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm btn-remove">X</button>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+
                                 </table>
                                 <div>
-                                    <button class="btn btn-info">Add More</button>
+                                    <button type="button" id="btn-add-product" class="btn btn-info">Add More</button>
                                 </div>
                             </div>
 
@@ -147,8 +175,8 @@
         </div><!--end card-->
     </div> <!-- end col -->
 
-    <template>
-        <tr>
+    <template id="template-product">
+        <tr class="product-item">
             <td>
                 <input type="text" name="website_name[]" class="form-control">
             </td>
@@ -159,8 +187,48 @@
                 <input type="number" name="time[]" class="form-control">
             </td>
             <td>
-                <button class="btn btn-danger btn-sm">X</button>
+                <button type="button" class="btn btn-danger btn-sm btn-remove">X</button>
             </td>
         </tr>
     </template>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function() {
+            addProduct__delete();
+        });
+
+
+        function addProduct__delete() {
+            $('#btn-add-product').click(function() {
+                let html = $('#template-product').html();
+                let item = $(html);
+                $('#product-container').append(item);
+
+                let defaultSelect = item.find('.default-select');
+
+                if (defaultSelect.length > 0) {
+                    new Selectr(defaultSelect[0]);
+                }
+
+                if ($('.product-item').length >= 1) {
+                    $('.btn-remove').show();
+                }
+
+            });
+            $('body').on('click', '.btn-remove', function() {
+                $(this).closest('.product-item').remove();
+
+                if ($('.product-item').length <= 1) {
+                    $('.btn-remove').hide();
+                }
+            });
+            if ($('.product-item').length <= 1) {
+                $('.btn-remove').hide();
+            } else {
+                $('.btn-remove').show();
+            }
+        }
+    </script>
+@endpush

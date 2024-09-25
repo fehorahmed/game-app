@@ -17,13 +17,13 @@ return new class extends Migration
             $table->foreign('payment_method_id')->on('payment_methods')->references('id');
             $table->foreignId('app_user_id');
             $table->foreign('app_user_id')->on('app_users')->references('id');
-            $table->date('deposit_date');
+            $table->dateTime('deposit_date');
             $table->unsignedFloat('amount',8,2);
             $table->unsignedFloat('charge',8,2);
             $table->unsignedFloat('total',8,2);
             $table->string('transaction_id');
             $table->enum('creator',['user','admin'])->default('user');
-            $table->date('accept_date')->nullable();
+            $table->dateTime('accept_date')->nullable();
             $table->foreignId('accept_by')->nullable();
             $table->foreign('accept_by')->on('users')->references('id');
             $table->foreignId('created_by');

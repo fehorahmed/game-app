@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Website extends Model
 {
     use HasFactory;
+
+
+
+    public function websiteList(){
+        return $this->hasMany(WebsiteList::class,'website_id','id');
+    }
 }

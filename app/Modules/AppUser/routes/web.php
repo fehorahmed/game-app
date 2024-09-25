@@ -49,4 +49,7 @@ Route::middleware(['auth:appuser'])->group(function () {
 
     Route::get('/member_list', [AppUserController::class, 'appUserReferralMemberList'])->name('user.member_list');
     Route::get('/referral_member/{id}/detail', [AppUserController::class, 'appUserReferralMemberDetail'])->name('user.referral_member_detail');
+
+    Route::get('/website_list', [AppUserController::class, 'appUserWebsiteList'])->name('user.website_list');
+    Route::get('/website_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
 });
