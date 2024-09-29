@@ -12,10 +12,11 @@
 
     <section class="about_section layout_padding">
         <div class="container  ">
-            <div class="heading_container heading_center">
+            <div class="heading_container justify-content-between" style="flex-direction: row;">
                 <h2>
                     Deposit <span>Page</span>
                 </h2>
+                <a href="{{route('user.deposit.history')}}" class="btn btn-info">Deposit History</a>
 
             </div>
             <div class="row justify-content-center">

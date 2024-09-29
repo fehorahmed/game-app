@@ -3,64 +3,73 @@
 namespace App\Modules\AppUserBalance\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\AppUserBalance\DataTable\WithdrawLogDataTable;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use Illuminate\Http\Request;
 
 class WithdrawLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function withdrawRequest(WithdrawLogDataTable $dataTable)
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return $dataTable->render("AppUserBalance::withdraw.request");
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function updateWithdrawStatus(Request $request)
     {
-        //
-    }
+        $rules = [
+            'id' => 'required|numeric',
+            'status' => 'required|string'
+        ];
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(WithdrawLog $withdrawLog)
-    {
-        //
-    }
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response([
+                'status' => false,
+                'message' => $validation->errors()->first()
+            ]);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(WithdrawLog $withdrawLog)
-    {
-        //
-    }
+        $data = DepositLog::find($request->id);
+        if ($request->status == 'accept') {
+            $data->status = 2;
+            $data->accept_by = auth()->id();
+            $data->updated_by = auth()->id();
+            $data->accept_date = Carbon::now();
+            if ($data->save()) {
+                $app_user_balance = AppUserBalance::where('app_user_id', $data->app_user_id)->first();
+                if (!$app_user_balance) {
+                    $app_user_balance = new AppUserBalance();
+                    $app_user_balance->app_user_id = $data->app_user_id;
+                    $app_user_balance->balance = $data->amount;
+                    $app_user_balance->save();
+                } else {
+                    $app_user_balance->balance += $data->amount;
+                    $app_user_balance->update();
+                }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, WithdrawLog $withdrawLog)
-    {
-        //
-    }
+                $app_user_b_d = new AppUserBalanceDetail();
+                $app_user_b_d->app_user_balance_id = $app_user_balance->id;
+                $app_user_b_d->source = 'DEPOSIT';
+                $app_user_b_d->balance_type = 'ADD';
+                $app_user_b_d->balance = $data->amount;
+                $app_user_b_d->deposit_log_id = $data->id;
+                $app_user_b_d->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(WithdrawLog $withdrawLog)
-    {
-        //
+                return response([
+                    'status' => true,
+                    'message' => 'Deposit accepted successfully'
+                ]);
+            }
+        }
+        if ($request->status == 'cancel') {
+            $data->status = 0;
+            $data->updated_by = auth()->id();
+            if ($data->save()) {
+                return response([
+                    'status' => true,
+                    'message' => 'Deposit canceled !'
+                ]);
+            }
+        }
     }
 }

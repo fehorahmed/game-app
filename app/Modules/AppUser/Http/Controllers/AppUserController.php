@@ -12,6 +12,8 @@ use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
+use App\Modules\AppUserBalance\Models\AppUserBalance;
+use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\DepositLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
@@ -429,8 +431,14 @@ class AppUserController extends Controller
         $request->validate([
             'method' => 'required|numeric',
             'amount' => 'required|numeric',
-            'transaction_id' => 'required|string|max:255'
+            'transaction_id' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
         ]);
+
+        if (Hash::check($request->password, auth()->user()->password)) {
+        } else {
+            return redirect()->back()->with('error', 'Password is incorrect.');
+        }
 
         $method = PaymentMethod::findOrFail($request->method);
 
@@ -483,8 +491,18 @@ class AppUserController extends Controller
             'transaction_fee' => 'required|numeric'
         ]);
 
+
+        // dd($request->all());
+        if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
+            return redirect()->back()->withInput()->with('error','You do not have enough balance.');
+        }
+
+
+
+
         $method = PaymentMethod::findOrFail($request->method);
         $transaction_fee = ($request->amount / 1000) * $method->transaction_fee;
+        $transaction_fee = 0;
         $data = [
             'method' => $method,
             'amount' => $request->amount,
@@ -504,25 +522,66 @@ class AppUserController extends Controller
         $method = PaymentMethod::findOrFail($request->method);
 
         $amount = $request->amount;
-        $charge =  ($request->amount / 1000) * $method->transaction_fee;
+        // $charge =  ($request->amount / 1000) * $method->transaction_fee;
+        $charge =  0;
         $total = $amount + $charge;
 
-        $log = new WithdrawLog();
-        $log->payment_method_id = $method->id;
-        $log->app_user_id = auth()->id();
-        $log->withdraw_date = now();
-        $log->amount = $amount;
-        $log->charge = $charge;
-        $log->total = $total;
-        $log->account_no = $request->account_no;
-        // $log->transaction_id = $request->transaction_id;
-        $log->creator = 'user';
-        $log->created_by = auth()->id();
-        $log->status = 1;
-        if ($log->save()) {
-            return redirect()->route('user.withdraw.history')->with('success', 'Withdraw request submited successfully.');
-        } else {
-            return redirect()->back()->with('error', 'Something went wrong.');
+
+        $transactionFail = false;
+        DB::beginTransaction();
+
+
+
+        $u_balance = AppUserBalance::where('app_user_id', auth()->id())->first();
+        if (!$u_balance) {
+
+            return redirect()->back()->with('error', 'You dont have enough balance.');
+        }
+
+        try {
+            $log = new WithdrawLog();
+            $log->payment_method_id = $method->id;
+            $log->app_user_id = auth()->id();
+            $log->withdraw_date = now();
+            $log->amount = $amount;
+            $log->charge = $charge;
+            $log->total = $total;
+            $log->account_no = $request->account_no;
+            // $log->transaction_id = $request->transaction_id;
+            $log->creator = 'user';
+            $log->created_by = auth()->id();
+            $log->status = 1;
+            if ($log->save()) {
+                $u_balance->balance -= $amount;
+                if ($u_balance->update()) {
+                    $app_user_balance_detail = new AppUserBalanceDetail();
+                    $app_user_balance_detail->app_user_balance_id =  $u_balance->id;
+                    $app_user_balance_detail->source = 'WITHDRAW';
+                    $app_user_balance_detail->balance_type = 'SUB';
+                    $app_user_balance_detail->balance = $amount;
+                    $app_user_balance_detail->withdraw_log_id = $log->id;
+                    if (!$app_user_balance_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Something went wrong.');
+            } else {
+                DB::commit();
+                return redirect()->route('user.withdraw.history')->with('success', 'Withdraw request submited successfully.');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
@@ -612,9 +671,9 @@ class AppUserController extends Controller
     public function appUserWebsiteList()
     {
 
-        $website_visit_logs = WebsiteVisitLog::where(['date'=>now()->format('Y-m-d'),'app_user_id'=>auth()->id()])->pluck('website_id');
+        $website_visit_logs = WebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id()])->pluck('website_id');
         // dd($website_visit_logs);
-        $websites = Website::where('status',1)->whereNotIn('id',$website_visit_logs)->get();
+        $websites = Website::where('status', 1)->whereNotIn('id', $website_visit_logs)->get();
 
 
         return view('frontend.website.website_list', compact('websites'));
@@ -622,19 +681,65 @@ class AppUserController extends Controller
     public function appUserWebsiteVisitCount(Website $website)
     {
 
-        $website_visit_log = WebsiteVisitLog::where(['date'=>now()->format('Y-m-d'),'app_user_id'=>auth()->id(),'website_id'=>$website->id])
-        ->first();
-        if($website_visit_log){
+        $website_visit_log = WebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id(), 'website_id' => $website->id])
+            ->first();
+        if ($website_visit_log) {
+            $message = 'This website not available for today.';
+        } else {
 
-        }else{
-            $website_visit_log_store = new WebsiteVisitLog();
-            $website_visit_log_store->website_id = $website->id;
-            $website_visit_log_store->app_user_id = auth()->id();
-            $website_visit_log_store->date = now();
-            $website_visit_log_store->coin = $website->coin;
-            $website_visit_log_store->save();
+
+            $transactionFail = false;
+
+            DB::beginTransaction();
+
+            try {
+
+                $website_visit_log_store = new WebsiteVisitLog();
+                $website_visit_log_store->website_id = $website->id;
+                $website_visit_log_store->app_user_id = auth()->id();
+                $website_visit_log_store->date = now();
+                $website_visit_log_store->coin = $website->coin;
+                if ($website_visit_log_store->save()) {
+                    $user_coin = UserCoin::where('app_user_id', auth()->id())->first();
+                    if (!$user_coin) {
+                        $user_coin = new UserCoin();
+                        $user_coin->app_user_id = auth()->id();
+                        $user_coin->coin = $website->coin;
+                    } else {
+                        $user_coin->coin += $website->coin;
+                    }
+                    if ($user_coin->save()) {
+                        $u_c_details = new UserCoinDetail();
+                        $u_c_details->source = 'WEBSITE';
+                        $u_c_details->coin_type = 'ADD';
+                        $u_c_details->user_coin_id = $user_coin->id;
+                        $u_c_details->website_id = $website->id;
+                        $u_c_details->coin = $website->coin;
+                        if (!$u_c_details->save()) {
+                            $transactionFail = true;
+                        }
+                    } else {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+
+
+                if ($transactionFail) {
+                    DB::rollBack();
+
+                    $message = 'Something went wrong.';
+                } else {
+                    DB::commit();
+                    $message = 'Website visit success. Coin added on your account.';
+                }
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                $message = $th->getMessage();
+            }
         }
 
-        return redirect()->route('user.website_list');
+        return redirect()->route('user.website_list')->with('success', $message);
     }
 }

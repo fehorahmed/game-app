@@ -20,10 +20,12 @@ return new class extends Migration
             $table->bigInteger('coin')->default(0);
             $table->foreignId('game_session_detail_id')->nullable();
             $table->foreignId('user_coin_convert_log_id')->nullable();
+            $table->foreignId('website_id')->nullable();
 
             $table->foreignId('creator')->nullable();
             $table->foreign('game_session_detail_id')->on('game_session_details')->references('id');
             $table->foreign('user_coin_convert_log_id')->on('user_coin_convert_logs')->references('id');
+            $table->foreign('website_id')->on('websites')->references('id');
             $table->foreign('creator')->references('id')->on('users');
             $table->timestamps();
         });

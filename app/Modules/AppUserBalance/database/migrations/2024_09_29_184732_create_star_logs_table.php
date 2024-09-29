@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_user_balances', function (Blueprint $table) {
+        Schema::create('star_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('app_user_id')->unique();
+            $table->foreignId('app_user_id');
             $table->foreign('app_user_id')->on('app_users')->references('id');
-            $table->bigInteger('balance')->default(0);
-            $table->unsignedInteger('star')->default(0);
+
+            $table->dateTime('date');
+            $table->unsignedFloat('price',8,2);
+            $table->unsignedFloat('star_amount',8,2);
+
+            $table->enum('creator',['user','admin'])->default('user');
+            $table->foreignId('created_by');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_user_balances');
+        Schema::dropIfExists('star_logs');
     }
 };

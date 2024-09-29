@@ -116,10 +116,39 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="withdraw_limit_start" class="col-sm-3 col-form-label text-end">Withdraw Limit Start</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="number" value="{{ old('withdraw_limit_start', $paymentMethod->withdraw_limit_start) }}"
+                                            name="withdraw_limit_start" id="withdraw_limit_start">
+                                        @error('withdraw_limit_start')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="withdraw_limit_end" class="col-sm-3 col-form-label text-end">Withdraw Limit End</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="number" value="{{ old('withdraw_limit_end', $paymentMethod->withdraw_limit_end) }}"
+                                            name="withdraw_limit_end" id="withdraw_limit_end">
+                                        @error('withdraw_limit_end')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
-                                    <label for="manual_text" class="col-sm-3 col-form-label text-end">Manual Text</label>
+                                    <label for="manual_text" class="col-sm-3 col-form-label text-end">Deposit Manual Text</label>
                                     <div class="col-sm-9">
                                         <textarea name="manual_text" id="manual_text" class="form-control" cols="30" rows="10">{{$paymentMethod->manual_text}}</textarea>
                                         @error('manual_text')

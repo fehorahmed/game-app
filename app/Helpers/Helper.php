@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\GlobalConfig;
+use App\Models\StarConfig;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -42,6 +43,26 @@ class Helper
 
         return $value;
     }
+
+    public static function get_star_config($key, $array = FALSE)
+    {
+
+        $config = StarConfig::where('key', $key)->first();
+        if ($array) {
+            $value = [];
+            if ($config !== NULL) {
+                $value = explode(',', trim($config->value));
+            }
+        } else {
+            $value = NULL;
+            if ($config !== NULL) {
+                $value = trim($config->value);
+            }
+        }
+
+        return $value;
+    }
+
     public static function game_init_coin_exist($user_id)
     {
         $u_coin = UserCoin::where('app_user_id', $user_id)->first();

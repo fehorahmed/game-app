@@ -41,6 +41,8 @@ class PaymentMethodController extends Controller
             'status' => 'required|boolean',
             'limit_start' => 'required|numeric|min:0',
             'limit_end' => 'required|numeric|min:0',
+            'withdraw_limit_start' => 'required|numeric|min:0',
+            'withdraw_limit_end' => 'required|numeric|min:0',
             'manual_text' => 'required|string|max:65000',
         ]);
 
@@ -51,6 +53,8 @@ class PaymentMethodController extends Controller
         $data->transaction_fee = $request->transaction_fee;
         $data->limit_start = $request->limit_start;
         $data->limit_end = $request->limit_end;
+        $data->withdraw_limit_start = $request->withdraw_limit_start;
+        $data->withdraw_limit_end = $request->withdraw_limit_end;
         $data->manual_text = $request->manual_text;
         $data->status = $request->status;
         if ($request->logo) {
@@ -96,6 +100,8 @@ class PaymentMethodController extends Controller
             'status' => 'required|boolean',
             'limit_start' => 'required|numeric|min:0',
             'limit_end' => 'required|numeric|min:0',
+            'withdraw_limit_start' => 'required|numeric|min:0',
+            'withdraw_limit_end' => 'required|numeric|min:0',
             'manual_text' => 'required|string|max:65000',
         ]);
         //dd($request->all());
@@ -106,6 +112,8 @@ class PaymentMethodController extends Controller
         $paymentMethod->transaction_fee = $request->transaction_fee;
         $paymentMethod->limit_start = $request->limit_start;
         $paymentMethod->limit_end = $request->limit_end;
+        $paymentMethod->withdraw_limit_start = $request->withdraw_limit_start;
+        $paymentMethod->withdraw_limit_end = $request->withdraw_limit_end;
         $paymentMethod->manual_text = $request->manual_text;
         $paymentMethod->status = $request->status;
         if ($request->logo) {

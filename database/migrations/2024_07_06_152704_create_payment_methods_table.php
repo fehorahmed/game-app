@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('account_no');
             $table->string('account_type')->nullable();
             $table->text('manual_text')->nullable();
-            $table->unsignedInteger('limit_start')->default(0);
-            $table->unsignedInteger('limit_end')->default(1000);
+            $table->unsignedInteger('limit_start')->default(0)->comment('deposit limit');
+            $table->unsignedInteger('limit_end')->default(1000)->comment('deposit limit');
+            $table->unsignedInteger('withdraw_limit_start')->default(0)->comment('withdraw limit');
+            $table->unsignedInteger('withdraw_limit_end')->default(1000)->comment('withdraw limit');
             $table->unsignedInteger('transaction_fee')->comment('Proti Hazar a');
             $table->string('logo')->nullable();
             $table->boolean('status')->default(1)->comment('1=active, 0=inactive');

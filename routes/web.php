@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSlideController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StarConfigController;
 use App\Modules\Website\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,8 +43,12 @@ Route::middleware('auth', 'verified')->group(function () {
             ->name('dashboard');
 
         Route::get('/index', [AdminController::class, 'index'])->name('admin.index');
+        //Global Config
         Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('global.config');
         Route::post('/global-config', [GlobalConfigController::class, 'store'])->name('global.config-store');
+        //Star Config
+        Route::get('/star-config', [StarConfigController::class, 'index'])->name('star.config');
+        Route::post('/star-config', [StarConfigController::class, 'store'])->name('star.config-store');
 
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

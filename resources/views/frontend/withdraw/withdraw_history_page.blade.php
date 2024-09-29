@@ -14,7 +14,7 @@
         <div class="container  ">
             <div class="heading_container heading_center">
                 <h2>
-                    Deposit <span>Page</span>
+                    Withdraw <span>Page</span>
                 </h2>
 
             </div>

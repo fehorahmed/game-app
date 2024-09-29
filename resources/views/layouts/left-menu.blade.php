@@ -192,7 +192,7 @@
                                     <a class="nav-link" href="{{route('app_user.deposit.request')}}">Deposit Request</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="projects-team.html">Withdraw Request</a>
+                                    <a class="nav-link" href="{{route('app_user.withdraw.request')}}">Withdraw Request</a>
                                 </li><!--end nav-item-->
 
                             </ul><!--end nav-->
@@ -466,6 +466,9 @@
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('global.config') }}">Global Config</a>
+                                </li><!--end nav-item-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('star.config') }}">Star Config</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('config.payment-method.index') }}">Payment

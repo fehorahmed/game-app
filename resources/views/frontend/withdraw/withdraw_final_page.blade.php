@@ -11,7 +11,8 @@
     <!-- about section -->
 
     <section class="about_section layout_padding">
-        <div class="container  ">
+        <div class="container">
+            @include('frontend.layouts.message')
             <div class="heading_container heading_center">
                 <h2>
                     Deposit <span>Page</span>

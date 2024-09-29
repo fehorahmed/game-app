@@ -11,11 +11,13 @@
     <!-- about section -->
 
     <section class="about_section layout_padding">
-        <div class="container  ">
-            <div class="heading_container heading_center">
+        <div class="container">
+            @include('frontend.layouts.message')
+            <div class="heading_container justify-content-between" style="flex-direction: row;">
                 <h2>
                     Withdraw <span>Page</span>
                 </h2>
+                <a href="{{route('user.withdraw.history')}}" class="btn btn-info">Withdraw History</a>
 
             </div>
             <div class="row justify-content-center">
@@ -29,7 +31,7 @@
                                     <option value="">Select One</option>
                                     @foreach ($methods as $method)
                                         <option {{ old('method') == $method->id ? 'selected' : '' }}
-                                            value="{{ $method->id }}" data-charge="{{ $method->transaction_fee ?? 0 }}" data-limit-start="{{ $method->limit_start ?? 0 }}" data-limit-end="{{ $method->limit_end ?? 0 }}">
+                                            value="{{ $method->id }}" data-charge="{{ 0 }}" data-limit-start="{{ $method->withdraw_limit_start ?? 0 }}" data-limit-end="{{ $method->withdraw_limit_end ?? 0 }}">
                                             {{ $method->name }} {{ $method->account_type}}</option>
                                     @endforeach
                                 </select>
@@ -39,15 +41,15 @@
 
                                 <input type="hidden" name="transaction_fee" id="transaction_fee">
                                 <label for="" class="mt-3">Amount <span class="text-danger">*</span></label>
-                                <input type="number" name="amount" class="form-control" id="amount">
+                                <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount">
                                 @error('amount')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
                                 <br>
                                 <div id="details-area" class="hidden">
                                     <p class="d-flex justify-content-between"><span>Limit</span> <span> <span id="limit-start">0.00 BDT</span> - <span id="limit-end">0.00 BDT</span></span></p>
-                                    <hr class="mt-0 mb-0">
-                                    <p class="d-flex justify-content-between"><span>Charge</span> <span id="total-charge">0.00 BDT</span></p>
+                                    {{-- <hr class="mt-0 mb-0">
+                                    <p class="d-flex justify-content-between"><span>Charge</span> <span id="total-charge">0.00 BDT</span></p> --}}
                                     <hr class="mt-0 mb-0">
                                     <p class="d-flex justify-content-between"><span>Payable</span> <span id="total-payable">0.00 BDT</span>
                                     </p>
@@ -100,8 +102,7 @@
                 $('#total-payable').html(payable.toFixed(2) + ' BDT')
 
             })
-            $('#amount').trigger('keyup')
-
+            $('#method').trigger('change')
         })
     </script>
 @endpush
