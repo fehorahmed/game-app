@@ -62,6 +62,36 @@ class Helper
 
         return $value;
     }
+    public static function get_star_price($count)
+    {
+        if ($count > 0) {
+            if ($count == 1) {
+                $value = self::get_star_config('one_star_price');
+            } elseif ($count == 2) {
+                $value = self::get_star_config('two_star_price');
+            } elseif ($count == 3) {
+                $value = self::get_star_config('three_star_price');
+            } elseif ($count == 4) {
+                $value = self::get_star_config('four_star_price');
+            } elseif ($count == 5) {
+                $value = self::get_star_config('five_star_price');
+            } elseif ($count == 6) {
+                $value = self::get_star_config('six_star_price');
+            } elseif ($count == 7) {
+                $value = self::get_star_config('seven_star_price');
+            } elseif ($count == 8) {
+                $value = self::get_star_config('eight_star_price');
+            } elseif ($count == 9) {
+                $value = self::get_star_config('nine_star_price');
+            } else {
+                $value = self::get_star_config('ten_star_price');
+            }
+        } else {
+            $value = 0;
+        }
+
+        return $value;
+    }
 
     public static function game_init_coin_exist($user_id)
     {

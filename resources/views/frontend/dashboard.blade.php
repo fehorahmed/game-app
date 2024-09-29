@@ -36,10 +36,12 @@
 
     <section class="about_section layout_padding">
         <div class="container  ">
-            <div class="heading_container heading_center">
+            <div class="heading_container justify-content-between" style="flex-direction: row;">
                 <h2>
                     Dashboard <span>Page</span>
                 </h2>
+                <button class="btn btn-info" id="buy_star"
+                    data-star="{{ \App\Helpers\Helper::get_star_price(auth()->user()->balance->star + 1) }}">Buy Star</button>
 
             </div>
             <div class="row">
@@ -77,6 +79,22 @@
                     </div>
                 </div>
                 <div class="col-md-4 ">
+                    <div class="box">
+
+                        <div class="detail-box">
+                            <h5 class="font-weight-bold">
+                                Total Star
+                            </h5>
+                            <p>
+                                {{ auth()->user()->balance->star ?? 0 }}
+                            </p>
+                            {{-- <a href="">
+                                Read More
+                            </a> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
                     <div class="box ">
 
                         <div class="detail-box">
@@ -84,7 +102,7 @@
                                 Total Diposit
                             </h5>
                             <p>
-                                {{auth()->user()->deposit->sum('amount')}} tk
+                                {{ auth()->user()->deposit->sum('amount') }} tk
                             </p>
                             {{-- <a href="">
                                 Read More
@@ -113,7 +131,7 @@
             <hr class="bg-light">
             <div class="row">
                 <div class="col-md-4 ">
-                    <a href="{{route('user.deposit')}}" >
+                    <a href="{{ route('user.deposit') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -126,7 +144,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.withdraw')}}">
+                    <a href="{{ route('user.withdraw') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -165,7 +183,7 @@
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="{{route('user.member_list')}}" target="_blank">
+                    <a href="{{ route('user.member_list') }}" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -204,7 +222,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.website_list')}}" target="_blank">
+                    <a href="{{ route('user.website_list') }}" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -238,3 +256,58 @@
 
     <!-- end about section -->
 @endsection
+
+@push('script')
+    <script>
+        $(function() {
+
+            $(document).on('click', '#buy_star', function() {
+                var id = $(this).data('id');
+                var star = $(this).data('star');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "It will cost "+star+" taka. You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, do it!',
+                    cancelButtonText: 'No, cancel!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('user.star.buy') }}', // Your Laravel route
+                            type: 'GET',
+                            success: function(response) {
+                                if (response.status) {
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        // Reload the page after the SweetAlert confirmation
+                                        location
+                                            .reload(); // This will reload the page
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: response.message,
+                                        icon: 'error',
+                                    });
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                // Show error message if something goes wrong
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: 'Something went wrong.',
+                                    icon: 'error',
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        })
+    </script>
+@endpush

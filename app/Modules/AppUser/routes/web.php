@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\AppUser\Http\Controllers\AppUserController;
+use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('app-user', 'AppUserController@welcome');
@@ -52,4 +53,7 @@ Route::middleware(['auth:appuser'])->group(function () {
 
     Route::get('/website_list', [AppUserController::class, 'appUserWebsiteList'])->name('user.website_list');
     Route::get('/website_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
+
+
+    Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
 });
