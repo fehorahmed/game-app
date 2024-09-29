@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSlideController;
@@ -37,11 +38,7 @@ Route::get('/visiting', [WebsiteController::class, 'visiting'])->name('user.visi
 Route::middleware('auth', 'verified')->group(function () {
     Route::prefix('admin')->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->middleware(['auth', 'verified'])
-            ->name('dashboard');
-
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/index', [AdminController::class, 'index'])->name('admin.index');
         //Global Config
         Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('global.config');

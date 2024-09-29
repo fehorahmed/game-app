@@ -39,6 +39,11 @@
                                 @error('account_no')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
+                                <label for="password" class="mt-2">Password <span class="text-danger">*</span></label>
+                                <input type="password" name="password" class="form-control" id="password">
+                                @error('password')
+                                    <p class="text-warning">{{ $message }}</p>
+                                @enderror
                                 <br>
 
                                 <div style="display: grid;">

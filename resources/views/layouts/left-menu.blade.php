@@ -35,7 +35,7 @@
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
 
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Pages"
+                {{-- <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Pages"
                     data-bs-trigger="hover">
                     <a href="#MetricaPages" id="pages-tab" class="nav-link">
                         <i class="ti ti-files menu-icon"></i>
@@ -47,7 +47,7 @@
                     <a href="#MetricaAuthentication" id="authentication-tab" class="nav-link">
                         <i class="ti ti-shield-lock menu-icon"></i>
                     </a><!--end nav-link-->
-                </li><!--end nav-item-->
+                </li><!--end nav-item--> --}}
             </ul><!--end nav-->
         </div><!--end /div-->
     </div><!--end main-icon-menu-body-->

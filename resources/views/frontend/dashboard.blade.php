@@ -41,7 +41,7 @@
                     Dashboard <span>Page</span>
                 </h2>
                 <button class="btn btn-info" id="buy_star"
-                    data-star="{{ \App\Helpers\Helper::get_star_price(auth()->user()->balance->star + 1) }}">Buy Star</button>
+                    data-star="{{ \App\Helpers\Helper::get_star_price((auth()->user()->balance->star??0) + 1) }}">Buy Star</button>
 
             </div>
             <div class="row">

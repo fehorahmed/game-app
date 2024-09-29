@@ -525,8 +525,14 @@ class AppUserController extends Controller
         $request->validate([
             'method' => 'required|numeric',
             'amount' => 'required|numeric',
-            'account_no' => 'required|string|max:255'
+            'account_no' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
         ]);
+
+        if (Hash::check($request->password, auth()->user()->password)) {
+        } else {
+            return redirect()->back()->with('error', 'Password is incorrect.');
+        }
 
         $method = PaymentMethod::findOrFail($request->method);
 
