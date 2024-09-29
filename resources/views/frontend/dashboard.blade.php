@@ -118,7 +118,7 @@
                                 Total Withdraw
                             </h5>
                             <p>
-                                120 tk
+                                {{ auth()->user()->withdraw->sum('amount') }} tk
                             </p>
                             {{-- <a href="">
                                 Read More

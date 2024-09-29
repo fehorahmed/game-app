@@ -494,10 +494,19 @@ class AppUserController extends Controller
 
         // dd($request->all());
         if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
-            return redirect()->back()->withInput()->with('error','You do not have enough balance.');
+            return redirect()->back()->withInput()->with('error', 'You do not have enough balance.');
         }
 
+        if (!isset(auth()->user()->balance->star) || (auth()->user()->balance->star < 1)) {
+            return redirect()->back()->withInput()->with('error', 'You do not have enough star for withdraw. Please buy star first.');
+        }
 
+        $withdraw_limit = Helper::get_star_withdraw_limit(auth()->user()->balance->star);
+
+        $total_withdraw = auth()->user()->withdraw->sum('amount');
+        if ($withdraw_limit < ($total_withdraw + $request->amount)) {
+            return redirect()->back()->withInput()->with('error', "Your withdraw limit is {$withdraw_limit}. Please buy star for increment withdraw limit.");
+        }
 
 
         $method = PaymentMethod::findOrFail($request->method);

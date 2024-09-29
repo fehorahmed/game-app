@@ -92,6 +92,38 @@ class Helper
 
         return $value;
     }
+    public static function get_star_withdraw_limit($count)
+    {
+        if ($count > 0) {
+            if ($count == 0) {
+                $value = self::get_star_config('zero_start_withdraw');
+            } elseif ($count == 1) {
+                $value = self::get_star_config('one_star_withdraw');
+            } elseif ($count == 2) {
+                $value = self::get_star_config('two_star_withdraw');
+            } elseif ($count == 3) {
+                $value = self::get_star_config('three_star_withdraw');
+            } elseif ($count == 4) {
+                $value = self::get_star_config('four_star_withdraw');
+            } elseif ($count == 5) {
+                $value = self::get_star_config('five_star_withdraw');
+            } elseif ($count == 6) {
+                $value = self::get_star_config('six_star_withdraw');
+            } elseif ($count == 7) {
+                $value = self::get_star_config('seven_star_withdraw');
+            } elseif ($count == 8) {
+                $value = self::get_star_config('eight_star_withdraw');
+            } elseif ($count == 9) {
+                $value = self::get_star_config('nine_star_withdraw');
+            } else {
+                $value = 20000;
+            }
+        } else {
+            $value = 0;
+        }
+
+        return $value;
+    }
 
     public static function game_init_coin_exist($user_id)
     {

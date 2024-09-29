@@ -32,7 +32,7 @@
             $(document).on('click', '.btn-accept', function() {
                 var id = $(this).data('id');
                 Swal.fire({
-                    title: 'Are you sure?',
+                    title: 'Are you sure to Accept?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -42,7 +42,7 @@
                     if (result.isConfirmed) {
 
                         $.ajax({
-                            url: '{{ route('app_user.update.deposit.status') }}', // Your Laravel route
+                            url: '{{ route('app_user.update.withdraw.status') }}', // Your Laravel route
                             type: 'GET',
                             data: {
                                 id: id,
@@ -86,7 +86,7 @@
             $(document).on('click', '.btn-cancel', function() {
                 var id = $(this).data('id');
                 Swal.fire({
-                    title: 'Are you sure?',
+                    title: 'Are you sure to Cancel?',
                     text: "You won't be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -96,7 +96,7 @@
                     if (result.isConfirmed) {
 
                         $.ajax({
-                            url: '{{ route('app_user.update.deposit.status') }}', // Your Laravel route
+                            url: '{{ route('app_user.update.withdraw.status') }}', // Your Laravel route
                             type: 'GET',
                             data: {
                                 id: id,

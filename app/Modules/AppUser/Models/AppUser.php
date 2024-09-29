@@ -4,6 +4,7 @@ namespace App\Modules\AppUser\Models;
 
 use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\AppUserBalance\Models\DepositLog;
+use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,5 +66,9 @@ class AppUser extends Authenticatable
     public function deposit()
     {
         return $this->hasMany(DepositLog::class, 'app_user_id')->where('status',2);
+    }
+    public function withdraw()
+    {
+        return $this->hasMany(WithdrawLog::class, 'app_user_id')->where('status',2);
     }
 }
