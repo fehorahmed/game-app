@@ -41,6 +41,10 @@ return new class extends Migration
             'name' => 'DOTANDBLOCK',
             'creator' => 1
         ]);
+        DB::table('games')->insert([
+            'name' => 'CHESS',
+            'creator' => 1
+        ]);
     }
 
     /**
