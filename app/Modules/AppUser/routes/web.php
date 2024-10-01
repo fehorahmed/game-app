@@ -1,7 +1,9 @@
 <?php
 
 use App\Modules\AppUser\Http\Controllers\AppUserController;
+use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
+use App\Modules\CoinManagement\Http\Controllers\UserCoinConvertLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('app-user', 'AppUserController@welcome');
@@ -56,4 +58,12 @@ Route::middleware(['auth:appuser'])->group(function () {
 
 
     Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
+
+
+    Route::get('/transfer_type', [AppUserController::class, 'appUserTransferType'])->name('user.transfer_type');
+    Route::get('/balance_transfer', [AppUserBalanceController::class, 'appUserBalanceTransfer'])->name('user.balance_transfer');
+    Route::post('/balance_transfer_store', [AppUserBalanceController::class, 'appUserBalanceTransferStore'])->name('user.balance_transfer_store');
+    Route::get('/balance_transfer_history', [AppUserBalanceController::class, 'appUserBalanceTransferHistory'])->name('user.balance_transfer.history');
+
+    Route::get('/coin_transfer', [UserCoinConvertLogController::class, 'appUserCoinTransfer'])->name('user.coin_transfer');
 });

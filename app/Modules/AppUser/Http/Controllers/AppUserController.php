@@ -757,4 +757,9 @@ class AppUserController extends Controller
 
         return redirect()->route('user.website_list')->with('success', $message);
     }
+
+    public function appUserTransferType(){
+
+        return view('frontend.transfer.transfer_type');
+    }
 }
