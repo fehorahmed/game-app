@@ -12,6 +12,7 @@
 
     <section class="about_section layout_padding">
         <div class="container  ">
+            @include('frontend.layouts.message')
             <div class="heading_container heading_center">
                 <h2>
                     Balance <span>Transfer History</span>
@@ -23,28 +24,22 @@
                     <table class="table table-dark">
                         <tr>
                             <th>SL</th>
-                            <th>Method</th>
+                            <th>User</th>
                             <th>Date</th>
                             <th>Amount</th>
-                            <th>Status</th>
+
                         </tr>
-                        @foreach ($transfers as $deposit)
+                        @foreach ($transfers as $item)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$deposit->method->name??''}}</td>
-                                <td>{{$deposit->deposit_date}}</td>
-                                <td>{{$deposit->amount}}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    @if ($deposit->status == 1)
-                                        <button class="btn btn-info btn-sm">Pending</button>
-                                    @endif
-                                    @if ($deposit->status == 2)
-                                        <button class="btn btn-success btn-sm">Approved</button>
-                                    @endif
-                                    @if ($deposit->status == 0)
-                                        <button class="btn btn-danger btn-sm">Cancel</button>
-                                    @endif
+                                    Name : {{ $item->receivedUser->name }} <br>
+                                    User ID : {{ $item->receivedUser->user_id }}
                                 </td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ number_format($item->balance, 2) }} tk</td>
+
+
                             </tr>
                         @endforeach
                     </table>

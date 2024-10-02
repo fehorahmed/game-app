@@ -12,6 +12,7 @@
 
     <section class="about_section layout_padding">
         <div class="container  ">
+            @include('frontend.layouts.message')
             <div class="heading_container justify-content-between" style="flex-direction: row;">
                 <h2>
                     Balance <span>Transfer</span>
@@ -28,29 +29,26 @@
                             <div class="card-body payment-body">
                                 <h3 class="text-center">Current Balance : {{ auth()->user()->balance->balance ?? 0 }} tk</h3>
 
-                                <label for="" class="mt-3">Amount <span class="text-danger">*</span></label>
-                                <input type="number" name="amount" class="form-control" id="amount">
+                                <label for="amount" class="mt-3">Amount <span class="text-danger">*</span></label>
+                                <input type="number" name="amount" class="form-control" id="amount" value="{{old('amount')}}">
                                 @error('amount')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
 
-                                <label for="" class="">User ID <span class="text-danger">*</span></label>
-                                <input type="number" name="user_id" class="form-control" id="user_id">
+                                <label for="user_id" class="">User ID <span class="text-danger">*</span></label>
+                                <input type="number" name="user_id" class="form-control" id="user_id" value="{{old('user_id')}}">
 
                                 @error('user_id')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
 
-                                <label for="" class="">Password <span class="text-danger">*</span></label>
+                                <label for="password" class="">Password <span class="text-danger">*</span></label>
                                 <input type="password" name="password" class="form-control" id="password">
 
                                 @error('password')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
-
-
                                 <br>
-
                                 <div style="display: grid;">
                                     <button class="btn btn-success ">Submit Transfer</button>
                                 </div>
