@@ -15,11 +15,11 @@ class StarLogController extends Controller
 
     public function userStarBuy()
     {
-        $star = auth()->user()->balance->star ?? 0;
+        $star = auth()->user()->balance->star;
 
         $amount = Helper::get_star_price($star + 1);
 
-        if (auth()->user()->balance < $amount) {
+        if (auth()->user()->balance->balance < $amount) {
             return response([
                 'status' => false,
                 'message' => 'You do not have enough balance.'
