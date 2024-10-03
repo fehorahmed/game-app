@@ -53,6 +53,18 @@ class StarConfigController extends Controller
             "nine_star_price" => 'required|numeric',
             "ten_star_price" => 'required|numeric',
 
+            "zero_start_coin_transfer" => 'required|numeric',
+            "one_star_coin_transfer" => 'required|numeric',
+            "two_star_coin_transfer" => 'required|numeric',
+            "three_star_coin_transfer" => 'required|numeric',
+            "four_star_coin_transfer" => 'required|numeric',
+            "five_star_coin_transfer" => 'required|numeric',
+            "six_star_coin_transfer" => 'required|numeric',
+            "seven_star_coin_transfer" => 'required|numeric',
+            "eight_star_coin_transfer" => 'required|numeric',
+            "nine_star_coin_transfer" => 'required|numeric',
+            "ten_star_coin_transfer" => 'required|numeric',
+
         ]);
 
         $request->request->remove('_token');

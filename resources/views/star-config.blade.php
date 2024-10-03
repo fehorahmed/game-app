@@ -25,7 +25,7 @@
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h4 class="card-title">Withdraw Limit Configuration</h4>
+                                        <h4 class="card-title">Withdraw or Transfer Limit Configuration  (Taka)</h4>
                                     </div>
                                     <div class="col-auto">
                                         <!-- <button wire:click="list" class="btn btn-primary">@lang('common.btn.list')</button> -->
@@ -37,7 +37,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('zero_start_withdraw') ?? '';
                                 @endphp
-                                <label for="zero_start_withdraw" class="mb-2">Zero Star Withdraw</label>
+                                <label for="zero_start_withdraw" class="mb-2">Zero Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="zero_start_withdraw"
                                         class="form-control @error('zero_start_withdraw') is-invalid @enderror"
@@ -50,7 +50,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('one_star_withdraw') ?? '';
                                 @endphp
-                                <label for="one_star_withdraw" class="mb-2">One Star Withdraw</label>
+                                <label for="one_star_withdraw" class="mb-2">One Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="one_star_withdraw"
                                         class="form-control @error('one_star_withdraw') is-invalid @enderror"
@@ -63,7 +63,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('two_star_withdraw') ?? '';
                                 @endphp
-                                <label for="two_star_withdraw" class="mb-2">Two Star Withdraw</label>
+                                <label for="two_star_withdraw" class="mb-2">Two Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="two_star_withdraw"
                                         class="form-control @error('two_star_withdraw') is-invalid @enderror"
@@ -76,7 +76,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('three_star_withdraw') ?? '';
                                 @endphp
-                                <label for="three_star_withdraw" class="mb-2">Three Star Withdraw</label>
+                                <label for="three_star_withdraw" class="mb-2">Three Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="three_star_withdraw"
                                         class="form-control @error('three_star_withdraw') is-invalid @enderror"
@@ -89,7 +89,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('four_star_withdraw') ?? '';
                                 @endphp
-                                <label for="four_star_withdraw" class="mb-2">Four Star Withdraw</label>
+                                <label for="four_star_withdraw" class="mb-2">Four Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="four_star_withdraw"
                                         class="form-control @error('four_star_withdraw') is-invalid @enderror"
@@ -102,7 +102,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('five_star_withdraw') ?? '';
                                 @endphp
-                                <label for="five_star_withdraw" class="mb-2">Five Star Withdraw</label>
+                                <label for="five_star_withdraw" class="mb-2">Five Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="five_star_withdraw"
                                         class="form-control @error('five_star_withdraw') is-invalid @enderror"
@@ -115,7 +115,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('six_star_withdraw') ?? '';
                                 @endphp
-                                <label for="six_star_withdraw" class="mb-2">Six Star Withdraw</label>
+                                <label for="six_star_withdraw" class="mb-2">Six Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="six_star_withdraw"
                                         class="form-control @error('six_star_withdraw') is-invalid @enderror"
@@ -128,7 +128,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('seven_star_withdraw') ?? '';
                                 @endphp
-                                <label for="seven_star_withdraw" class="mb-2">Seven Star Withdraw</label>
+                                <label for="seven_star_withdraw" class="mb-2">Seven Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="seven_star_withdraw"
                                         class="form-control @error('seven_star_withdraw') is-invalid @enderror"
@@ -141,7 +141,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('eight_star_withdraw') ?? '';
                                 @endphp
-                                <label for="eight_star_withdraw" class="mb-2">Eight Star Withdraw</label>
+                                <label for="eight_star_withdraw" class="mb-2">Eight Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="eight_star_withdraw"
                                         class="form-control @error('eight_star_withdraw') is-invalid @enderror"
@@ -154,7 +154,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('nine_star_withdraw') ?? '';
                                 @endphp
-                                <label for="nine_star_withdraw" class="mb-2">Nine Star Withdraw</label>
+                                <label for="nine_star_withdraw" class="mb-2">Nine Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="nine_star_withdraw"
                                         class="form-control @error('nine_star_withdraw') is-invalid @enderror"
@@ -167,7 +167,7 @@
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('ten_star_withdraw') ?? '';
                                 @endphp
-                                <label for="ten_star_withdraw" class="mb-2">Ten Star Withdraw</label>
+                                <label for="ten_star_withdraw" class="mb-2">Ten Star Withdraw / Transfer</label>
                                 <div class="input-group mb-3">
                                     <input type="text" id="ten_star_withdraw"
                                         class="form-control @error('ten_star_withdraw') is-invalid @enderror"
@@ -187,7 +187,7 @@
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h4 class="card-title">Star Price</h4>
+                                        <h4 class="card-title">Star Price (Taka)</h4>
                                     </div>
                                     <div class="col-auto">
                                         <!-- <button wire:click="list" class="btn btn-primary">@lang('common.btn.list')</button> -->
@@ -338,6 +338,168 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Coin Transfer Limit Configuration </h4>
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- <button wire:click="list" class="btn btn-primary">@lang('common.btn.list')</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('zero_start_coin_transfer') ?? '';
+                                @endphp
+                                <label for="zero_start_coin_transfer" class="mb-2">Zero Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="zero_start_coin_transfer"
+                                        class="form-control @error('zero_start_coin_transfer') is-invalid @enderror"
+                                        name="zero_start_coin_transfer" value="{{ $data }}">
+                                    @error('zero_start_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('one_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="one_star_coin_transfer" class="mb-2">One Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="one_star_coin_transfer"
+                                        class="form-control @error('one_star_coin_transfer') is-invalid @enderror"
+                                        name="one_star_coin_transfer" value="{{ $data }}">
+                                    @error('one_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('two_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="two_star_coin_transfer" class="mb-2">Two Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="two_star_coin_transfer"
+                                        class="form-control @error('two_star_coin_transfer') is-invalid @enderror"
+                                        name="two_star_coin_transfer" value="{{ $data }}">
+                                    @error('two_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('three_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="three_star_coin_transfer" class="mb-2">Three Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="three_star_coin_transfer"
+                                        class="form-control @error('three_star_coin_transfer') is-invalid @enderror"
+                                        name="three_star_coin_transfer" value="{{ $data }}">
+                                    @error('three_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('four_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="four_star_coin_transfer" class="mb-2">Four Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="four_star_coin_transfer"
+                                        class="form-control @error('four_star_coin_transfer') is-invalid @enderror"
+                                        name="four_star_coin_transfer" value="{{ $data }}">
+                                    @error('four_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('five_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="five_star_coin_transfer" class="mb-2">Five Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="five_star_coin_transfer"
+                                        class="form-control @error('five_star_coin_transfer') is-invalid @enderror"
+                                        name="five_star_coin_transfer" value="{{ $data }}">
+                                    @error('five_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('six_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="six_star_coin_transfer" class="mb-2">Six Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="six_star_coin_transfer"
+                                        class="form-control @error('six_star_coin_transfer') is-invalid @enderror"
+                                        name="six_star_coin_transfer" value="{{ $data }}">
+                                    @error('six_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('seven_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="seven_star_coin_transfer" class="mb-2">Seven Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="seven_star_coin_transfer"
+                                        class="form-control @error('seven_star_coin_transfer') is-invalid @enderror"
+                                        name="seven_star_coin_transfer" value="{{ $data }}">
+                                    @error('seven_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('eight_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="eight_star_coin_transfer" class="mb-2">Eight Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="eight_star_coin_transfer"
+                                        class="form-control @error('eight_star_coin_transfer') is-invalid @enderror"
+                                        name="eight_star_coin_transfer" value="{{ $data }}">
+                                    @error('eight_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('nine_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="nine_star_coin_transfer" class="mb-2">Nine Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="nine_star_coin_transfer"
+                                        class="form-control @error('nine_star_coin_transfer') is-invalid @enderror"
+                                        name="nine_star_coin_transfer" value="{{ $data }}">
+                                    @error('nine_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('ten_star_coin_transfer') ?? '';
+                                @endphp
+                                <label for="ten_star_coin_transfer" class="mb-2">Ten Star Coin Transfer</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="ten_star_coin_transfer"
+                                        class="form-control @error('ten_star_coin_transfer') is-invalid @enderror"
+                                        name="ten_star_coin_transfer" value="{{ $data }}">
+                                    @error('ten_star_coin_transfer')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
