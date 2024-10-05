@@ -170,7 +170,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                    <a href="{{route('user.income')}}" target="_blank">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>

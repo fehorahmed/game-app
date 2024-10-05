@@ -67,4 +67,6 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/coin_transfer', [AppUserBalanceController::class, 'appUserCoinTransfer'])->name('user.coin_transfer');
     Route::post('/coin_transfer_store', [AppUserBalanceController::class, 'appUserCoinTransferStore'])->name('user.coin_transfer_store');
     Route::get('/coin_transfer_history', [AppUserBalanceController::class, 'appUserCoinTransferHistory'])->name('user.coin_transfer.history');
+
+    Route::get('/your_income', [AppUserController::class, 'appUserIncome'])->name('user.income');
 });

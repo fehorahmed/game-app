@@ -196,19 +196,19 @@
                             </div>
                             <div class="card-body">
 
-                                {{-- @php
-                                    $data = \App\Helpers\Helper::get_star_config('zero_start_withdraw') ?? '';
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('zero_start_price') ?? '';
                                 @endphp
-                                <label for="zero_start_withdraw" class="mb-2">Zero Star Withdraw</label>
+                                <label for="zero_start_price" class="mb-2">Zero Star Withdraw</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" id="zero_start_withdraw"
-                                        class="form-control @error('zero_start_withdraw') is-invalid @enderror"
-                                        name="zero_start_withdraw" value="{{ $data }}">
-                                    @error('zero_start_withdraw')
+                                    <input type="text" id="zero_start_price"
+                                        class="form-control @error('zero_start_price') is-invalid @enderror"
+                                        name="zero_start_price" value="{{ $data }}">
+                                    @error('zero_start_price')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
 
-                                </div> --}}
+                                </div>
                                 @php
                                     $data = \App\Helpers\Helper::get_star_config('one_star_price') ?? '';
                                 @endphp
@@ -500,6 +500,165 @@
                                 </div>
 
 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Level Income Percentage </h4>
+                                    </div>
+                                    <div class="col-auto">
+                                        <!-- <button wire:click="list" class="btn btn-primary">@lang('common.btn.list')</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('zero_level_percent') ?? '';
+                                @endphp
+                                <label for="zero_level_percent" class="mb-2">Zero Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="zero_level_percent"
+                                        class="form-control @error('zero_level_percent') is-invalid @enderror"
+                                        name="zero_level_percent" value="{{ $data }}">
+                                    @error('zero_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('one_level_percent') ?? '';
+                                @endphp
+                                <label for="one_level_percent" class="mb-2">One Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="one_level_percent"
+                                        class="form-control @error('one_level_percent') is-invalid @enderror"
+                                        name="one_level_percent" value="{{ $data }}">
+                                    @error('one_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('two_level_percent') ?? '';
+                                @endphp
+                                <label for="two_level_percent" class="mb-2">Two Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="two_level_percent"
+                                        class="form-control @error('two_level_percent') is-invalid @enderror"
+                                        name="two_level_percent" value="{{ $data }}">
+                                    @error('two_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('three_level_percent') ?? '';
+                                @endphp
+                                <label for="three_level_percent" class="mb-2">Three Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="three_level_percent"
+                                        class="form-control @error('three_level_percent') is-invalid @enderror"
+                                        name="three_level_percent" value="{{ $data }}">
+                                    @error('three_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('four_level_percent') ?? '';
+                                @endphp
+                                <label for="four_level_percent" class="mb-2">Four Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="four_level_percent"
+                                        class="form-control @error('four_level_percent') is-invalid @enderror"
+                                        name="four_level_percent" value="{{ $data }}">
+                                    @error('four_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('five_level_percent') ?? '';
+                                @endphp
+                                <label for="five_level_percent" class="mb-2">Five Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="five_level_percent"
+                                        class="form-control @error('five_level_percent') is-invalid @enderror"
+                                        name="five_level_percent" value="{{ $data }}">
+                                    @error('five_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('six_level_percent') ?? '';
+                                @endphp
+                                <label for="six_level_percent" class="mb-2">Six Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="six_level_percent"
+                                        class="form-control @error('six_level_percent') is-invalid @enderror"
+                                        name="six_level_percent" value="{{ $data }}">
+                                    @error('six_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('seven_level_percent') ?? '';
+                                @endphp
+                                <label for="seven_level_percent" class="mb-2">Seven Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="seven_level_percent"
+                                        class="form-control @error('seven_level_percent') is-invalid @enderror"
+                                        name="seven_level_percent" value="{{ $data }}">
+                                    @error('seven_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('eight_level_percent') ?? '';
+                                @endphp
+                                <label for="eight_level_percent" class="mb-2">Eight Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="eight_level_percent"
+                                        class="form-control @error('eight_level_percent') is-invalid @enderror"
+                                        name="eight_level_percent" value="{{ $data }}">
+                                    @error('eight_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('nine_level_percent') ?? '';
+                                @endphp
+                                <label for="nine_level_percent" class="mb-2">Nine Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="nine_level_percent"
+                                        class="form-control @error('nine_level_percent') is-invalid @enderror"
+                                        name="nine_level_percent" value="{{ $data }}">
+                                    @error('nine_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
+                                @php
+                                    $data = \App\Helpers\Helper::get_star_config('ten_level_percent') ?? '';
+                                @endphp
+                                <label for="ten_level_percent" class="mb-2">Ten Level Percent</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="ten_level_percent"
+                                        class="form-control @error('ten_level_percent') is-invalid @enderror"
+                                        name="ten_level_percent" value="{{ $data }}">
+                                    @error('ten_level_percent')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>

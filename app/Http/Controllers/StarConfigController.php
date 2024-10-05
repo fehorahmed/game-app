@@ -65,6 +65,18 @@ class StarConfigController extends Controller
             "nine_star_coin_transfer" => 'required|numeric',
             "ten_star_coin_transfer" => 'required|numeric',
 
+            "zero_level_percent" => 'required|numeric|min:0|max:100',
+            "one_level_percent" => 'required|numeric|min:0|max:100',
+            "two_level_percent" => 'required|numeric|min:0|max:100',
+            "three_level_percent" => 'required|numeric|min:0|max:100',
+            "four_level_percent" => 'required|numeric|min:0|max:100',
+            "five_level_percent" => 'required|numeric|min:0|max:100',
+            "six_level_percent" => 'required|numeric|min:0|max:100',
+            "seven_level_percent" => 'required|numeric|min:0|max:100',
+            "eight_level_percent" => 'required|numeric|min:0|max:100',
+            "nine_level_percent" => 'required|numeric|min:0|max:100',
+            "ten_level_percent" => 'required|numeric|min:0|max:100',
+
         ]);
 
         $request->request->remove('_token');

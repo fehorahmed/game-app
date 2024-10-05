@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use App\Models\GlobalConfig;
 use App\Models\StarConfig;
+use App\Modules\AppUser\Models\AppUser;
+use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -159,6 +161,82 @@ class Helper
         return $value;
     }
 
+    public static function get_level_income_percent($count)
+    {
+        if ($count > 0) {
+            if ($count == 0) {
+                $value = self::get_star_config('zero_level_percent');
+            } elseif ($count == 1) {
+                $value = self::get_star_config('one_level_percent');
+            } elseif ($count == 2) {
+                $value = self::get_star_config('two_level_percent');
+            } elseif ($count == 3) {
+                $value = self::get_star_config('three_level_percent');
+            } elseif ($count == 4) {
+                $value = self::get_star_config('four_level_percent');
+            } elseif ($count == 5) {
+                $value = self::get_star_config('five_level_percent');
+            } elseif ($count == 6) {
+                $value = self::get_star_config('six_level_percent');
+            } elseif ($count == 7) {
+                $value = self::get_star_config('seven_level_percent');
+            } elseif ($count == 8) {
+                $value = self::get_star_config('eight_level_percent');
+            } elseif ($count == 9) {
+                $value = self::get_star_config('nine_level_percent');
+            } elseif ($count == 10) {
+                $value = self::get_star_config('ten_level_percent');
+            } else {
+                $value = 0;
+            }
+        } else {
+            $value = 0;
+        }
+
+        return $value;
+    }
+
+
+    public static function level_income_user_check($star_number)
+    {
+
+        $need_user = null;
+        $current_referral_id = auth()->user()->referral_id;  // Start with the authenticated user's referral_id
+
+        for ($i = 1; $i <= $star_number; $i++) {
+            if (!$current_referral_id) {
+                break;  // If there's no referral_id at any level, stop the loop
+            }
+
+            // Find the user with the current referral_id
+            $current_user = AppUser::where('user_id', $current_referral_id)->first();
+
+            if (!$current_user) {
+                break;  // If no user is found, stop the loop
+            }
+
+            // Set the $need_user to the current user if it's the final iteration
+            if ($i == $star_number) {
+                $need_user = $current_user;
+            }
+
+            // Move to the next referral_id for the next iteration
+            $current_referral_id = $current_user->referral_id;
+        }
+
+        return $need_user;
+    }
+
+    public static function get_level_gain($level){
+         $gains = LevelIncomeLog::where(['type'=>'GAIN','app_user_id'=>auth()->id(),'level_number'=>$level])
+         ->sum('amount');
+         return $gains;
+    }
+    public static function get_level_loss($level){
+         $loss = LevelIncomeLog::where(['type'=>'LOSS','app_user_id'=>auth()->id(),'level_number'=>$level])
+         ->sum('amount');
+         return $loss;
+    }
     public static function game_init_coin_exist($user_id)
     {
         $u_coin = UserCoin::where('app_user_id', $user_id)->first();

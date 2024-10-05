@@ -15,6 +15,7 @@ use App\Modules\AppUser\Models\AppUserReferralRequest;
 use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\DepositLog;
+use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
@@ -279,7 +280,7 @@ class AppUserController extends Controller
         // Attempt to authenticate the user using the 'appuser' guard
         if (Auth::guard('appuser')->attempt($request->only('email', 'password'))) {
             // Authentication passed, redirect to the intended page or a default page
-            return redirect()->route('user.profile'); // Replace with your intended route
+            return redirect()->route('user.dashboard'); // Replace with your intended route
         }
 
         // Authentication failed, redirect back with input and error message
@@ -398,12 +399,12 @@ class AppUserController extends Controller
     }
     public function appUserDepositHistory()
     {
-        $deposits = DepositLog::orderBy('status')->get();
+        $deposits = DepositLog::where('app_user_id',auth()->id())->orderBy('status')->get();
         return view('frontend.deposit.deposit_history_page', compact('deposits'));
     }
     public function appUserWithdrawHistory()
     {
-        $withdraws = WithdrawLog::orderBy('status')->get();
+        $withdraws = WithdrawLog::where('app_user_id',auth()->id())->orderBy('status')->get();
 
         return view('frontend.withdraw.withdraw_history_page', compact('withdraws'));
     }
@@ -761,5 +762,14 @@ class AppUserController extends Controller
     public function appUserTransferType(){
 
         return view('frontend.transfer.transfer_type');
+    }
+
+    public function appUserIncome(){
+
+
+        // $gains = LevelIncomeLog::where(['type'=>'GAIN','app_user_id'=>auth()->id()])->orderBy('level_number')->get()->groupBy('level_number');
+        // $losses = LevelIncomeLog::where(['type'=>'LOSS','app_user_id'=>auth()->id()])->orderBy('level_number')->get()->groupBy('level_number');
+        // dd($gains,$losses);
+        return view('frontend.income.income');
     }
 }
