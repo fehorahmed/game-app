@@ -13,6 +13,7 @@ use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AppUserBalanceController extends Controller
 {
@@ -46,6 +47,10 @@ class AppUserBalanceController extends Controller
 
         if ($user->id == auth()->id()) {
             return redirect()->back()->withInput()->with('error', 'Given User ID is your.');
+        }
+
+        if(!Hash::check($request->password,auth()->user()->password)){
+            return redirect()->back()->withInput()->with('error', 'Password is not currect.');
         }
         // dd($request->all());
         if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
@@ -162,6 +167,9 @@ class AppUserBalanceController extends Controller
 
         if ($user->id == auth()->id()) {
             return redirect()->back()->withInput()->with('error', 'Given User ID is your.');
+        }
+        if(!Hash::check($request->password,auth()->user()->password)){
+            return redirect()->back()->withInput()->with('error', 'Password is not currect.');
         }
         // dd($request->all());
         if (!isset(auth()->user()->coin) || (auth()->user()->coin->coin < $request->amount)) {

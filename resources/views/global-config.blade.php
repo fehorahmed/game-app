@@ -157,6 +157,34 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('coin_convert_amount');
+                                        @endphp
+                                        <label for="coin_convert_amount" class="mb-2"> Coin Convert Amount (1 tk = this coin amount)</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="coin_convert_amount"
+                                                class="form-control @error('coin_convert_amount') is-invalid @enderror"
+                                                name="coin_convert_amount" value="{{ $data }}">
+                                            @error('coin_convert_amount')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('minimum_convert_coin');
+                                        @endphp
+                                        <label for="minimum_convert_coin" class="mb-2"> Minimum Convert Coin Amount</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="minimum_convert_coin"
+                                                class="form-control @error('minimum_convert_coin') is-invalid @enderror"
+                                                name="minimum_convert_coin" value="{{ $data }}">
+                                            @error('minimum_convert_coin')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

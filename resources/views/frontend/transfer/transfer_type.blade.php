@@ -72,6 +72,20 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-md-6">
+                    <a href="{{route('user.coin_convert')}}">
+                        <div class="box">
+                            <div class="detail-box"  style="color: white;">
+                                <h5 class="font-weight-bold">
+                                    Coin
+                                </h5>
+                                <p>
+                                    Convert
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </section>

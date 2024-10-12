@@ -157,7 +157,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.transfer_type')}}" target="_blank">
+                    <a href="{{route('user.transfer_type')}}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -170,7 +170,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.income')}}" target="_blank">
+                    <a href="{{route('user.income')}}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -183,7 +183,7 @@
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="{{ route('user.member_list') }}" target="_blank">
+                    <a href="{{ route('user.member_list') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -196,7 +196,7 @@
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="" target="_blank">
+                    <a href="">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -209,7 +209,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                    <a href="">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -222,7 +222,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{ route('user.website_list') }}" target="_blank">
+                    <a href="{{ route('user.website_list') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -235,7 +235,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="" target="_blank">
+                    <a href="">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>

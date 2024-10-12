@@ -2,13 +2,18 @@
 
 namespace App\Modules\CoinManagement\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUser;
+use App\Modules\AppUserBalance\Models\AppUserBalance;
+use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\CoinManagement\DataTables\UserCoinList;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinConvertLog;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserCoinController extends Controller
@@ -146,5 +151,110 @@ class UserCoinController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
+    }
+
+
+    public function appUserCoinConvert()
+    {
+
+        return view("frontend.transfer.coin_convert");
+    }
+
+    public function appUserCoinConvertStore(Request $request)
+    {
+
+        $request->validate([
+            "amount" => 'required|numeric',
+            "password" => 'required|string',
+        ]);
+
+        if (!isset(auth()->user()->coin) || (auth()->user()->coin->coin < $request->amount)) {
+            return redirect()->back()->withInput()->with('error', 'You do not have enough balance.');
+        }
+        if (!Hash::check($request->password, auth()->user()->password)) {
+            return redirect()->back()->withInput()->with('error', 'Password is not currect.');
+        }
+        if ($request->amount <= 0) {
+            return redirect()->back()->withInput()->with('error', 'Amount can not be 0.');
+        }
+
+        $minimum_coin = Helper::get_config('minimum_convert_coin') ?? 0;
+        if ($minimum_coin > $request->amount) {
+            return redirect()->back()->withInput()->with('error', 'Minimun coin convert amount is ' . $minimum_coin . ' .');
+        }
+
+        $convert_rate = Helper::get_config('coin_convert_amount') ?? 0;
+        if ($convert_rate <= 0) {
+            return redirect()->back()->withInput()->with('error', 'Please contact with support center. Rate is not fixed yet.');
+        }
+
+        $balance = $request->amount / $convert_rate;
+
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $convert_log = new UserCoinConvertLog();
+            $convert_log->app_user_id = auth()->id();
+            $convert_log->coin = $request->amount;
+            $convert_log->coin_rate = $convert_rate;
+            $convert_log->balance = $balance;
+            if ($convert_log->save()) {
+
+                // For Coin Giving
+                $g_user = UserCoin::where('app_user_id', auth()->id())->first();
+                $g_user->coin -= $request->amount;
+                if ($g_user->update()) {
+                    $b_detail = new UserCoinDetail();
+                    $b_detail->source = 'COIN_CONVERT';
+                    $b_detail->coin_type = 'SUB';
+                    $b_detail->user_coin_id = $g_user->id;
+                    $b_detail->coin = $request->amount;
+                    $b_detail->user_coin_convert_log_id = $convert_log->id;
+                    if (!$b_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+
+                // For Balance update
+                $r_user = AppUserBalance::where('app_user_id', auth()->id())->first();
+                $r_user->balance += $balance;
+
+                if ($r_user->save()) {
+                    $r_b_detail = new AppUserBalanceDetail();
+                    $r_b_detail->app_user_balance_id = $r_user->id;
+                    $r_b_detail->source = 'COIN_CONVERT';
+                    $r_b_detail->balance_type = 'ADD';
+                    $r_b_detail->balance = $balance;
+                    $r_b_detail->user_coin_convert_log_id = $convert_log->id;
+                    if (!$r_b_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->withInput()->with('error', 'Something went wrong.');
+            } else {
+                DB::commit();
+                return redirect()->route('user.coin_convert.history')->with('success', 'Coin convert done successfully.');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
+
+    public function appUserCoinConvertHistory()
+    {
+        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        return view("frontend.transfer.coin_convert_history",compact('datas'));
     }
 }

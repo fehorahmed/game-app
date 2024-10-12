@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('app_user_id');
             $table->bigInteger('coin')->default(0);
             $table->bigInteger('coin_rate')->default(0);
-            $table->bigInteger('balance')->default(0);
+            $table->double('balance', 20, 2)->default(0);
 
             $table->foreign('app_user_id')->on('app_users')->references('id');
             $table->timestamps();

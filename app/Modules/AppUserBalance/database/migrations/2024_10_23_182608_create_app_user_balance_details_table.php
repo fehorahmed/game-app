@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('app_user_balance_id');
             $table->enum('source', ['COIN_CONVERT', 'BALANCE_TRANSFER','DEPOSIT','WITHDRAW','STAR','LEVEL'])->comment('COIN_CONVERT,BALANCE_TRANSFER,DEPOSIT,WITHDRAW,STAR,LEVEL');
             $table->enum('balance_type', ['ADD', 'SUB'])->comment('ADD , SUB');
-            $table->bigInteger('balance')->default(0);
+            $table->double('balance',20,2)->default(0);
             $table->foreignId('user_coin_convert_log_id')->nullable();
             $table->foreignId('balance_transfer_log_id')->nullable();
             $table->foreignId('deposit_log_id')->nullable();

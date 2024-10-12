@@ -26,6 +26,8 @@ class GlobalConfigController extends Controller
             "company_name" => 'nullable|string',
             "company_address" => 'nullable|string',
             "registration_bonus" => 'required|numeric',
+            "coin_convert_amount" => 'required|numeric',
+            "minimum_convert_coin" => 'required|numeric',
             "game_initialize_coin_amount" => 'required|numeric',
             "game_win_coin_deduct_percentage" => 'required|numeric|max:100',
             "max_referral_user" => 'required|numeric',

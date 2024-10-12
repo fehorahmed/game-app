@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('app_user_id')->unique();
             $table->foreign('app_user_id')->on('app_users')->references('id');
-            $table->bigInteger('balance')->default(0);
+            $table->double('balance', 20, 2)->default(0);
             $table->unsignedInteger('star')->default(0);
             $table->timestamps();
         });

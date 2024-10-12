@@ -3,6 +3,7 @@
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
+use App\Modules\CoinManagement\Http\Controllers\UserCoinController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('app-user', 'AppUserController@welcome');
@@ -69,4 +70,9 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/coin_transfer_history', [AppUserBalanceController::class, 'appUserCoinTransferHistory'])->name('user.coin_transfer.history');
 
     Route::get('/your_income', [AppUserController::class, 'appUserIncome'])->name('user.income');
+
+    Route::get('/coin_convert', [UserCoinController::class, 'appUserCoinConvert'])->name('user.coin_convert');
+    Route::post('/coin_convert_store', [UserCoinController::class, 'appUserCoinConvertStore'])->name('user.coin_convert_store');
+    Route::get('/coin_convert_history', [UserCoinController::class, 'appUserCoinConvertHistory'])->name('user.coin_convert.history');
+
 });
