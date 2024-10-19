@@ -17,7 +17,7 @@
                 <h2>
                     Coin <span>Transfer</span>
                 </h2>
-                <a href="{{route('user.coin_transfer.history')}}" class="btn btn-info">Coin Transfer History</a>
+                <a href="{{ route('user.coin_transfer.history') }}" class="btn btn-info">Coin Transfer History</a>
 
             </div>
             <div class="row justify-content-center">
@@ -30,14 +30,16 @@
                                 <h3 class="text-center">Current Coin : {{ auth()->user()->coin->coin ?? 0 }} </h3>
 
                                 <label for="amount" class="mt-3">Coin Amount <span class="text-danger">*</span></label>
-                                <input type="number" name="amount" class="form-control" id="amount" value="{{old('amount')}}">
+                                <input type="number" name="amount" class="form-control" id="amount"
+                                    value="{{ old('amount') }}">
                                 @error('amount')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
 
-                                <label for="user_id" class="">User ID <span class="text-danger">*</span></label>
-                                <input type="number" name="user_id" class="form-control" id="user_id" value="{{old('user_id')}}">
-
+                                <label for="user_id" class="mt-3">User ID <span class="text-danger">*</span></label>
+                                <input type="number" name="user_id" class="form-control" id="user_id"
+                                    value="{{ old('user_id') }}">
+                                <p class="text-light" id="user_name"></p>
                                 @error('user_id')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
@@ -67,38 +69,48 @@
 @push('script')
     <script>
         $(function() {
-            $('#method').change(function() {
-                var method = $(this).val()
-                var charge = $(this).find('option:selected').data('charge');
-                var limit_start = parseFloat($(this).find('option:selected').data('limit-start'));
-                var limit_end = parseFloat($(this).find('option:selected').data('limit-end'));
-                $('#transaction_fee').val(charge)
-                $('#limit-start').html(limit_start + ' BDT')
-                $('#limit-end').html(limit_end  + ' BDT')
 
-                $('#amount').attr('min',limit_start);
-                $('#amount').attr('max',limit_end);
+            $('#user_id').keyup(function() {
+                var user_input = $(this).val(); // Get the input value as a string
 
-                $('#amount').trigger('keyup')
-            })
-            $('#amount').keyup(function() {
-                var amount = parseFloat($(this).val()); // Ensure the value is treated as a number
-                if (amount > 0) {
-                    $('#details-area').show();
+                if (user_input.length == 10) {
+
+
+                    $.ajax({
+                        url: '{{ route('user.get-user-by-user_id') }}', // Your Laravel route
+                        type: 'GET',
+                        data: {
+                            'user_id': user_input
+                        },
+                        success: function(response) {
+                            if (response.status) {
+
+                                $('#user_name').html(response.data.name)
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: response.message,
+                                    icon: 'error',
+                                });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Show error message if something goes wrong
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Something went wrong.',
+                                icon: 'error',
+                            });
+                        }
+                    });
+
+
                 } else {
-                    $('#details-area').hide();
+                    $('#user_name').html('')
                 }
-                var charge = parseFloat($('#transaction_fee').val());
-
-                 charge = (amount/1000*charge)
-
-                $('#total-charge').html(charge.toFixed(2) + ' BDT')
-                var payable= charge+amount;
-                $('#total-payable').html(payable.toFixed(2) + ' BDT')
 
             })
-            $('#amount').trigger('keyup')
-
+            $('#user_id').trigger('keyup')
         })
     </script>
 @endpush

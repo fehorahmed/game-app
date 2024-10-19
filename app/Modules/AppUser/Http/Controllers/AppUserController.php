@@ -772,4 +772,30 @@ class AppUserController extends Controller
         // dd($gains,$losses);
         return view('frontend.income.income');
     }
+
+    public function getUserByUserId(Request $request){
+        $rules = [
+            'user_id' => 'required|numeric',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+        $app_user = AppUser::where('user_id',$request->user_id)->first();
+        if($app_user){
+            return response()->json([
+                'status' => true,
+                'data' => $app_user,
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+    }
 }

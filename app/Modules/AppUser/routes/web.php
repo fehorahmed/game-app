@@ -58,6 +58,7 @@ Route::middleware(['auth:appuser'])->group(function () {
 
 
     Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
+    Route::get('/get_user_by_id', [AppUserController::class, 'getUserByUserId'])->name('user.get-user-by-user_id');
 
 
     Route::get('/transfer_type', [AppUserController::class, 'appUserTransferType'])->name('user.transfer_type');
