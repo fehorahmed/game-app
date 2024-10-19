@@ -38,7 +38,7 @@
                         <form action="" method="POST">
                             @csrf
                             <label for="email" class="pt-3">Email</label>
-                            <input type="email" name="email" id="email" class="form-control">
+                            <input type="text" name="email" id="email" class="form-control">
                             @error('email')
                                 <div class="m-2 text-warning">
                                     {{ $message }}

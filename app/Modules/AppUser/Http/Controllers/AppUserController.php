@@ -271,16 +271,15 @@ class AppUserController extends Controller
     }
     public function appUserLoginStore(Request $request)
     {
-        //  dd($request->all());
         $request->validate([
-            'email' => 'required|email|max:255',
+            'email' => 'required|string|max:255',
             'password' => 'required|min:6',
         ]);
+        $loginField = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'user_id';
 
-        // Attempt to authenticate the user using the 'appuser' guard
-        if (Auth::guard('appuser')->attempt($request->only('email', 'password'))) {
-            // Authentication passed, redirect to the intended page or a default page
-            return redirect()->route('user.dashboard'); // Replace with your intended route
+        if (Auth::guard('appuser')->attempt([$loginField => $request->input('email'), 'password' => $request->input('password')])) {
+
+            return redirect()->route('user.dashboard');
         }
 
         // Authentication failed, redirect back with input and error message
