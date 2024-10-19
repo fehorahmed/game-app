@@ -29,6 +29,9 @@
             /* color: black; */
             border-radius: 5px;
         }
+        .alert_border_class{
+
+        }
     </style>
 @endpush
 @section('content')
@@ -41,7 +44,8 @@
                     Dashboard <span>Page</span>
                 </h2>
                 <button class="btn btn-info" id="buy_star"
-                    data-star="{{ \App\Helpers\Helper::get_star_price((auth()->user()->balance->star??0) + 1) }}">Buy Star</button>
+                    data-star="{{ \App\Helpers\Helper::get_star_price((auth()->user()->balance->star ?? 0) + 1) }}">Buy
+                    Star</button>
 
             </div>
             <div class="row">
@@ -157,7 +161,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.transfer_type')}}">
+                    <a href="{{ route('user.transfer_type') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -170,7 +174,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{route('user.income')}}">
+                    <a href="{{ route('user.income') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
@@ -264,13 +268,18 @@
             $(document).on('click', '#buy_star', function() {
                 var id = $(this).data('id');
                 var star = $(this).data('star');
+                var total_star = '{{ auth()->user()->balance->star ?? 0 }}';
+                var next_star = '{{ (auth()->user()->balance->star ?? 0)+1 }}';
+                var balance = '{{ auth()->user()->balance->balance ?? 0 }}';
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "It will cost "+star+" taka. You won't be able to revert this!",
-                    icon: 'warning',
+                    title: 'Star Update',
+                    // text: "",
+                    html: `<p class="d-flex justify-content-between"><span class="alert_border_class">Present Star</span> <span class="">`+total_star+` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"><span class="alert_border_class">Next Star</span><span class=""> `+next_star +` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"> <span class="alert_border_class">Balance</span><span class=""> `+balance +` </span></p><p>It will cost  `+star +` taka.  </p>`,
+                    // text: "It will cost "+star+" taka. You won't be able to revert this!",
+                    // icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, do it!',
-                    cancelButtonText: 'No, cancel!',
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel!',
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({

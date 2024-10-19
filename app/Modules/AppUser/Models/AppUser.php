@@ -76,4 +76,8 @@ class AppUser extends Authenticatable
     {
         return $this->hasMany(CoinTransferLog::class, 'given_by');
     }
+    public function refferalUsers()
+    {
+        return $this->hasMany(AppUser::class, 'referral_id','user_id');
+    }
 }
