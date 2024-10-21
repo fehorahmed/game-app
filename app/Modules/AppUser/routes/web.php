@@ -31,6 +31,7 @@ Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->nam
 
 Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/user_profile', [AppUserController::class, 'appUserProfile'])->name('user.profile');
+    Route::post('/user_profile_update', [AppUserController::class, 'appUserProfileUpdate'])->name('user.profile.update');
     Route::get('/user_dashboard', [AppUserController::class, 'appUserDashboard'])->name('user.dashboard');
     Route::get('/user_deposit_history', [AppUserController::class, 'appUserDepositHistory'])->name('user.deposit.history');
 

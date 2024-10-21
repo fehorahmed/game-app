@@ -386,6 +386,39 @@ class AppUserController extends Controller
         // dd($user);
         return view('frontend.auth.profile', compact('user'));
     }
+    public function appUserProfileUpdate(Request $request)
+    {
+        $request->validate([
+            "mobile" => 'nullable|numeric',
+            "photo" => 'nullable|image|mimes:png,jpg,jpeg|max:1024',
+        ]);
+
+        $user = AppUser::find(auth()->id());
+        $user->mobile = $request->mobile;
+
+        if ($request->hasFile('photo')) {
+            $image = $request->file('photo');
+            $filename = time() . '-' . auth()->id() . '.' . $image->getClientOriginalExtension();
+
+            // Check if a previous photo exists and delete it
+            if ($user->photo) {
+                Storage::disk('public')->delete($user->photo);
+            }
+
+            $manager = new ImageManager(['driver' => 'imagick']);
+
+            $image = $manager->make($image)->resize(200, 200);
+
+            $img_path = 'images/profile/' . $filename;
+            $path = Storage::disk('public')->put($img_path, (string) $image->encode()); // Store the resized image
+            $user->photo = $img_path;
+        }
+        if ($user->save()) {
+            return redirect()->back()->with('success', 'Profile Updated.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Something went wrong.');
+        }
+    }
     public function appUserDashboard()
     {
         // dd('profile');
@@ -398,12 +431,12 @@ class AppUserController extends Controller
     }
     public function appUserDepositHistory()
     {
-        $deposits = DepositLog::where('app_user_id',auth()->id())->orderBy('status')->get();
+        $deposits = DepositLog::where('app_user_id', auth()->id())->orderBy('status')->get();
         return view('frontend.deposit.deposit_history_page', compact('deposits'));
     }
     public function appUserWithdrawHistory()
     {
-        $withdraws = WithdrawLog::where('app_user_id',auth()->id())->orderBy('status')->get();
+        $withdraws = WithdrawLog::where('app_user_id', auth()->id())->orderBy('status')->get();
 
         return view('frontend.withdraw.withdraw_history_page', compact('withdraws'));
     }
@@ -758,12 +791,14 @@ class AppUserController extends Controller
         return redirect()->route('user.website_list')->with('success', $message);
     }
 
-    public function appUserTransferType(){
+    public function appUserTransferType()
+    {
 
         return view('frontend.transfer.transfer_type');
     }
 
-    public function appUserIncome(){
+    public function appUserIncome()
+    {
 
 
         // $gains = LevelIncomeLog::where(['type'=>'GAIN','app_user_id'=>auth()->id()])->orderBy('level_number')->get()->groupBy('level_number');
@@ -772,7 +807,8 @@ class AppUserController extends Controller
         return view('frontend.income.income');
     }
 
-    public function getUserByUserId(Request $request){
+    public function getUserByUserId(Request $request)
+    {
         $rules = [
             'user_id' => 'required|numeric',
         ];
@@ -784,13 +820,13 @@ class AppUserController extends Controller
             ]);
         }
 
-        $app_user = AppUser::where('user_id',$request->user_id)->first();
-        if($app_user){
+        $app_user = AppUser::where('user_id', $request->user_id)->first();
+        if ($app_user) {
             return response()->json([
                 'status' => true,
                 'data' => $app_user,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'User not found.',

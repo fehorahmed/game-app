@@ -26,6 +26,7 @@
                         <form action="{{ route('user.withdraw.method.submit') }}">
 
                             <div class="card-body payment-body">
+                                <h5 class="text-center">Current Balance : {{auth()->user()->balance->balance??0}} BDT</h5>
                                 <label for="" class="">Select Gateway <span class="text-danger">*</span></label>
                                 <select name="method" class="form-control" id="method">
                                     <option value="">Select One</option>
