@@ -8,13 +8,8 @@
             @include('frontend.layouts.message')
             <div class="heading_container heading_center">
                 <h2>
-                    Log <span>In</span>
+                    Reset <span>Password</span>
                 </h2>
-                @if (session('success'))
-                    <div class="alert alert-success mt-2">
-                        {{ session('success') }}
-                    </div>
-                @endif
 
             </div>
             <div class="row">
@@ -34,12 +29,13 @@
                 <div class="col-md-6">
                     <div class="detail-box">
                         <h3>
-                            Login to your account
+                            Reset your account password
                         </h3>
-                        <form action="" method="POST">
+                        <form action="{{ route('app_user.password-reset-store') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="token" value="{{ $token }}">
                             <label for="email" class="pt-3">Email</label>
-                            <input type="text" name="email" id="email" class="form-control">
+                            <input type="text" name="email" id="email" class="form-control" value="{{ old('email', $email) }}" placeholder="Enter email" readonly>
                             @error('email')
                                 <div class="m-2 text-warning">
                                     {{ $message }}
@@ -52,9 +48,12 @@
                                     {{ $message }}
                                 </div>
                             @enderror
+                            <label for="password_confirmation" class="pt-3">Confirm Password </label>
+                            <input type="password" name="password_confirmation" required id="password_confirmation"
+                                class="form-control">
                                 <div class="d-flex justify-content-between">
-                                    <button role="submit" class="btn btn-primary mt-3">SIGN IN</button>
-                                    <a href="{{route('user.forget-password')}}" class="mt-3">Forgot Password</a>
+                                    <button role="submit" class="btn btn-primary mt-3">Reset Password</button>
+
                                 </div>
 
                         </form>

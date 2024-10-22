@@ -8,13 +8,9 @@
             @include('frontend.layouts.message')
             <div class="heading_container heading_center">
                 <h2>
-                    Log <span>In</span>
+                    Forgot <span>Password</span>
                 </h2>
-                @if (session('success'))
-                    <div class="alert alert-success mt-2">
-                        {{ session('success') }}
-                    </div>
-                @endif
+
 
             </div>
             <div class="row">
@@ -33,29 +29,23 @@
                 </div>
                 <div class="col-md-6">
                     <div class="detail-box">
-                        <h3>
-                            Login to your account
-                        </h3>
+                        <h5>
+                            Enter your email for sending your password reset link
+                        </h5>
                         <form action="" method="POST">
                             @csrf
                             <label for="email" class="pt-3">Email</label>
-                            <input type="text" name="email" id="email" class="form-control">
+                            <input type="email" name="email" id="email" class="form-control">
                             @error('email')
                                 <div class="m-2 text-warning">
                                     {{ $message }}
                                 </div>
                             @enderror
-                            <label for="password" class="pt-3">Password</label>
-                            <input type="password" name="password" id="password" class="form-control">
-                            @error('password')
-                                <div class="m-2 text-warning">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                                <div class="d-flex justify-content-between">
-                                    <button role="submit" class="btn btn-primary mt-3">SIGN IN</button>
-                                    <a href="{{route('user.forget-password')}}" class="mt-3">Forgot Password</a>
-                                </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button role="submit" class="btn btn-primary mt-3">Send Password Reset Link</button>
+
+                            </div>
 
                         </form>
                     </div>

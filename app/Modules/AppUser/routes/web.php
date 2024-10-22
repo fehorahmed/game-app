@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
@@ -26,6 +27,9 @@ Route::get('/user-login', [AppUserController::class, 'appUserLogin'])->name('use
 Route::get('/user-register', [AppUserController::class, 'register'])->name('user.register');
 Route::post('/user-login', [AppUserController::class, 'appUserLoginStore']);
 Route::post('/user-register', [AppUserController::class, 'registerStore']);
+
+Route::get('/user-forget-password', [AppUserAuthController::class, 'appForgotPassword'])->name('user.forget-password');
+Route::post('/user-forget-password', [AppUserAuthController::class, 'appForgotPasswordLinkSend']);
 
 Route::post('/appuser/logout', [AppUserController::class, 'appUserLogout'])->name('appuser.logout');
 

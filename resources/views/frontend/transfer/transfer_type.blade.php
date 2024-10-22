@@ -45,42 +45,58 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <a href="{{route('user.balance_transfer')}}">
+                    <a href="{{ route('user.balance_transfer') }}">
                         <div class="box ">
                             <div class="detail-box" style="color: white;">
                                 <h5 class="font-weight-bold">
-                                    Balance
+                                    Balance Transfer
                                 </h5>
                                 <p>
-                                    Transfer
+
                                 </p>
+                            </div>
+                            <div class="container">
+                                <div class="d-flex justify-content-between text-light">
+
+                                    <span>Your Limit : {{ \App\Helpers\Helper::get_star_withdraw_limit(auth()->user()->balance->star ?? 0) }}</span>
+                                    <span>Used : {{auth()->user()->withdraw->sum('amount') + auth()->user()->balanceTransferGiven->sum('balance')}}</span>
+                                    <span>Remain : {{ \App\Helpers\Helper::get_star_withdraw_limit(auth()->user()->balance->star ?? 0) -(auth()->user()->withdraw->sum('amount') + auth()->user()->balanceTransferGiven->sum('balance')) }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('user.coin_transfer')}}">
+                    <a href="{{ route('user.coin_transfer') }}">
                         <div class="box">
-                            <div class="detail-box"  style="color: white;">
+                            <div class="detail-box" style="color: white;">
                                 <h5 class="font-weight-bold">
-                                    Coin
+                                    Coin Transfer
                                 </h5>
                                 <p>
-                                    Transfer
+
                                 </p>
+                            </div>
+                            <div class="container">
+                                <div class="d-flex justify-content-between text-light">
+                                    <span>Your Limit : {{ \App\Helpers\Helper::get_star_coin_transfer_limit(auth()->user()->balance->star ?? 0) }}
+                                        </span>
+                                    <span>Used : {{ auth()->user()->coinTransferGiven->sum('coin')}}</span>
+                                    <span>Remain : {{ \App\Helpers\Helper::get_star_coin_transfer_limit(auth()->user()->balance->star ?? 0) - auth()->user()->coinTransferGiven->sum('coin') }} </span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('user.coin_convert')}}">
+                    <a href="{{ route('user.coin_convert') }}">
                         <div class="box">
-                            <div class="detail-box"  style="color: white;">
+                            <div class="detail-box" style="color: white;">
                                 <h5 class="font-weight-bold">
-                                    Coin
+                                    Coin Convert
                                 </h5>
                                 <p>
-                                    Convert
+                                    You can convert your coin to your blance
                                 </p>
                             </div>
                         </div>

@@ -3,10 +3,12 @@
 namespace App\Modules\AppUser\Models;
 
 use App\Modules\AppUserBalance\Models\AppUserBalance;
+use App\Modules\AppUserBalance\Models\BalanceTransferLog;
 use App\Modules\AppUserBalance\Models\DepositLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\CoinTransferLog;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinConvertLog;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -75,6 +77,14 @@ class AppUser extends Authenticatable
     public function coinTransferGiven()
     {
         return $this->hasMany(CoinTransferLog::class, 'given_by');
+    }
+    public function balanceTransferGiven()
+    {
+        return $this->hasMany(BalanceTransferLog::class, 'given_by');
+    }
+    public function coinConvertLog()
+    {
+        return $this->hasMany(UserCoinConvertLog::class, 'app_user_id');
     }
     public function refferalUsers()
     {

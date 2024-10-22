@@ -64,7 +64,8 @@ class AppUserBalanceController extends Controller
         $withdraw_limit = Helper::get_star_withdraw_limit(auth()->user()->balance->star);
 
         $total_withdraw = auth()->user()->withdraw->sum('amount');
-        if ($withdraw_limit < ($total_withdraw + $request->amount)) {
+        $total_balance_transfer = auth()->user()->balanceTransferGiven->sum('balance');
+        if ($withdraw_limit < ($total_withdraw + $total_balance_transfer + $request->amount)) {
             return redirect()->back()->withInput()->with('error', "Your withdraw limit is {$withdraw_limit}. Please buy star for increment withdraw limit.");
         }
 
@@ -183,8 +184,6 @@ class AppUserBalanceController extends Controller
         $transfer_limit = Helper::get_star_coin_transfer_limit(auth()->user()->balance->star);
 
         $total_coin_transfer = auth()->user()->coinTransferGiven->sum('coin');
-
-
 
         if ($transfer_limit < ($total_coin_transfer + $request->amount)) {
             return redirect()->back()->withInput()->with('error', "Your transfer limit is {$transfer_limit}. Please buy star for increment withdraw limit.");

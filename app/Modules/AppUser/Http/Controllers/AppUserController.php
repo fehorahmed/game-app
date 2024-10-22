@@ -227,7 +227,7 @@ class AppUserController extends Controller
             return response()->view('errors.404', [], 404);
         }
 
-        return view('auth.api-reset-password')->with(
+        return view('frontend.auth.reset-password')->with(
             ['token' => $tokenData->token, 'email' => $tokenData->email]
         );
     }
@@ -260,15 +260,15 @@ class AppUserController extends Controller
 
         DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 
-        return view('auth.api-reset-password-success')->with('status', 'Password has been reset.');
+        return view('frontend.auth.reset-password-success')->with('status', 'Password has been reset.');
     }
 
     public function appUserLogin()
     {
 
-
         return view('frontend.auth.login');
     }
+
     public function appUserLoginStore(Request $request)
     {
         $request->validate([

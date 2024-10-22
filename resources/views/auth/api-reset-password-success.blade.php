@@ -15,7 +15,7 @@
                                         </a>
                                         <h4 class="mt-3 mb-1 fw-semibold font-18">Let's Get Started {{ env('APP_NAME') }}
                                         </h4>
-                                        <p class="text-muted  mb-0">Password reset successful for {{ env('APP_NAME') }}.
+                                        <p class="text-muted  mb-0">Password reset successful.
                                         </p>
                                     </div>
                                 </div><!--end card-body-->

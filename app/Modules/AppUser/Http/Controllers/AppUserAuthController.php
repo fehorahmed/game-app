@@ -298,4 +298,44 @@ class AppUserAuthController extends Controller
         //     ? response()->json(['message' => __($status)], 200)
         //     : response()->json(['email' => __($status)], 400);
     }
+
+
+    public function appForgotPassword()
+    {
+
+        return view('frontend.auth.forgot_password');
+    }
+    public function appForgotPasswordLinkSend(Request $request)
+    {
+        // dd($request->all());
+        $rules = [
+            'email' => 'required|email'
+        ];
+        $validation = Validator::make($request->all(), $rules);
+
+        if ($validation->fails()) {
+            return redirect()->back()->withInput()->with('error',$validation->errors()->first());
+
+        }
+
+        $user = AppUser::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->back()->withInput()->with('error','User not found.');
+
+        }
+
+        $token = Str::random(60);
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $request->email],
+            [
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]
+        );
+
+        $user->sendPasswordResetNotification($token);
+        return redirect()->back()->with('success','Password reset link send to your email. Please check...');
+
+    }
 }

@@ -5,6 +5,7 @@
 
     <section style="background: #00204a;color:#ffffff;" class=" layout_padding">
         <div class="container  ">
+            @include('frontend.layouts.message')
             <div style="flex-direction: row; " class="row heading_container  d-flex justify-content-between">
                 <h2>
                     Change <span>Password</span>
