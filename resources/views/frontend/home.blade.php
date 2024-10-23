@@ -79,14 +79,13 @@
                                 </div>
                                 <div class="social_box">
                                     <a href="#">
-                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i> : {{$app_user->balance->star ??0}}
                                     </a>
+
                                     <a href="#">
-                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <i class="fa fa-users" aria-hidden="true"></i> : {{$app_user->refferalUsers->count()}}
                                     </a>
-                                    <a href="#">
-                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                    </a>
+
 
                                 </div>
                             </div>
