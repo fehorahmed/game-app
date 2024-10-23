@@ -24,7 +24,7 @@ class UserCoinList extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
 
-                return '<a href="' . route('coin.user_coin.details', $data->id) . '" class="btn btn-secondary btn-sm">Details</a>';
+                return '<div class=""><a href="' . route('coin.user_coin.details', $data->id) . '" class="btn btn-secondary btn-sm">Details</a><button class="btn btn-sm btn-primary mt-1 user-coin-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-name="'.$data->appuser->name.'" data-user-coin-id="'.$data->id.'">Give Coin</button></div>';
             })
             ->setRowId('id')
             ->rawColumns(['status', 'action']);;
