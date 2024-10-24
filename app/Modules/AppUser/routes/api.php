@@ -29,5 +29,10 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('my-referral', [AppUserController::class, 'apiMyReferral'])->name('api.app_user.my-referral');
         Route::get('my-referral-request', [AppUserController::class, 'apiMyReferralRequest'])->name('api.app_user.my-referral-request');
         Route::get('get-referral-by-user', [AppUserController::class, 'apiGetReferralByUser'])->name('api.app_user.get-referral-by-user');
+
+        //Deposit
+        Route::get('my-referral', [AppUserController::class, 'apiMyReferral'])->name('api.app_user.deposit');
+
+
     });
 });

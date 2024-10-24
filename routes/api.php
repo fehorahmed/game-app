@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GlobalConfigController;
+use App\Http\Controllers\PaymentMethodController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/get-configuration', [GlobalConfigController::class, 'getConfigByApi']);
 
+    Route::get('/get-payment-method', [PaymentMethodController::class, 'getApiPaymentMethod']);
     Route::get('/browse', function () {
         return view('brawse');
     });

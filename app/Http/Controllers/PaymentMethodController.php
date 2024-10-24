@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Resources\PaymentMethodResource;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 
@@ -138,5 +139,9 @@ class PaymentMethodController extends Controller
     public function destroy(PaymentMethod $paymentMethod)
     {
         //
+    }
+    public function getApiPaymentMethod()
+    {
+        return response(PaymentMethodResource::collection(PaymentMethod::where('status',1)->get()));
     }
 }
