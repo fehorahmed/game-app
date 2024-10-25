@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Http\Resources\AppUserReferralRequestResource;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
+use App\Modules\AppUser\Http\Resources\DepositHistoryResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
@@ -434,29 +435,6 @@ class AppUserController extends Controller
         $deposits = DepositLog::where('app_user_id', auth()->id())->orderBy('status')->get();
         return view('frontend.deposit.deposit_history_page', compact('deposits'));
     }
-    public function appUserWithdrawHistory()
-    {
-        $withdraws = WithdrawLog::where('app_user_id', auth()->id())->orderBy('status')->get();
-
-        return view('frontend.withdraw.withdraw_history_page', compact('withdraws'));
-    }
-    public function appUserDepositMethodSubmit(Request $request)
-    {
-        $request->validate([
-            'method' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'transaction_fee' => 'required|numeric'
-        ]);
-
-        $method = PaymentMethod::findOrFail($request->method);
-        $transaction_fee = ($request->amount / 1000) * $method->transaction_fee;
-        $data = [
-            'method' => $method,
-            'amount' => $request->amount,
-            'transaction_fee' => $transaction_fee
-        ];
-        return view('frontend.deposit.deposit_final_page')->with($data);
-    }
     public function appUserDepositFinalSubmit(Request $request)
     {
 
@@ -496,6 +474,100 @@ class AppUserController extends Controller
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
+    public function apiDepositStore(Request $request)
+    {
+        //  dd($request->all());
+
+        $rules = [
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'transaction_id' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+
+        if (Hash::check($request->password, auth()->user()->password)) {
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' =>  'Password is incorrect.'
+            ]);
+            // return redirect()->back()->with('error', 'Password is incorrect.');
+        }
+
+        $method = PaymentMethod::findOrFail($request->method);
+
+        $amount = $request->amount;
+        $charge =  ($request->amount / 1000) * $method->transaction_fee;
+        $total = $amount + $charge;
+
+        $log = new DepositLog();
+        $log->payment_method_id = $method->id;
+        $log->app_user_id = auth()->id();
+        $log->deposit_date = now();
+        $log->amount = $amount;
+        $log->charge = $charge;
+        $log->total = $total;
+        $log->transaction_id = $request->transaction_id;
+        $log->creator = 'user';
+        $log->created_by = auth()->id();
+        $log->status = 1;
+        if ($log->save()) {
+            return response()->json([
+                'status' => true,
+                'message' =>  'Deposit request submited successfully.'
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' =>  'Something went wrong.'
+            ]);
+        }
+    }
+
+
+    public function apiDepositHistory(){
+
+        $deposits = DepositLog::where('app_user_id', auth()->id())->orderBy('status')->get();
+        return response(DepositHistoryResource::collection($deposits));
+    }
+
+
+
+
+
+    public function appUserWithdrawHistory()
+    {
+        $withdraws = WithdrawLog::where('app_user_id', auth()->id())->orderBy('status')->get();
+
+        return view('frontend.withdraw.withdraw_history_page', compact('withdraws'));
+    }
+    public function appUserDepositMethodSubmit(Request $request)
+    {
+        $request->validate([
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'transaction_fee' => 'required|numeric'
+        ]);
+
+        $method = PaymentMethod::findOrFail($request->method);
+        $transaction_fee = ($request->amount / 1000) * $method->transaction_fee;
+        $data = [
+            'method' => $method,
+            'amount' => $request->amount,
+            'transaction_fee' => $transaction_fee
+        ];
+        return view('frontend.deposit.deposit_final_page')->with($data);
+    }
+
     public function appUserLogout(Request $request)
     {
         // Auth::guard('appuser')->logout();
