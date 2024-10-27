@@ -524,7 +524,6 @@ class AppUserController extends Controller
                 'status' => true,
                 'message' =>  'Deposit request submited successfully.'
             ]);
-
         } else {
             return response()->json([
                 'status' => false,
@@ -534,7 +533,8 @@ class AppUserController extends Controller
     }
 
 
-    public function apiDepositHistory(){
+    public function apiDepositHistory()
+    {
 
         $deposits = DepositLog::where('app_user_id', auth()->id())->orderBy('status')->get();
         return response(DepositHistoryResource::collection($deposits));
@@ -753,6 +753,9 @@ class AppUserController extends Controller
         }
 
         $user = AppUser::find($r_request->app_user_id);
+        if ($user->referral_id) {
+            return redirect()->back()->with('error', 'User already added on another user. Please reject this request.');
+        }
         $user->referral_id = auth()->user()->user_id;
         if ($user->update()) {
             $r_request->type = 'ACCEPT';
@@ -787,6 +790,51 @@ class AppUserController extends Controller
         $users = AppUser::where('referral_id', $user->user_id)->get();
 
         return view('frontend.referral.member_list', compact('users'));
+    }
+    public function appUserAddYouself()
+    {
+        if (auth()->user()->referral_id) {
+            return redirect()->back()->with('error', 'You can\'t add you referral.');
+        }
+        return view('frontend.referral.add_yourself');
+    }
+    public function appUserAddYouselfStore(Request $request)
+    {
+
+        $request->validate([
+            'user_id' => 'required|numeric'
+        ]);
+
+        $ck_user = AppUser::where('user_id', $request->user_id)->first();
+        if (!$ck_user) {
+            return redirect()->back()->withInput()->with('error', 'User not found.');
+        }
+
+
+        if ($ck_user->id == auth()->id()) {
+            return redirect()->back()->withInput()->with('error', 'You can\'t add yourself.');
+        }
+
+        $r_users_ck = AppUser::where('referral_id', $ck_user->user_id)->count();
+        $max_count = Helper::get_config('max_referral_user') ?? 0;
+        if ($r_users_ck >= $max_count) {
+            return redirect()->back()->withInput()->with('error', 'This user already have maximum referral user.');
+        }
+
+        $ids =  Helper::get_all_referral_user_ids();
+        if (in_array($request->user_id, $ids)) {
+            return redirect()->back()->withInput()->with('error', 'You can not add this user.');
+        }
+
+        $data = new AppUserReferralRequest();
+        $data->app_user_id = auth()->id();
+        $data->requested_app_user_id = $ck_user->id;
+        $data->status = 1;
+        if ($data->save()) {
+            return redirect()->route('user.member_list')->with('success', 'Referral request success. Please wait for approve.');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
     public function appUserWebsiteList()
     {
@@ -880,6 +928,32 @@ class AppUserController extends Controller
     }
 
     public function getUserByUserId(Request $request)
+    {
+        $rules = [
+            'user_id' => 'required|numeric',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+        $app_user = AppUser::where('user_id', $request->user_id)->first();
+        if ($app_user) {
+            return response()->json([
+                'status' => true,
+                'data' => $app_user,
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+    }
+    public function getUserByUserIdForAddYourself(Request $request)
     {
         $rules = [
             'user_id' => 'required|numeric',

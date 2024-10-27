@@ -17,6 +17,7 @@
                 <h2>
                     Your <span>Income</span>
                 </h2>
+                <p>Total Gain : <span id="gain"></span> &emsp; Total Loss : <span id="loss"></span></p>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -28,11 +29,17 @@
                                     <th>Level</th>
                                     <th>Taka</th>
                                 </tr>
+                                @php
+                                    $gain = 0;
+                                @endphp
                                 @for ($i = 1; $i <= 10; $i++)
                                     <tr>
                                         <td>Level {{ $i }}</td>
-                                        <td>{{ number_format(\App\Helpers\Helper::get_level_gain($i),2) }}</td>
+                                        <td>{{ number_format(\App\Helpers\Helper::get_level_gain($i), 2) }}</td>
                                     </tr>
+                                    @php
+                                        $gain += \App\Helpers\Helper::get_level_gain($i);
+                                    @endphp
                                 @endfor
 
                             </table>
@@ -48,11 +55,17 @@
                                     <th>Level</th>
                                     <th>Taka</th>
                                 </tr>
+                                @php
+                                    $loss = 0;
+                                @endphp
                                 @for ($i = 1; $i <= 10; $i++)
                                     <tr>
                                         <td>Level {{ $i }}</td>
-                                        <td>{{ number_format(\App\Helpers\Helper::get_level_loss($i),2) }}</td>
+                                        <td>{{ number_format(\App\Helpers\Helper::get_level_loss($i), 2) }}</td>
                                     </tr>
+                                    @php
+                                        $loss += \App\Helpers\Helper::get_level_loss($i);
+                                    @endphp
                                 @endfor
                             </table>
                         </div>
@@ -68,38 +81,11 @@
 @push('script')
     <script>
         $(function() {
-            $('#method').change(function() {
-                var method = $(this).val()
-                var charge = $(this).find('option:selected').data('charge');
-                var limit_start = parseFloat($(this).find('option:selected').data('limit-start'));
-                var limit_end = parseFloat($(this).find('option:selected').data('limit-end'));
-                $('#transaction_fee').val(charge)
-                $('#limit-start').html(limit_start + ' BDT')
-                $('#limit-end').html(limit_end + ' BDT')
 
-                $('#amount').attr('min', limit_start);
-                $('#amount').attr('max', limit_end);
-
-                $('#amount').trigger('keyup')
-            })
-            $('#amount').keyup(function() {
-                var amount = parseFloat($(this).val()); // Ensure the value is treated as a number
-                if (amount > 0) {
-                    $('#details-area').show();
-                } else {
-                    $('#details-area').hide();
-                }
-                var charge = parseFloat($('#transaction_fee').val());
-
-                charge = (amount / 1000 * charge)
-
-                $('#total-charge').html(charge.toFixed(2) + ' BDT')
-                var payable = charge + amount;
-                $('#total-payable').html(payable.toFixed(2) + ' BDT')
-
-            })
-            $('#amount').trigger('keyup')
-
+            var gain = '{{ $gain }}'
+            var loss = '{{ $loss }}'
+            $('#gain').html(gain + ' TK')
+            $('#loss').html(loss + ' TK')
         })
     </script>
 @endpush

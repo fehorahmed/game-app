@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/app-user/index', [AppUserController::class, 'index'])->name('app_user.index');
     Route::get('/app-user/{user}/view', [AppUserController::class, 'view'])->name('app_user.view');
+    Route::get('/get_user_by_id', [AppUserController::class, 'getUserByUserId'])->name('user.get-user-by-user_id');
 });
 
 
@@ -57,13 +58,15 @@ Route::middleware(['auth:appuser'])->group(function () {
 
     Route::get('/member_list', [AppUserController::class, 'appUserReferralMemberList'])->name('user.member_list');
     Route::get('/referral_member/{id}/detail', [AppUserController::class, 'appUserReferralMemberDetail'])->name('user.referral_member_detail');
+    Route::get('/add_yourself', [AppUserController::class, 'appUserAddYouself'])->name('user.add_yourself');
+    Route::post('/add_yourself', [AppUserController::class, 'appUserAddYouselfStore']);
 
     Route::get('/website_list', [AppUserController::class, 'appUserWebsiteList'])->name('user.website_list');
     Route::get('/website_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
 
 
     Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
-    Route::get('/get_user_by_id', [AppUserController::class, 'getUserByUserId'])->name('user.get-user-by-user_id');
+    Route::get('/get_user_by_id_for_add_yourself', [AppUserController::class, 'getUserByUserIdForAddYourself'])->name('user.get-user-by-user_id-for-add-yourself');
 
 
     Route::get('/transfer_type', [AppUserController::class, 'appUserTransferType'])->name('user.transfer_type');

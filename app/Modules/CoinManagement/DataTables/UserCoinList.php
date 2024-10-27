@@ -24,7 +24,8 @@ class UserCoinList extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($data) {
 
-                return '<div class=""><a href="' . route('coin.user_coin.details', $data->id) . '" class="btn btn-secondary btn-sm">Details</a><button class="btn btn-sm btn-primary mt-1 user-coin-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-name="'.$data->appuser->name.'" data-user-coin-id="'.$data->id.'">Give Coin</button></div>';
+                return '<div class=""><a href="' . route('coin.user_coin.details', $data->id) . '" class="btn btn-secondary btn-sm">Details</a></div>';
+                // <button class="btn btn-sm btn-primary mt-1 user-coin-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-user-name="'.$data->appuser->name.'" data-user-coin-id="'.$data->id.'">Give Coin</button>
             })
             ->setRowId('id')
             ->rawColumns(['status', 'action']);;
@@ -68,6 +69,7 @@ class UserCoinList extends DataTable
         return [
             Column::make('id'),
             Column::make('appuser.name')->title('User Name'),
+            Column::make('appuser.user_id')->title('User ID'),
             Column::make('coin'),
             // Column::make('created_at'),
             // Column::make('updated_at'),

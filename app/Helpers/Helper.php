@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\GlobalConfig;
 use App\Models\StarConfig;
+use App\Models\User;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\CoinManagement\Models\UserCoin;
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 
 class Helper
 {
+    protected static $referral_user_ids = [];
 
     public static function Helpertest()
     {
@@ -227,15 +229,37 @@ class Helper
         return $need_user;
     }
 
-    public static function get_level_gain($level){
-         $gains = LevelIncomeLog::where(['type'=>'GAIN','app_user_id'=>auth()->id(),'level_number'=>$level])
-         ->sum('amount');
-         return $gains;
+
+    public static function ck_referral_user($user_id)
+    {
+
+        $users = AppUser::where('referral_id', $user_id)->get();
+
+        foreach ($users as $item) {
+            array_push(self::$referral_user_ids, $item->user_id);
+            self::ck_referral_user($item->user_id);
+        }
+        // dd(self::$referral_user_ids);
+        return self::$referral_user_ids;
     }
-    public static function get_level_loss($level){
-         $loss = LevelIncomeLog::where(['type'=>'LOSS','app_user_id'=>auth()->id(),'level_number'=>$level])
-         ->sum('amount');
-         return $loss;
+    public static function get_all_referral_user_ids()
+    {
+        self::$referral_user_ids = [];
+        $data =  self::ck_referral_user(auth()->user()->user_id);
+        return $data;
+    }
+
+    public static function get_level_gain($level)
+    {
+        $gains = LevelIncomeLog::where(['type' => 'GAIN', 'app_user_id' => auth()->id(), 'level_number' => $level])
+            ->sum('amount');
+        return $gains;
+    }
+    public static function get_level_loss($level)
+    {
+        $loss = LevelIncomeLog::where(['type' => 'LOSS', 'app_user_id' => auth()->id(), 'level_number' => $level])
+            ->sum('amount');
+        return $loss;
     }
     public static function game_init_coin_exist($user_id)
     {

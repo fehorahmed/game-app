@@ -25,7 +25,14 @@
                     </a><!--end nav-link-->
                 </li><!--end nav-item-->
                 @php
-                    $app_menu = ['admin.website.create', 'admin.website.edit','config.home-slide.create','config.home-slide.edit','admin.game.create', 'admin.game.edit'];
+                    $app_menu = [
+                        'admin.website.create',
+                        'admin.website.edit',
+                        'config.home-slide.create',
+                        'config.home-slide.edit',
+                        'admin.game.create',
+                        'admin.game.edit',
+                    ];
                 @endphp
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Uikit"
                     data-bs-trigger="hover">
@@ -114,7 +121,7 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     @php
-                        $app_user = ['coin.user_coin.details', 'app_user.view'];
+                        $app_user = ['app_user.view'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarAppUser" data-bs-toggle="collapse" role="button"
@@ -133,7 +140,9 @@
                             </ul><!--end nav-->
                         </div><!--end sidebarAppUser-->
                     </li><!--end nav-item-->
-
+                    @php
+                        $admin_user = [ ];
+                    @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sideberAdmin" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sideberAdmin">
@@ -152,7 +161,7 @@
                         </div><!--end sideberAdmin-->
                     </li><!--end nav-item-->
                     @php
-                        $coin_management = ['coin.user_coin.details'];
+                        $coin_management = ['coin.user_coin.details', 'coin.user_coin.gift'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarCRM" data-bs-toggle="collapse" role="button"
@@ -165,13 +174,14 @@
                                 <li
                                     class="nav-item {{ in_array(Route::currentRouteName(), $coin_management) ? 'menuitem-active' : '' }}">
                                     <a href="{{ route('coin.user_coin.list') }}"
-                                        class="nav-link {{ in_array(Route::currentRouteName(), $coin_management) ? 'active' : '' }}">User
+                                        class="nav-link ">User
                                         Coin List</a>
                                 </li><!--end nav-item-->
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" href="crm-opportunities.html">Opportunities</a>
+                                <li
+                                    class="nav-item {{ in_array(Route::currentRouteName(), $coin_management) ? 'menuitem-active' : '' }}">
+                                    <a class="nav-link" href="{{ route('coin.user_coin.gift') }}">Coin Gift</a>
                                 </li><!--end nav-item-->
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="crm-leads.html">Leads</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
@@ -189,10 +199,12 @@
                         <div class="collapse " id="sidebarProjects">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('app_user.deposit.request')}}">Deposit Request</a>
+                                    <a class="nav-link" href="{{ route('app_user.deposit.request') }}">Deposit
+                                        Request</a>
                                 </li><!--end nav-item-->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('app_user.withdraw.request')}}">Withdraw Request</a>
+                                    <a class="nav-link" href="{{ route('app_user.withdraw.request') }}">Withdraw
+                                        Request</a>
                                 </li><!--end nav-item-->
 
                             </ul><!--end nav-->
@@ -441,7 +453,8 @@
                 'config.payment-method.edit',
                 'config.home-slide.create',
                 'config.home-slide.edit',
-                'admin.game.create', 'admin.game.edit'
+                'admin.game.create',
+                'admin.game.edit',
             ];
         @endphp
         <div id="MetricaUikit"
@@ -550,7 +563,8 @@
                             aria-expanded="false" aria-controls="sidebarForms">
                             Home Slider
                         </a>
-                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}" id="sidebarForms">
+                        <div class="collapse {{ in_array(Route::currentRouteName(), $app_user) ? 'show' : '' }}"
+                            id="sidebarForms">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('config.home-slide.index') }}">List</a>

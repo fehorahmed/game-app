@@ -28,6 +28,76 @@ class UserCoinController extends Controller
         $datas = UserCoinDetail::where('user_coin_id', $user_coin)->paginate(15);
         return view('CoinManagement::user-coin-details', compact('datas'));
     }
+    public function userCoinGift()
+    {
+
+        return view('CoinManagement::user-coin-gift');
+    }
+    public function userCoinGiftStore(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|numeric',
+            'user_name' => 'required|string|max:255',
+            'coin' => 'required|numeric',
+        ]);
+
+
+        $ck_user =  AppUser::where('user_id', $request->user_id)->first();
+        if (!$ck_user) {
+            return redirect()->back()->withInput()->with('error', 'User not valid.');
+        }
+
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $coin = UserCoin::where('app_user_id', $ck_user->id)->first();
+            if ($coin) {
+                $coin->increment('coin', $request->coin);
+                if ($coin->save()) {
+                    $coin_detail = new UserCoinDetail();
+                    $coin_detail->source  = 'BONUS';
+                    $coin_detail->coin_type  = 'ADD';
+                    $coin_detail->user_coin_id  = $coin->id;
+                    $coin_detail->coin  = $request->coin;
+                    $coin_detail->creator  = auth()->id();
+                    if (!$coin_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $coin = new UserCoin();
+                $coin->app_user_id  = $ck_user->id;
+                $coin->coin  = $request->coin;
+                if ($coin->save()) {
+                    $coin_detail = new UserCoinDetail();
+                    $coin_detail->source  = 'BONUS';
+                    $coin_detail->coin_type  = 'ADD';
+                    $coin_detail->user_coin_id  = $coin->id;
+                    $coin_detail->coin  = $request->coin;
+                    $coin_detail->creator  = auth()->id();
+                    if (!$coin_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            }
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->withInput()->with('error', 'Something went wrong.');
+            } else {
+                DB::commit();
+                return redirect()->back()->withInput()->with('success', 'Coin Successfully added.');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
 
 
     /**
@@ -255,6 +325,6 @@ class UserCoinController extends Controller
     public function appUserCoinConvertHistory()
     {
         $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
-        return view("frontend.transfer.coin_convert_history",compact('datas'));
+        return view("frontend.transfer.coin_convert_history", compact('datas'));
     }
 }

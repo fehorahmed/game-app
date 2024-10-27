@@ -19,6 +19,7 @@
                                     <th>#SL</th>
                                     <th>App User Name</th>
                                     <th>Source</th>
+                                    <th>coin_type</th>
                                     <th>Coin</th>
                                     <th class="text-end">Date Time</th>
                                 </tr>
@@ -29,6 +30,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $data->usercoin->appuser->name ?? '' }}</td>
                                         <td>{{ $data->source ?? '' }}</td>
+                                        <td>{{ $data->coin_type ?? '' }}</td>
                                         <td>{{ $data->coin ?? 0 }}</td>
                                         <td class="text-end">{{ $data->created_at->format('Y-m-d h:m') }}</td>
 

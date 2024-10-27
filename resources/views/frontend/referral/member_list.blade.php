@@ -15,38 +15,13 @@
                 <h2>
                     Member <span>List</span>
                 </h2>
-                {{-- <div>
-                        <p>Your total referral : {{$total_ref}}</p>
-                    </div> --}}
+                @if (!auth()->user()->referral_id)
+                <p>You are not under any user. you can add yourself   <br> <a href="{{route('user.add_yourself')}}" class="btn btn-primary">Add Yourself</a></p>
+                @endif
 
             </div>
             <hr>
-            {{-- <div class="row">
-                <div class="col-md-12 ">
-                    <table class="table table-dark">
-                        <tr>
-                            <th>User Info</th>
-                            <th>User ID</th>
-                            <th>Action</th>
-                        </tr>
-                        @foreach ($users as $item)
-                        <tr>
-                            <td>
-                                Name : {{$item->name}} <br>
-                                Email : {{$item->email}}
-                            </td>
-                            <td> {{$item->user_id}} </td>
-                            <td>
-                                <a href="{{route('user.referral_member_detail',$item->id)}}" class="btn btn-info btn-sm">Details</a>
 
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
-
-                </div>
-
-            </div> --}}
             <div class="team_container">
                 <div class="row">
                     @foreach ($users as $app_user)
