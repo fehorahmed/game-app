@@ -18,10 +18,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/app-user/index', [AppUserController::class, 'index'])->name('app_user.index');
     Route::get('/app-user/{user}/view', [AppUserController::class, 'view'])->name('app_user.view');
-    Route::get('/get_user_by_id', [AppUserController::class, 'getUserByUserId'])->name('user.get-user-by-user_id');
+
 });
 
-
+Route::get('/get_user_by_id', [AppUserController::class, 'getUserByUserId'])->name('user.get-user-by-user_id');
 // App User On Frontend
 
 Route::get('/user-login', [AppUserController::class, 'appUserLogin'])->name('user.login');
