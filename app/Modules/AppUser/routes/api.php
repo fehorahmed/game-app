@@ -3,6 +3,7 @@
 use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUser\Http\Controllers\UserGameController;
+use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +34,11 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         //Deposit
         Route::post('deposit-store', [AppUserController::class, 'apiDepositStore'])->name('api.app_user.deposit');
         Route::get('deposit-history', [AppUserController::class, 'apiDepositHistory'])->name('api.app_user.deposit.history');
-
-
+        //Withdraw
+        Route::post('/withdraw-store', [AppUserController::class, 'apiWithdrawStore'])->name('api.app_user.withdraw');
+        Route::get('/withdraw-history', [AppUserController::class, 'apiWithdrawHistory'])->name('api.app_user.withdraw.history');
+        //Coin Transfer
+        Route::post('/coin-transfer-store', [AppUserBalanceController::class, 'apiCoinTransferStore'])->name('api.app_user.coin-transfer.store');
+        Route::get('/coin-transfer-history', [AppUserBalanceController::class, 'apiCoinTransferHistory'])->name('api.app_user.coin-transfer.history');
     });
 });

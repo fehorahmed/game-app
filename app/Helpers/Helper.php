@@ -271,6 +271,19 @@ class Helper
             return false;
         }
     }
+    public static function deposit_withdraw_status($id)
+    {
+       $arr = [
+        '1'=>'Pending',
+        '2'=>'Approved',
+        '0'=>'Cancel',
+       ];
+        if (isset($arr[$id])) {
+            return $arr[$id];
+        } else {
+            return '';
+        }
+    }
 
 
 

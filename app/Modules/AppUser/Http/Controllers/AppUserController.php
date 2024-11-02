@@ -10,6 +10,7 @@ use App\Modules\AppUser\DataTable\AppUsersDataTable;
 use App\Modules\AppUser\Http\Resources\AppUserReferralRequestResource;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Http\Resources\DepositHistoryResource;
+use App\Modules\AppUser\Http\Resources\WithdrawHistoryResource;
 use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUser\Models\AppUserGameSession;
 use App\Modules\AppUser\Models\AppUserReferralRequest;
@@ -538,6 +539,123 @@ class AppUserController extends Controller
 
         $deposits = DepositLog::where('app_user_id', auth()->id())->orderBy('status')->get();
         return response(DepositHistoryResource::collection($deposits));
+    }
+
+    public function apiWithdrawStore(Request $request)
+    {
+        //  dd($request->all());
+
+        $rules = [
+            'method' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'account_no' => 'required|string|max:255',
+            'password' => 'required|string|max:255'
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+
+        if (Hash::check($request->password, auth()->user()->password)) {
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Password is incorrect.',
+            ]);
+
+        }
+
+        $method = PaymentMethod::findOrFail($request->method);
+
+        $amount = $request->amount;
+        // $charge =  ($request->amount / 1000) * $method->transaction_fee;
+        $charge =  0;
+        $total = $amount + $charge;
+
+
+        $transactionFail = false;
+        DB::beginTransaction();
+
+
+
+        $u_balance = AppUserBalance::where('app_user_id', auth()->id())->first();
+        if (!$u_balance) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You dont have enough balance.',
+            ]);
+
+        }
+
+        try {
+            $log = new WithdrawLog();
+            $log->payment_method_id = $method->id;
+            $log->app_user_id = auth()->id();
+            $log->withdraw_date = now();
+            $log->amount = $amount;
+            $log->charge = $charge;
+            $log->total = $total;
+            $log->account_no = $request->account_no;
+            // $log->transaction_id = $request->transaction_id;
+            $log->creator = 'user';
+            $log->created_by = auth()->id();
+            $log->status = 1;
+            if ($log->save()) {
+                $u_balance->balance -= $amount;
+                if ($u_balance->update()) {
+                    $app_user_balance_detail = new AppUserBalanceDetail();
+                    $app_user_balance_detail->app_user_balance_id =  $u_balance->id;
+                    $app_user_balance_detail->source = 'WITHDRAW';
+                    $app_user_balance_detail->balance_type = 'SUB';
+                    $app_user_balance_detail->balance = $amount;
+                    $app_user_balance_detail->withdraw_log_id = $log->id;
+                    if (!$app_user_balance_detail->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.',
+                ]);
+
+            } else {
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Withdraw request submited successfully.',
+                ]);
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' =>  $th->getMessage(),
+            ]);
+
+        }
+    }
+
+
+    public function apiWithdrawHistory()
+    {
+
+        $deposits = WithdrawLog::where('app_user_id', auth()->id())->orderBy('status')->get();
+        return response(WithdrawHistoryResource::collection($deposits));
     }
 
 
