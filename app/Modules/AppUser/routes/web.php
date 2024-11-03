@@ -84,4 +84,8 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::post('/coin_convert_store', [UserCoinController::class, 'appUserCoinConvertStore'])->name('user.coin_convert_store');
     Route::get('/coin_convert_history', [UserCoinController::class, 'appUserCoinConvertHistory'])->name('user.coin_convert.history');
 
+    //Balance History
+    Route::get('/balance_history', [AppUserBalanceController::class, 'appUserBalanceHistory'])->name('user.balance.history');
+    Route::get('/coin_history', [AppUserBalanceController::class, 'appUserCoinHistory'])->name('user.coin.history');
+    Route::get('/star_history', [AppUserBalanceController::class, 'appUserStarHistory'])->name('user.star.history');
 });

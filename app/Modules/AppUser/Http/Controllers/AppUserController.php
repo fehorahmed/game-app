@@ -50,7 +50,12 @@ class AppUserController extends Controller
     {
         $appUser = AppUser::findOrFail($user);
 
-        return view("AppUser::app-user-view", compact('appUser'));
+        $deposites = DepositLog::where('app_user_id', $appUser->id)->orderBy('status')->get();
+        $withdraws = WithdrawLog::where('app_user_id', $appUser->id)->orderBy('status')->get();
+        $user_coin = UserCoin::where('app_user_id', $appUser->id)->first();
+        $user_coin_details = UserCoinDetail::where('user_coin_id', $user_coin->id)->get();
+        $user_members = AppUser::where('referral_id', $appUser->user_id)->get();
+        return view("AppUser::app-user-view", compact('appUser', 'deposites', 'withdraws', 'user_coin_details', 'user_members'));
         // return view("AppUser::app-user-list");
     }
     public function apiUserDetails()
@@ -346,6 +351,7 @@ class AppUserController extends Controller
                     }
                 }
                 $amount = Helper::get_config('registration_bonus') ?? 0;
+                //User Coin Create
                 $user_coin_create = new UserCoin();
                 $user_coin_create->app_user_id = $app_user->id;
                 //  $coin_setting
@@ -360,6 +366,14 @@ class AppUserController extends Controller
                         $transactionFail = true;
                     }
                 } else {
+                    $transactionFail = true;
+                }
+                //User Balance Create
+                $balance = new AppUserBalance();
+                $balance->app_user_id = $app_user->id;
+                $balance->balance = 0;
+                $balance->star = 0;
+                if (!$balance->save()) {
                     $transactionFail = true;
                 }
             } else {
@@ -566,7 +580,6 @@ class AppUserController extends Controller
                 'status' => false,
                 'message' => 'Password is incorrect.',
             ]);
-
         }
 
         $method = PaymentMethod::findOrFail($request->method);
@@ -588,7 +601,6 @@ class AppUserController extends Controller
                 'status' => false,
                 'message' => 'You dont have enough balance.',
             ]);
-
         }
 
         try {
@@ -630,14 +642,12 @@ class AppUserController extends Controller
                     'status' => false,
                     'message' => 'Something went wrong.',
                 ]);
-
             } else {
                 DB::commit();
                 return response()->json([
                     'status' => true,
                     'message' => 'Withdraw request submited successfully.',
                 ]);
-
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -646,7 +656,6 @@ class AppUserController extends Controller
                 'status' => false,
                 'message' =>  $th->getMessage(),
             ]);
-
         }
     }
 

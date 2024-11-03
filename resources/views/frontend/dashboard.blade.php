@@ -29,9 +29,8 @@
             /* color: black; */
             border-radius: 5px;
         }
-        .alert_border_class{
 
-        }
+        .alert_border_class {}
     </style>
 @endpush
 @section('content')
@@ -60,10 +59,11 @@
                             <p>
                                 {{ auth()->user()->balance->balance ?? 0 }} tk
                             </p>
-                            {{-- <a href="">
-                                Read More
-                            </a> --}}
+                            <a href="{{ route('user.balance.history') }}">
+                                HISTORY
+                            </a>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-md-4 ">
@@ -76,9 +76,9 @@
                             <p>
                                 {{ auth()->user()->coin->coin ?? 0 }}
                             </p>
-                            {{-- <a href="">
-                                Read More
-                            </a> --}}
+                            <a href="{{ route('user.coin.history') }}">
+                                HISTORY
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -92,9 +92,9 @@
                             <p>
                                 {{ auth()->user()->balance->star ?? 0 }}
                             </p>
-                            {{-- <a href="">
-                                Read More
-                            </a> --}}
+                            <a href="{{ route('user.star.history') }}">
+                                HISTORY
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -108,9 +108,9 @@
                             <p>
                                 {{ auth()->user()->deposit->sum('amount') }} tk
                             </p>
-                            {{-- <a href="">
-                                Read More
-                            </a> --}}
+                            <a href="{{ route('user.deposit.history') }}">
+                                HISTORY
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -124,9 +124,9 @@
                             <p>
                                 {{ auth()->user()->withdraw->sum('amount') }} tk
                             </p>
-                            {{-- <a href="">
-                                Read More
-                            </a> --}}
+                            <a href="{{ route('user.withdraw.history') }}">
+                                HISTORY
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -269,12 +269,17 @@
                 var id = $(this).data('id');
                 var star = $(this).data('star');
                 var total_star = '{{ auth()->user()->balance->star ?? 0 }}';
-                var next_star = '{{ (auth()->user()->balance->star ?? 0)+1 }}';
+                var next_star = '{{ (auth()->user()->balance->star ?? 0) + 1 }}';
                 var balance = '{{ auth()->user()->balance->balance ?? 0 }}';
                 Swal.fire({
                     title: 'Star Update',
                     // text: "",
-                    html: `<p class="d-flex justify-content-between"><span class="alert_border_class">Present Star</span> <span class="">`+total_star+` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"><span class="alert_border_class">Next Star</span><span class=""> `+next_star +` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"> <span class="alert_border_class">Balance</span><span class=""> `+balance +` </span></p><p>It will cost  `+star +` taka.  </p>`,
+                    html: `<p class="d-flex justify-content-between"><span class="alert_border_class">Present Star</span> <span class="">` +
+                        total_star +
+                        ` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"><span class="alert_border_class">Next Star</span><span class=""> ` +
+                        next_star +
+                        ` <i class="fa fa-star" aria-hidden="true"></i></span></p><p class="d-flex justify-content-between"> <span class="alert_border_class">Balance</span><span class=""> ` +
+                        balance + ` </span></p><p>It will cost  ` + star + ` taka.  </p>`,
                     // text: "It will cost "+star+" taka. You won't be able to revert this!",
                     // icon: 'warning',
                     showCancelButton: true,

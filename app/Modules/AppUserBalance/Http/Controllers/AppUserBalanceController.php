@@ -8,6 +8,7 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\BalanceTransferLog;
+use App\Modules\AppUserBalance\Models\StarLog;
 use App\Modules\CoinManagement\Models\CoinTransferLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
@@ -374,5 +375,26 @@ class AppUserBalanceController extends Controller
         $transfers = CoinTransferLog::where('given_by', auth()->id())->orderBy('id', 'DESC')->get();
 
         return view("frontend.transfer.coin_transfer_history", compact('transfers'));
+    }
+    public function appUserBalanceHistory()
+    {
+        $balance = AppUserBalance::where('app_user_id',auth()->id())->first();
+        $balance_details = AppUserBalanceDetail::where('app_user_balance_id', $balance->id)->get();
+
+        return view("frontend.other_history.balance_history", compact('balance_details'));
+    }
+    public function appUserCoinHistory()
+    {
+        $balance = UserCoin::where('app_user_id',auth()->id())->first();
+        $balance_details = UserCoinDetail::where('user_coin_id', $balance->id)->get();
+
+        return view("frontend.other_history.coin_history", compact('balance_details'));
+    }
+    public function appUserStarHistory()
+    {
+
+        $balance_details = StarLog::where('app_user_id',auth()->id())->get();
+
+        return view("frontend.other_history.star_history", compact('balance_details'));
     }
 }
