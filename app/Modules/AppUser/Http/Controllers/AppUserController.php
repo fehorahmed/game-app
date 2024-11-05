@@ -186,7 +186,7 @@ class AppUserController extends Controller
     public function apiMyReferral()
     {
 
-        $users = AppUser::where('referral_id', auth()->id())->get();
+        $users = AppUser::where('referral_id', auth()->user()->user_id)->get();
         return response()->json([
             'status' => true,
             'referral_users' => AppUserResource::collection($users),
