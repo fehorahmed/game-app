@@ -245,6 +245,67 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h4 class="card-title">Support Configuration</h4>
+                                    </div>
+                                    <div class="col-auto">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('telegram_support');
+                                        @endphp
+                                        <label for="telegram_support" class="mb-2"> Telegram Support</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="telegram_support"
+                                                class="form-control @error('telegram_support') is-invalid @enderror"
+                                                name="telegram_support" value="{{ $data }}">
+                                            @error('telegram_support')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('whatsapp_support');
+                                        @endphp
+                                        <label for="whatsapp_support" class="mb-2">Whatsapp Support</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="whatsapp_support"
+                                                class="form-control @error('whatsapp_support') is-invalid @enderror"
+                                                name="whatsapp_support" value="{{ $data }}">
+                                            @error('whatsapp_support')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-xs m-auto">
+                                        @php
+                                            $data = \App\Helpers\Helper::get_config('facebook_support');
+                                        @endphp
+                                        <label for="facebook_support" class="mb-2">Facebook Support</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" id="facebook_support"
+                                                class="form-control @error('facebook_support') is-invalid @enderror"
+                                                name="facebook_support" value="{{ $data }}">
+                                            @error('facebook_support')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">

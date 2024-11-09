@@ -88,4 +88,8 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/balance_history', [AppUserBalanceController::class, 'appUserBalanceHistory'])->name('user.balance.history');
     Route::get('/coin_history', [AppUserBalanceController::class, 'appUserCoinHistory'])->name('user.coin.history');
     Route::get('/star_history', [AppUserBalanceController::class, 'appUserStarHistory'])->name('user.star.history');
+
+
+     //Support
+     Route::get('/user_support', [AppUserController::class, 'appUserSupport'])->name('user.support');
 });

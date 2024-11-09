@@ -1106,4 +1106,8 @@ class AppUserController extends Controller
             ]);
         }
     }
+
+    public function appUserSupport(){
+        return view('frontend.user_support');
+    }
 }

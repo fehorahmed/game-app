@@ -239,7 +239,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="">
+                    <a href="{{route('user.support')}}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>
