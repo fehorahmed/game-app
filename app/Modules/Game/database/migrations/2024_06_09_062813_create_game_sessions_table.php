@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('host_id');
 
             $table->uuid('game_session')->unique();
-            $table->foreignId('room_id');
+            $table->string('room_id');
             $table->foreignId('game_id');
             $table->unsignedBigInteger('board_amount');
             $table->unsignedTinyInteger('status')->comment('1=initial Game,0=End Game');

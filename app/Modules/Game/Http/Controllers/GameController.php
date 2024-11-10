@@ -110,7 +110,7 @@ class GameController extends Controller
             'host_id' => 'required|numeric',
             'users' => 'required|array',
             'users.*' => 'required|numeric',
-            'room_id' => 'required|numeric',
+            'room_id' => 'required|string|max:255',
             'board_amount' => 'required|numeric',
         ];
 
