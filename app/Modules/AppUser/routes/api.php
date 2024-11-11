@@ -4,6 +4,7 @@ use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUser\Http\Controllers\UserGameController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
+use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,12 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::post('profile-update', [AppUserController::class, 'apiUserProfileUpdate'])->name('api.app_user.profile_update');
         Route::post('profile-photo-update', [AppUserController::class, 'apiUserProfilePhotoUpdate'])->name('api.app_user.profile_photo_update');
         Route::get('total-coin', [AppUserController::class, 'apiUserTotalCoin'])->name('api.app_user.total_coin');
+        Route::get('total-balance', [AppUserController::class, 'apiUserTotalBalance'])->name('api.app_user.total_balance');
+        Route::get('total-star', [AppUserController::class, 'apiUserTotalStar'])->name('api.app_user.total_star');
 
+        //Star Price
+        Route::get('get-star-price', [StarLogController::class, 'apiStarPrice'])->name('api.app_user.star_price');
+        Route::post('buy-star', [StarLogController::class, 'apiUserBuyStar'])->name('api.app_user.buy_star');
 
         //Referral
         Route::get('my-referral', [AppUserController::class, 'apiMyReferral'])->name('api.app_user.my-referral');

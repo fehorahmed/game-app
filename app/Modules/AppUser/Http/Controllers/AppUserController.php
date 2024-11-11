@@ -183,6 +183,24 @@ class AppUserController extends Controller
         ]);
         // return view("AppUser::app-user-list");
     }
+    public function apiUserTotalBalance()
+    {
+        $balance = auth()->user()->balance->balance ?? 0;
+        return response()->json([
+            'status' => true,
+            'balance' => $balance,
+        ]);
+        // return view("AppUser::app-user-list");
+    }
+    public function apiUserTotalStar()
+    {
+        $star = auth()->user()->balance->star ?? 0;
+        return response()->json([
+            'status' => true,
+            'star' => $star,
+        ]);
+        // return view("AppUser::app-user-list");
+    }
     public function apiMyReferral()
     {
 
@@ -1107,7 +1125,8 @@ class AppUserController extends Controller
         }
     }
 
-    public function appUserSupport(){
+    public function appUserSupport()
+    {
         return view('frontend.user_support');
     }
 }
