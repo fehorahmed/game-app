@@ -201,6 +201,23 @@ class AppUserController extends Controller
         ]);
         // return view("AppUser::app-user-list");
     }
+    public function apiUserAllStar()
+    {
+        $star = auth()->user()->balance->star ?? 0;
+        $balance = auth()->user()->balance->balance ?? 0;
+        $coin = UserCoin::where('app_user_id', auth()->id())->value('coin') ?? 0;
+        $deposit = auth()->user()->deposit->sum('amount') ?? 0;
+        $withdraw = auth()->user()->withdraw->sum('amount') ?? 0;
+        return response()->json([
+            'status' => true,
+            'star' => $star,
+            'balance' => $balance,
+            'coin' => $coin,
+            'deposit' => $deposit,
+            'withdraw' => $withdraw,
+        ]);
+        // return view("AppUser::app-user-list");
+    }
     public function apiMyReferral()
     {
 
@@ -240,6 +257,77 @@ class AppUserController extends Controller
             'status' => true,
             'referral_users' => AppUserResource::collection($users),
         ]);
+        // return view("AppUser::app-user-list");
+    }
+    public function apiMyReferralRequestChangeStatus(Request $request, $id)
+    {
+        $rules = [
+            'status' => 'required|in:ACCEPT,REJECT',
+
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+        $r_request = AppUserReferralRequest::where(['requested_app_user_id' => auth()->id(), 'id' => $id])
+            ->where('status', 1)->first();
+        if (!$r_request) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Request not found.',
+            ]);
+        }
+
+        if($request->status=='ACCEPT'){
+            $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
+            if ($total_ref >= 5) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'You have maximum referral user. You can not added more.',
+                ]);
+            }
+
+            $user = AppUser::find($r_request->app_user_id);
+            if ($user->referral_id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User already added on another user. Please reject this request.',
+                ]);
+
+            }
+            $user->referral_id = auth()->user()->user_id;
+            if ($user->update()) {
+                $r_request->type = 'ACCEPT';
+                $r_request->status = 0;
+                $r_request->update();
+            }
+            return response()->json([
+                'status' => true,
+                'referral_users' => 'User added as your referral.',
+            ]);
+        }
+
+        if($request->status=='REJECT'){
+
+            $r_request->type = 'REJECT';
+            $r_request->status = 0;
+            $r_request->update();
+            return response()->json([
+                'status' => true,
+                'referral_users' => 'User referral request canceled.',
+            ]);
+
+        }
+
+        return response()->json([
+            'status' => false,
+            'referral_users' => 'Something went wrong.',
+        ]);
+
         // return view("AppUser::app-user-list");
     }
 
