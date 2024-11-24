@@ -27,7 +27,6 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('total-coin', [AppUserController::class, 'apiUserTotalCoin'])->name('api.app_user.total_coin');
         Route::get('total-balance', [AppUserController::class, 'apiUserTotalBalance'])->name('api.app_user.total_balance');
         Route::get('total-star', [AppUserController::class, 'apiUserTotalStar'])->name('api.app_user.total_star');
-        Route::get('all-balance', [AppUserController::class, 'apiUserAllStar'])->name('api.app_user.all_balance');
 
         //Star Price
         Route::get('get-star-price', [StarLogController::class, 'apiStarPrice'])->name('api.app_user.star_price');
@@ -48,5 +47,12 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         //Coin Transfer
         Route::post('/coin-transfer-store', [AppUserBalanceController::class, 'apiCoinTransferStore'])->name('api.app_user.coin-transfer.store');
         Route::get('/coin-transfer-history', [AppUserBalanceController::class, 'apiCoinTransferHistory'])->name('api.app_user.coin-transfer.history');
+
+
+        //Balance History
+        Route::get('all-balance', [AppUserController::class, 'apiUserAllStar'])->name('api.app_user.all_balance');
+        Route::get('/balance-history', [AppUserBalanceController::class, 'appUserBalanceHistory'])->name('api.app_user.balance.history');
+        Route::get('/coin-history', [AppUserBalanceController::class, 'appUserCoinHistory'])->name('api.app_user.coin.history');
+        Route::get('/star-history', [AppUserBalanceController::class, 'appUserStarHistory'])->name('api.app_user.star.history');
     });
 });
