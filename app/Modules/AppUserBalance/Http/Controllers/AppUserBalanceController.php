@@ -421,6 +421,16 @@ class AppUserBalanceController extends Controller
 
         return view("frontend.other_history.balance_history", compact('balance_details'));
     }
+    public function apiUserBalanceHistory()
+    {
+        $balance = AppUserBalance::where('app_user_id', auth()->id())->first();
+        $balance_details = AppUserBalanceDetail::where('app_user_balance_id', $balance->id)->get();
+
+        return response([
+            'status' => true,
+            'datas' => $balance_details
+        ]);
+    }
     public function appUserCoinHistory()
     {
         $balance = UserCoin::where('app_user_id', auth()->id())->first();
@@ -428,11 +438,30 @@ class AppUserBalanceController extends Controller
 
         return view("frontend.other_history.coin_history", compact('balance_details'));
     }
+    public function apiUserCoinHistory()
+    {
+        $balance = UserCoin::where('app_user_id', auth()->id())->first();
+        $balance_details = UserCoinDetail::where('user_coin_id', $balance->id)->get();
+        return response([
+            'status' => true,
+            'datas' => $balance_details
+        ]);
+    }
     public function appUserStarHistory()
     {
 
         $balance_details = StarLog::where('app_user_id', auth()->id())->get();
 
         return view("frontend.other_history.star_history", compact('balance_details'));
+    }
+    public function apiUserStarHistory()
+    {
+
+        $balance_details = StarLog::where('app_user_id', auth()->id())->get();
+
+        return response([
+            'status' => true,
+            'datas' => $balance_details
+        ]);
     }
 }

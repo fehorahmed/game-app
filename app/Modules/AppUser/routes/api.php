@@ -51,8 +51,8 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
 
         //Balance History
         Route::get('all-balance', [AppUserController::class, 'apiUserAllStar'])->name('api.app_user.all_balance');
-        Route::get('/balance-history', [AppUserBalanceController::class, 'appUserBalanceHistory'])->name('api.app_user.balance.history');
-        Route::get('/coin-history', [AppUserBalanceController::class, 'appUserCoinHistory'])->name('api.app_user.coin.history');
-        Route::get('/star-history', [AppUserBalanceController::class, 'appUserStarHistory'])->name('api.app_user.star.history');
+        Route::get('/balance-history', [AppUserBalanceController::class, 'apiUserBalanceHistory'])->name('api.app_user.balance.history');
+        Route::get('/coin-history', [AppUserBalanceController::class, 'apiUserCoinHistory'])->name('api.app_user.coin.history');
+        Route::get('/star-history', [AppUserBalanceController::class, 'apiUserStarHistory'])->name('api.app_user.star.history');
     });
 });

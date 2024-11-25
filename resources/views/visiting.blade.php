@@ -10,7 +10,7 @@
     <style>
         .topbar {
             height: 60px;
-            width: 100%;
+            /* width: 100%; */
             background-color: #547874;
         }
 
@@ -26,24 +26,23 @@
             /* margin-top: 20px; */
         }
     </style>
-    <script>
-
-    </script>
+    <script></script>
 </head>
 
 <body>
     <div class="topbar">
-      <div class="row">
-        <div class="col-md-4">
-            <h4 class="p-3">Time count</h4>
+        <div class="row">
+
+            <div class="col-md-4 col-12">
+                <h4 class="p-3">Time count</h4>
+            </div>
+            <div class="col-md-4 col-12 text-center">
+                <h4 class="p-3" id="time_count"></h4>
+            </div>
+            <div class="col-md-4 col-12 d-flex justify-content-end">
+                <button id="next_button" class="btn btn-primary ">Click for Next</button>
+            </div>
         </div>
-        <div class="col-md-4 text-center">
-            <h4 class="p-3" id="time_count"></h4>
-        </div>
-        <div class="col-md-4 d-flex justify-content-end">
-            <button id="next_button" class="btn btn-primary ">Click for Next</button>
-        </div>
-      </div>
 
     </div>
     <iframe class="iframe-style" width="100%" src="" frameborder="0"></iframe>
@@ -56,7 +55,7 @@
         var iframe = document.querySelector('.iframe-style');
         var currentIndex = 0;
         var intervalId;
-        var baseUrl = "{{ route('user.website_visit_count',$website->id) }}"; // Set your base URL
+        var baseUrl = "{{ route('user.website_visit_count', $website->id) }}"; // Set your base URL
         // Function to load the next URL into the iframe
         function loadNextUrl() {
             if (currentIndex >= listData.length) {
