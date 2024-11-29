@@ -9,7 +9,7 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
         .topbar {
-            height: 60px;
+            /* height: 60px; */
             /* width: 100%; */
             background-color: #547874;
         }
@@ -33,13 +33,13 @@
     <div class="topbar">
         <div class="row">
 
-            <div class="col-md-4 col-12">
+            <div class="col-md-4 col-12 text-center">
                 <h4 class="p-3">Time count</h4>
             </div>
             <div class="col-md-4 col-12 text-center">
                 <h4 class="p-3" id="time_count"></h4>
             </div>
-            <div class="col-md-4 col-12 d-flex justify-content-end">
+            <div class="col-md-4 col-12 text-center d-flex">
                 <button id="next_button" class="btn btn-primary ">Click for Next</button>
             </div>
         </div>

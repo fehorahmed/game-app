@@ -4,6 +4,7 @@ use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUser\Http\Controllers\UserGameController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
+use App\Modules\AppUserBalance\Http\Controllers\LevelIncomeLogController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,5 +55,8 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('/balance-history', [AppUserBalanceController::class, 'apiUserBalanceHistory'])->name('api.app_user.balance.history');
         Route::get('/coin-history', [AppUserBalanceController::class, 'apiUserCoinHistory'])->name('api.app_user.coin.history');
         Route::get('/star-history', [AppUserBalanceController::class, 'apiUserStarHistory'])->name('api.app_user.star.history');
+        //Income
+        Route::get('your-income', [LevelIncomeLogController::class, 'apiUserIncome'])->name('api.app_user.income');
+
     });
 });

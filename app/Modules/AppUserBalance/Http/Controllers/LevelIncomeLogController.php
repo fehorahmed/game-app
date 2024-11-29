@@ -8,59 +8,15 @@ use Illuminate\Http\Request;
 
 class LevelIncomeLogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function apiUserIncome()
     {
-        //
+
+
+        for ($i = 1; $i <= 10; $i++){
+
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(LevelIncomeLog $levelIncomeLog)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(LevelIncomeLog $levelIncomeLog)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, LevelIncomeLog $levelIncomeLog)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(LevelIncomeLog $levelIncomeLog)
-    {
-        //
-    }
 }
