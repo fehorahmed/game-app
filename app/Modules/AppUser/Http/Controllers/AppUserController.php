@@ -282,7 +282,7 @@ class AppUserController extends Controller
             ]);
         }
 
-        if($request->status=='ACCEPT'){
+        if ($request->status == 'ACCEPT') {
             $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
             if ($total_ref >= 5) {
                 return response()->json([
@@ -297,7 +297,6 @@ class AppUserController extends Controller
                     'status' => false,
                     'message' => 'User already added on another user. Please reject this request.',
                 ]);
-
             }
             $user->referral_id = auth()->user()->user_id;
             if ($user->update()) {
@@ -311,7 +310,7 @@ class AppUserController extends Controller
             ]);
         }
 
-        if($request->status=='REJECT'){
+        if ($request->status == 'REJECT') {
 
             $r_request->type = 'REJECT';
             $r_request->status = 0;
@@ -320,7 +319,6 @@ class AppUserController extends Controller
                 'status' => true,
                 'referral_users' => 'User referral request canceled.',
             ]);
-
         }
 
         return response()->json([
@@ -1216,5 +1214,53 @@ class AppUserController extends Controller
     public function appUserSupport()
     {
         return view('frontend.user_support');
+    }
+    public function apiUserMemberCountByLevel()
+    {
+        $user_ids = [auth()->user()->user_id];
+        $data = [];
+        // for ($i = 1; $i <= 10; $i++) {
+        //     if (count($user_ids) > 0) {
+        //         $users = AppUser::whereIn('referral_id', $user_ids)->pluck('user_id');
+        //         $arr = [
+        //             'level' => $i,
+        //             'total' => count($users),
+        //         ];
+        //         array_push($data, $arr);
+        //         $user_ids = $users;
+        //     } else {
+        //         $arr = [
+        //             'level' => $i,
+        //             'total' => 0,
+        //         ];
+        //         array_push($data, $arr);
+        //         $user_ids = [];
+        //     }
+        // }
+        $i = 1;
+        while (count($user_ids) != 0) {
+            if (count($user_ids) > 0) {
+                $users = AppUser::whereIn('referral_id', $user_ids)->pluck('user_id');
+                $arr = [
+                    'level' => $i,
+                    'total' => count($users),
+                ];
+                array_push($data, $arr);
+                $user_ids = $users;
+                $i++;
+            } else {
+                $arr = [
+                    'level' => $i,
+                    'total' => 0,
+                ];
+                array_push($data, $arr);
+                $user_ids = [];
+                $i++;
+            }
+        }
+        return response([
+            'status'=>true,
+            'data'=>$data
+        ]);
     }
 }

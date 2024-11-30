@@ -2,6 +2,7 @@
 
 namespace App\Modules\AppUser\Http\Resources;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,7 @@ class AppUserResource extends JsonResource
             // "images/profile/1717179327-5.jpg",
             "referral_id" => $this->referral_id,
             "status" => 1,
+            "total_members" => count(Helper::get_all_referral_user_ids($this->user_id)),
 
         ];
     }

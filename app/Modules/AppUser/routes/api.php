@@ -49,7 +49,6 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::post('/coin-transfer-store', [AppUserBalanceController::class, 'apiCoinTransferStore'])->name('api.app_user.coin-transfer.store');
         Route::get('/coin-transfer-history', [AppUserBalanceController::class, 'apiCoinTransferHistory'])->name('api.app_user.coin-transfer.history');
 
-
         //Balance History
         Route::get('all-balance', [AppUserController::class, 'apiUserAllStar'])->name('api.app_user.all_balance');
         Route::get('/balance-history', [AppUserBalanceController::class, 'apiUserBalanceHistory'])->name('api.app_user.balance.history');
@@ -57,6 +56,10 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('/star-history', [AppUserBalanceController::class, 'apiUserStarHistory'])->name('api.app_user.star.history');
         //Income
         Route::get('your-income', [LevelIncomeLogController::class, 'apiUserIncome'])->name('api.app_user.income');
+        Route::get('your-loss', [LevelIncomeLogController::class, 'apiUserLoss'])->name('api.app_user.loss');
+        //Member count by Level
+        Route::get('member-count-by-level', [AppUserController::class, 'apiUserMemberCountByLevel'])->name('api.app_user.member_count_by_level');
+
 
     });
 });

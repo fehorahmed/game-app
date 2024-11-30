@@ -242,10 +242,12 @@ class Helper
         // dd(self::$referral_user_ids);
         return self::$referral_user_ids;
     }
-    public static function get_all_referral_user_ids()
+    public static function get_all_referral_user_ids($user_id=null)
     {
         self::$referral_user_ids = [];
-        $data =  self::ck_referral_user(auth()->user()->user_id);
+
+        $id_to_check = $user_id ?? auth()->user()->user_id;
+        $data =  self::ck_referral_user($id_to_check);
         return $data;
     }
 
@@ -255,11 +257,47 @@ class Helper
             ->sum('amount');
         return $gains;
     }
+    public static function get_level_gain_with_count($level)
+    {
+        $gains = LevelIncomeLog::where(['type' => 'GAIN', 'app_user_id' => auth()->id(), 'level_number' => $level])->get();
+        $total = $gains->sum('amount');
+        $count = $gains->count();
+        if ($count > 0) {
+            $avg = $total / $count;
+        } else {
+            $avg = $total;
+        }
+        $data= [
+            'level'=>$level,
+            'count'=>$count,
+            'avg'=>$avg,
+            'total'=>$total,
+        ];
+        return $data;
+    }
     public static function get_level_loss($level)
     {
         $loss = LevelIncomeLog::where(['type' => 'LOSS', 'app_user_id' => auth()->id(), 'level_number' => $level])
             ->sum('amount');
         return $loss;
+    }
+    public static function get_level_loss_with_count($level)
+    {
+        $loss = LevelIncomeLog::where(['type' => 'LOSS', 'app_user_id' => auth()->id(), 'level_number' => $level])->get();
+        $total = $loss->sum('amount');
+        $count = $loss->count();
+        if ($count > 0) {
+            $avg = $total / $count;
+        } else {
+            $avg = $total;
+        }
+        $data= [
+            'level'=>$level,
+            'count'=>$count,
+            'avg'=>$avg,
+            'total'=>$total,
+        ];
+        return $data;
     }
     public static function game_init_coin_exist($user_id)
     {
@@ -273,11 +311,11 @@ class Helper
     }
     public static function deposit_withdraw_status($id)
     {
-       $arr = [
-        '1'=>'Pending',
-        '2'=>'Approved',
-        '0'=>'Cancel',
-       ];
+        $arr = [
+            '1' => 'Pending',
+            '2' => 'Approved',
+            '0' => 'Cancel',
+        ];
         if (isset($arr[$id])) {
             return $arr[$id];
         } else {
