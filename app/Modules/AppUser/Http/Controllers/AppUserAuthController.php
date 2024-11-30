@@ -28,7 +28,7 @@ class AppUserAuthController extends Controller
     {
 
         $rules = [
-            'email' => 'required|email',
+            'email' => 'required|string|max:50',
             'password' => 'required|string|max:255',
             'game_id' => 'nullable|numeric|max:255'
         ];
@@ -41,7 +41,14 @@ class AppUserAuthController extends Controller
             ]);
         }
         //   dd('asdsad');
-        $credentials = $request->only('email', 'password');
+        // $credentials = $request->only('email', 'password');
+        $loginField = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_id';
+        // Prepare credentials array dynamically
+        $credentials = [
+            $loginField => $request->email,
+            'password' => $request->password,
+        ];
+
 
         if (Auth::guard('appuser')->attempt($credentials)) {
             $user = Auth::guard('appuser')->user();
