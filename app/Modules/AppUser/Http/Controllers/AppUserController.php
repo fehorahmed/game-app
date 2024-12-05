@@ -1077,6 +1077,17 @@ class AppUserController extends Controller
 
         return view('frontend.website.website_list', compact('websites'));
     }
+    public function apiRoutingWebsiteList()
+    {
+        $website_visit_logs = WebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id()])->pluck('website_id');
+        // dd($website_visit_logs);
+        $websites = Website::where('status', 1)->whereNotIn('id', $website_visit_logs)->get();
+
+        return response([
+            'status'=>true,
+            'datas'=>$websites
+        ]);
+    }
     public function appUserWebsiteVisitCount(Website $website)
     {
 
