@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppBannerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\HomeController;
@@ -68,6 +69,11 @@ Route::middleware('auth', 'verified')->group(function () {
             Route::post('/create', [HomeSlideController::class, 'store'])->name('config.home-slide.store');
             Route::get('/edit/{id}', [HomeSlideController::class, 'edit'])->name('config.home-slide.edit');
             Route::post('/edit/{id}', [HomeSlideController::class, 'update'])->name('config.home-slide.update');
+        });
+        Route::prefix('app-banner')->group(function () {
+            Route::get('/', [AppBannerController::class, 'index'])->name('config.app-banner.index');
+            Route::get('/create', [AppBannerController::class, 'create'])->name('config.app-banner.create');
+            Route::post('/create', [AppBannerController::class, 'store'])->name('config.app-banner.store');
         });
     });
 });
