@@ -226,7 +226,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 ">
-                    <a href="{{ route('user.website_list') }}">
+                    <a href="{{ route('user.routing_list') }}">
                         <div class="menu-box">
                             <div class="detail-box ">
                                 <div>

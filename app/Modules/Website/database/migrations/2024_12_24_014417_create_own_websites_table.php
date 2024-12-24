@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
+            $table->foreignId('coin')->default(0);
             $table->foreignId('created_by');
             $table->foreign('created_by')->on('users')->references('id');
+            $table->boolean('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

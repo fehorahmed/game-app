@@ -61,9 +61,12 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/add_yourself', [AppUserController::class, 'appUserAddYouself'])->name('user.add_yourself');
     Route::post('/add_yourself', [AppUserController::class, 'appUserAddYouselfStore']);
 
+
+    Route::get('/routing', [AppUserController::class, 'appUserRoutingList'])->name('user.routing_list');
     Route::get('/website_list', [AppUserController::class, 'appUserWebsiteList'])->name('user.website_list');
     Route::get('/website_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
 
+    Route::get('/web_visiting_list', [AppUserController::class, 'appUserWebVisitingList'])->name('user.web_visiting_list');
 
     Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
     Route::get('/get_user_by_id_for_add_yourself', [AppUserController::class, 'getUserByUserIdForAddYourself'])->name('user.get-user-by-user_id-for-add-yourself');

@@ -21,6 +21,8 @@ use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
+use App\Modules\Website\Models\OwnWebsite;
+use App\Modules\Website\Models\OwnWebsiteVisitLog;
 use App\Modules\Website\Models\Website;
 use App\Modules\Website\Models\WebsiteVisitLog;
 use Illuminate\Http\Request;
@@ -1067,6 +1069,21 @@ class AppUserController extends Controller
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
+    public function appUserRoutingList()
+    {
+
+
+        return view('frontend.website.routing_list');
+    }
+    public function appUserWebVisitingList()
+    {
+
+        $website_visit_logs = OwnWebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id()])->pluck('own_website_id');
+        // dd($website_visit_logs);
+        $websites = OwnWebsite::where('status', 1)->whereNotIn('id', $website_visit_logs)->get();
+        // dd($websites);
+        return view('frontend.website.web_visiting_list', compact('websites'));
+    }
     public function appUserWebsiteList()
     {
 
@@ -1084,8 +1101,8 @@ class AppUserController extends Controller
         $websites = Website::where('status', 1)->whereNotIn('id', $website_visit_logs)->get();
 
         return response([
-            'status'=>true,
-            'datas'=>$websites
+            'status' => true,
+            'datas' => $websites
         ]);
     }
     public function appUserWebsiteVisitCount(Website $website)
@@ -1270,8 +1287,8 @@ class AppUserController extends Controller
             }
         }
         return response([
-            'status'=>true,
-            'data'=>$data
+            'status' => true,
+            'data' => $data
         ]);
     }
 }

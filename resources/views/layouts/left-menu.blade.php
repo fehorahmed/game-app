@@ -449,6 +449,8 @@
             $app_menu = [
                 'admin.website.create',
                 'admin.website.edit',
+                'admin.own.website.create',
+                'admin.own.website.edit',
                 'config.payment-method.create',
                 'config.payment-method.edit',
                 'config.home-slide.create',
@@ -512,7 +514,7 @@
                         </div><!--end gameConfig-->
                     </li><!--end nav-item-->
                     @php
-                        $app_user = ['admin.website.create', 'admin.website.edit'];
+                        $app_user = ['admin.website.create', 'admin.website.edit','admin.own.website.create','admin.own.website.edit'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarAdvancedUI" data-bs-toggle="collapse" role="button"
@@ -524,6 +526,9 @@
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('admin.website.list') }}">Website</a>
+                                </li><!--end nav-item-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.own.website.list') }}">Own Website</a>
                                 </li><!--end nav-item-->
                                 {{-- <li class="nav-item">
                                     <a class="nav-link" href="advanced-clipboard.html">Clip Board</a>

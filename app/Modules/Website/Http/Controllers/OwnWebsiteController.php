@@ -13,7 +13,8 @@ class OwnWebsiteController extends Controller
      */
     public function index()
     {
-        //
+        $websites = OwnWebsite::all();
+        return view('Website::admin.own-website.index', compact('websites'));
     }
 
     /**
@@ -21,7 +22,7 @@ class OwnWebsiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('Website::admin.own-website.create');
     }
 
     /**
@@ -29,31 +30,67 @@ class OwnWebsiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            "name" => 'required|string|max:255|unique:own_websites,name',
+            "coin" => 'required|numeric',
+            "status" => 'required|boolean',
+            "url" => 'required|string|max:255',
+        ]);
+        $website = new OwnWebsite();
+        $website->name = $request->name;
+        $website->url = $request->url;
+        $website->coin = $request->coin;
+        // $website->time = $request->time;
+        $website->status = $request->status;
+        $website->created_by = auth()->id();
+        if ($website->save()) {
+
+            return redirect()->route('admin.own.website.list')->with('success', 'Own Website added successfully');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(OwnWebsite $ownWebsite)
+    public function show(OwnWebsite $website)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OwnWebsite $ownWebsite)
+    public function edit(OwnWebsite $website)
     {
-        //
+        return view('Website::admin.own-website.edit', compact('website'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OwnWebsite $ownWebsite)
+    public function update(Request $request, OwnWebsite $website)
     {
-        //
+        $request->validate([
+            "name" => 'required|string|max:255|unique:own_websites,name,' . $website->id,
+            "coin" => 'required|numeric',
+            "status" => 'required|boolean',
+            "url" => 'required|string|max:255',
+        ]);
+
+        $website->name = $request->name;
+        $website->url = $request->url;
+        $website->coin = $request->coin;
+        $website->status = $request->status;
+        if ($website->save()) {
+
+            return redirect()->route('admin.own.website.list')->with('success', 'Own Website updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     /**
