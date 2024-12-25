@@ -81,5 +81,8 @@ Route::middleware('auth', 'verified')->group(function () {
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+});
 
 require __DIR__ . '/auth.php';
