@@ -84,5 +84,8 @@ Route::get('/linkstorage', function () {
 Route::get('/migrate', function () {
     Artisan::call('migrate');
 });
+Route::get('/optimize', function () {
+    Artisan::call('optimize');
+});
 
 require __DIR__ . '/auth.php';
