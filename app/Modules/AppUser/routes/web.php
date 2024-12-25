@@ -67,7 +67,7 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::get('/website_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
 
     Route::get('/web_visiting_list', [AppUserController::class, 'appUserWebVisitingList'])->name('user.web_visiting_list');
-    Route::get('/web_routing_visit_count/{website}', [AppUserController::class, 'appUserWebsiteVisitCount'])->name('user.website_visit_count');
+
 
     Route::get('/star_buy', [StarLogController::class, 'userStarBuy'])->name('user.star.buy');
     Route::get('/get_user_by_id_for_add_yourself', [AppUserController::class, 'getUserByUserIdForAddYourself'])->name('user.get-user-by-user_id-for-add-yourself');
@@ -97,3 +97,5 @@ Route::middleware(['auth:appuser'])->group(function () {
      //Support
      Route::get('/user_support', [AppUserController::class, 'appUserSupport'])->name('user.support');
 });
+
+Route::get('/web_routing_visit_count/{website}', [AppUserController::class, 'appUserWebVisitCount'])->name('user.web_visit_count');

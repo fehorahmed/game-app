@@ -36,7 +36,7 @@
                             </td>
                             <td> {{$item->coin}} </td>
                             <td>
-                                <a target="_blank" href="{{$item->url}}?other_user={{auth()->id()}}&other_visiting_id={{$item->id}}&other_url={{ url('/') }}" class="btn btn-info btn-sm">Visit</a>
+                                <a target="_blank" href="{{$item->url}}?other_user={{auth()->id()}}&other_visiting_id={{$item->id}}&other_url={{ url()->current() }}" class="btn btn-info btn-sm">Visit</a>
 
                             </td>
                         </tr>

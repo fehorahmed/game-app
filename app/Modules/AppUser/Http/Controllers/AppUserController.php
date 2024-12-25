@@ -1169,6 +1169,118 @@ class AppUserController extends Controller
 
         return redirect()->route('user.website_list')->with('success', $message);
     }
+    public function appUserWebVisitCount(Request $request, OwnWebsite $website)
+    {
+        $visitCount = [
+            'id' => $website,
+            'visits' => rand(1, 100), // Example: Random visit count
+            'status' => 'success',
+        ];
+
+        // "other_user" => "3"
+        // "other_visiting_id" => "1"
+        // "other_url" => "http://127.0.0.1:8000/web_visiting_list"
+        // Return the response as JSON
+
+        $user = AppUser::find($request->other_user);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.'
+            ]);
+        }
+
+        if ($request->other_user && $request->other_visiting_id) {
+            $transactionFail = false;
+
+            DB::beginTransaction();
+
+            try {
+                $web_visit_log = OwnWebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => $request->other_user, 'own_website_id' => $request->other_visiting_id])
+                    ->first();
+
+                if ($web_visit_log) {
+                    $message = 'This coin already avail today. Please try Tomorrow';
+
+                    return response()->json([
+                        'status' => false,
+                        'message' => $message
+                    ]);
+                } else {
+
+                    $website_visit_log_store = new OwnWebsiteVisitLog();
+                    $website_visit_log_store->own_website_id = $website->id;
+                    $website_visit_log_store->app_user_id = $user->id;
+                    $website_visit_log_store->date = now();
+                    $website_visit_log_store->coin = $website->coin;
+                    if ($website_visit_log_store->save()) {
+                        $user_coin = UserCoin::where('app_user_id', $user->id)->first();
+                        if (!$user_coin) {
+                            $user_coin = new UserCoin();
+                            $user_coin->app_user_id = $user->id;
+                            $user_coin->coin = $website->coin;
+                        } else {
+                            $user_coin->coin += $website->coin;
+                        }
+                        if ($user_coin->save()) {
+                            $u_c_details = new UserCoinDetail();
+                            $u_c_details->source = 'OWNWEBSITE';
+                            $u_c_details->coin_type = 'ADD';
+                            $u_c_details->user_coin_id = $user_coin->id;
+                            $u_c_details->own_website_id = $website->id;
+                            $u_c_details->coin = $website->coin;
+                            if (!$u_c_details->save()) {
+                                $transactionFail = true;
+                            }
+                        } else {
+                            $transactionFail = true;
+                        }
+                    } else {
+                        $transactionFail = true;
+                    }
+
+
+                    if ($transactionFail) {
+                        DB::rollBack();
+
+                        $message = 'Something went wrong.';
+                        return response()->json([
+                            'status' => false,
+                            'message' => $message
+                        ]);
+                    } else {
+                        DB::commit();
+                        $message = 'Website visit success. Coin added on your account.';
+                        return response()->json([
+                            'status' => true,
+                            'message' => $message
+                        ]);
+                    }
+                }
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                $message = $th->getMessage();
+                return response()->json([
+                    'status' => false,
+                    'message' => $message
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Somehing went wrong.'
+            ]);
+        }
+
+
+
+
+
+        dd($request->all());
+        // $website_visit_log = WebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id(), 'website_id' => $website->id])
+        // ->first();
+
+    }
 
     public function appUserTransferType()
     {
