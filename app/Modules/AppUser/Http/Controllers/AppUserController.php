@@ -1171,11 +1171,18 @@ class AppUserController extends Controller
     }
     public function appUserWebVisitCount(Request $request, OwnWebsite $website)
     {
-        $request->validate([
-            "other_user" => 'nullable',
-            "other_visiting_id" => 'nullable',
-            "other_url" => 'nullable',
-        ]);
+        $rules=[
+            "other_user" => 'required|numeric',
+            "other_visiting_id" =>  'required|numeric',
+            "other_url" => 'required|string',
+        ];
+        $validation = Validator::make($request->all(),$rules);
+        if($validation->fails()){
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first()
+            ]);
+        }
 
         $user = AppUser::find($request->other_user);
         if (!$user) {
