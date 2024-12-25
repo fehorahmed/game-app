@@ -1171,16 +1171,11 @@ class AppUserController extends Controller
     }
     public function appUserWebVisitCount(Request $request, OwnWebsite $website)
     {
-        $visitCount = [
-            'id' => $website,
-            'visits' => rand(1, 100), // Example: Random visit count
-            'status' => 'success',
-        ];
-
-        // "other_user" => "3"
-        // "other_visiting_id" => "1"
-        // "other_url" => "http://127.0.0.1:8000/web_visiting_list"
-        // Return the response as JSON
+        $request->validate([
+            "other_user" => 'nullable',
+            "other_visiting_id" => 'nullable',
+            "other_url" => 'nullable',
+        ]);
 
         $user = AppUser::find($request->other_user);
         if (!$user) {
@@ -1192,9 +1187,7 @@ class AppUserController extends Controller
 
         if ($request->other_user && $request->other_visiting_id) {
             $transactionFail = false;
-
             DB::beginTransaction();
-
             try {
                 $web_visit_log = OwnWebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => $request->other_user, 'own_website_id' => $request->other_visiting_id])
                     ->first();
