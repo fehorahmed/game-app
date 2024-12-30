@@ -27,7 +27,7 @@ class GameController extends Controller
     public function index()
     {
         $games = Game::all();
-        return view('Game::admin.index',compact('games'));
+        return view('Game::admin.index', compact('games'));
     }
 
     /**
@@ -60,7 +60,7 @@ class GameController extends Controller
     public function edit($id)
     {
         $game = Game::findOrFail($id);
-        return view('Game::admin.edit',compact('game'));
+        return view('Game::admin.edit', compact('game'));
     }
 
     /**
@@ -82,14 +82,11 @@ class GameController extends Controller
         $game->text = $request->text;
         $game->status = $request->status;
         $game->updator = auth()->id();
-        if($game->update()){
-            return redirect()->route('admin.game.index')->with('success','Game information update successfully.');
-        }else{
-            return redirect()->back()->with('error','Something went wrong.');
+        if ($game->update()) {
+            return redirect()->route('admin.game.index')->with('success', 'Game information update successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
-
-
-
     }
 
     public function apiGameList()
@@ -214,6 +211,108 @@ class GameController extends Controller
             ]);
         }
     }
+    public function apiGameWishCoinStore(Request $request)
+    {
+        $rules = [
+            'game_session' => 'required|string',
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->getMessageBag()->first()
+            ]);
+        }
+        $user_id = auth()->id();
+        //Game Session Check
+        $session_ck = GameSession::where(['game_session' => $request->game_session, 'status' => 1])->first();
+        if (!$session_ck) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Session not found .'
+            ], 401);
+        } else {
+            if ($session_ck->status == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Session no longer active.'
+                ], 401);
+            }
+        }
+
+        //Check Coin balance
+        $u_coin = UserCoin::where('app_user_id', $user_id)->first();
+        if (!$u_coin) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Coin account not found.'
+            ], 401);
+        }
+
+        $g_s_ck = GameSessionDetail::where(['app_user_id' => $user_id, 'game_session_id' => $session_ck->id])->first();
+        if (!$g_s_ck) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found on this game.'
+            ], 401);
+        }
+
+
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+
+            $session_detail = new GameSessionDetail();
+            $session_detail->game_session_id = $session_ck->id;
+            $session_detail->coin_type = 'WISH';
+            $session_detail->app_user_id = $user_id;
+            //Game Fee
+            $deduct_amount = $session_ck->board_amount * (5 / 100);
+            $session_detail->coin = $deduct_amount;
+            // $session_detail->streak = $win_streak;
+            $session_detail->remark = 'WISH BUTTON';
+            if ($session_detail->save()) {
+                $user_c_details = new UserCoinDetail();
+                $user_c_details->coin_type = "SUB";
+                //Increment Coin
+                $u_coin->decrement('coin', $deduct_amount);
+
+                $user_c_details->source = "GAME";
+                $user_c_details->user_coin_id = $u_coin->id;
+                $user_c_details->coin = $deduct_amount;
+                $user_c_details->game_session_detail_id = $session_detail->id;
+                if (!$user_c_details->save()) {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong.'
+                ], 401);
+            } else {
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Action successfully',
+                    'deduct_amount' => $deduct_amount,
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 401);
+        }
+    }
+
+
     public function apiGameSessionUpdate(Request $request)
     {
         $rules = [
