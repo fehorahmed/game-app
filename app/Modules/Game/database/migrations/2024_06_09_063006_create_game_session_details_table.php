@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('game_session_details', function (Blueprint $table) {
             $table->id();
-            $table->enum('coin_type', ['WIN', 'FEE', 'INIT']);
+            $table->enum('coin_type', ['WIN', 'FEE', 'INIT','WISH']);
             $table->foreignId('game_session_id');
             $table->foreignId('app_user_id');
             $table->unsignedBigInteger('coin');

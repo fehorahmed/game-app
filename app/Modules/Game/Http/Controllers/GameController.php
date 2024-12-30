@@ -239,7 +239,14 @@ class GameController extends Controller
                 ], 401);
             }
         }
-
+        $g_s_ck = GameSessionDetail::where(['app_user_id' => $user_id, 'game_session_id' => $session_ck->id])->first();
+        if (!$g_s_ck) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found on this game.'
+            ], 401);
+        }
+        $deduct_amount = $session_ck->board_amount * (5 / 100);
         //Check Coin balance
         $u_coin = UserCoin::where('app_user_id', $user_id)->first();
         if (!$u_coin) {
@@ -248,15 +255,12 @@ class GameController extends Controller
                 'message' => 'Coin account not found.'
             ], 401);
         }
-
-        $g_s_ck = GameSessionDetail::where(['app_user_id' => $user_id, 'game_session_id' => $session_ck->id])->first();
-        if (!$g_s_ck) {
+        if ($u_coin->coin < $deduct_amount) {
             return response()->json([
                 'status' => false,
-                'message' => 'User not found on this game.'
+                'message' => 'You do not have enough coin.'
             ], 401);
         }
-
 
         $transactionFail = false;
         DB::beginTransaction();
@@ -267,7 +271,7 @@ class GameController extends Controller
             $session_detail->coin_type = 'WISH';
             $session_detail->app_user_id = $user_id;
             //Game Fee
-            $deduct_amount = $session_ck->board_amount * (5 / 100);
+
             $session_detail->coin = $deduct_amount;
             // $session_detail->streak = $win_streak;
             $session_detail->remark = 'WISH BUTTON';
