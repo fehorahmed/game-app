@@ -455,6 +455,7 @@
                 'config.payment-method.edit',
                 'config.home-slide.create',
                 'config.home-slide.edit',
+                'config.app-banner.create',
                 'admin.game.create',
                 'admin.game.edit',
             ];
@@ -561,7 +562,7 @@
                         </div><!--end sidebarAdvancedUI-->
                     </li><!--end nav-item-->
                     @php
-                        $app_user = ['config.home-slide.create', 'config.home-slide.edit'];
+                        $app_user = ['config.home-slide.create', 'config.home-slide.edit','config.app-banner.create'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
@@ -572,7 +573,10 @@
                             id="sidebarForms">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('config.home-slide.index') }}">List</a>
+                                    <a class="nav-link" href="{{ route('config.home-slide.index') }}">Home Slider List</a>
+                                </li><!--end nav-item-->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('config.app-banner.index') }}">App Banner List</a>
                                 </li><!--end nav-item-->
 
                             </ul><!--end nav-->

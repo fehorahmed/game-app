@@ -26,7 +26,7 @@
                                     <th>SL</th>
                                     <th>Title</th>
                                     <th>Image</th>
-                                    <th>Status</th>
+
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -37,10 +37,10 @@
                                     <td>{{$data->title}}</td>
                                     <td>
                                         @if ($data->image)
-                                        <img src="{{ asset($data->image) }}" alt="" height="50">
+                                        <a target="_blank" href="{{ asset($data->image) }}"><img src="{{ asset($data->image) }}" alt="" height="50"></a>
                                     @endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($data->status == 1)
                                                 <p class="badge bg-success">Active</p>
                                             @elseif ($data->status == 0)
@@ -48,9 +48,10 @@
                                             @else
                                                 no status
                                             @endif
-                                    </td>
+                                    </td> --}}
                                     <td>
-                                        <a href="{{route('config.home-slide.edit',$data->id)}}" class="btn btn-primary btn-sm">Edit</a>
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                        {{-- <a href="{{route('config.home-slide.edit',$data->id)}}" class="btn btn-primary btn-sm">Edit</a> --}}
                                     </td>
 
                                 </tr>

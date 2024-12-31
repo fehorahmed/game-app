@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
+use App\Http\Resources\AppBannerResource;
 use App\Models\AppBanner;
 use Illuminate\Http\Request;
 
@@ -22,7 +24,7 @@ class AppBannerController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.app_banner.create');
     }
 
     /**
@@ -30,15 +32,33 @@ class AppBannerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "title" => 'required|string|max:255',
+            "image" => 'required|image|mimes:png,jpg|max:1024',
+
+        ]);
+
+        $data = new AppBanner();
+        $data->title = $request->title;
+        $data->created_by = auth()->id();
+
+        if ($request->image) {
+            $des = 'home_slider';
+            $path =  Helper::saveImage($des, $request->image, 555, 476);
+            $data->image = $path;
+        }
+        if ($data->save()) {
+            return redirect()->route('config.app-banner.index')->with('success', 'App Banner added successfully.');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AppBanner $appBanner)
+    public function apiGetAppBanners()
     {
-        //
+      $datas = AppBanner::all();
+      return response()->json([
+        'status'=>true,
+        'datas'=>AppBannerResource::collection($datas)
+      ]);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppBannerController;
 use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUser\Http\Controllers\UserGameController;
@@ -61,6 +62,11 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('member-count-by-level', [AppUserController::class, 'apiUserMemberCountByLevel'])->name('api.app_user.member_count_by_level');
         //Routing Website List
         Route::get('routing-website-list', [AppUserController::class, 'apiRoutingWebsiteList'])->name('api.app_user.routing_website_list');
+
+
+        // app-banners
+        Route::get('app-banners', [AppBannerController::class, 'apiGetAppBanners'])->name('api.app_user.get_app_banner');
+
 
 
     });

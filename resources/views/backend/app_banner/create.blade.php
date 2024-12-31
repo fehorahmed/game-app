@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Website Create ')
+@section('title', 'App Banner Create ')
 
 
 @section('content')
@@ -10,10 +10,10 @@
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col">
-                            <h4 class="card-title">Website Create</h4>
+                            <h4 class="card-title">App Banner Create</h4>
                         </div><!--end col-->
                         <div class="col-auto">
-                            <a href="{{ route('config.home-slide.index') }}" type="button"
+                            <a href="{{ route('config.app-banner.index') }}" type="button"
                                 class="btn btn-primary btn-sm mb-3"><i class="fas fa-list"></i> List</a>
                         </div><!--end col-->
                     </div> <!--end row-->
@@ -37,26 +37,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label class="col-md-3 my-1 control-label text-end">Status</label>
-                                    <div class="col-md-9">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1"
-                                                {{ old('status') == '1' ? 'checked' : '' }} value="1">
-                                            <label class="form-check-label" for="inlineRadio1">Active</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2"
-                                                {{ old('status') == '0' ? 'checked' : '' }} value="0">
-                                            <label class="form-check-label" for="inlineRadio2">Inactive</label>
-                                        </div>
-                                        @error('status')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3 row">
@@ -73,22 +53,8 @@
                             </div>
 
 
-
-                            <div class="col-lg-12">
-                                <div class="mb-3 row">
-                                    <label for="content" class="col-form-label">Content</label>
-                                </div>
-
-                                <textarea name="content" id="content" cols="30" rows="10">{{old('content')}}</textarea>
-                                @error('content')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                            </div>
-
                             <div class="col-sm-12 text-end mt-2">
-                                <button type="submit" class="btn btn-primary px-4">Store Slide</button>
+                                <button type="submit" class="btn btn-primary px-4">Store Banner</button>
                             </div>
                         </div>
                     </form>
