@@ -60,7 +60,7 @@ class PaymentMethodController extends Controller
         $data->status = $request->status;
         if ($request->logo) {
             $des = 'payment_method';
-            $path =  Helper::saveImage($des, $request->logo, 100, 30);
+            $path =  Helper::saveImage($des, $request->logo, 100, 100);
             $data->logo = $path;
         }
         if ($data->save()) {
@@ -123,7 +123,7 @@ class PaymentMethodController extends Controller
                 Helper::deleteFile($paymentMethod->logo);
             }
             $des = 'payment_method';
-            $path =  Helper::saveImage($des, $request->logo, 100, 30);
+            $path =  Helper::saveImage($des, $request->logo, 100, 100);
             $paymentMethod->logo = $path;
         }
         if ($paymentMethod->save()) {
