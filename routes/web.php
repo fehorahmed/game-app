@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppBannerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GlobalConfigController;
+use App\Http\Controllers\HelpVideoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeSlideController;
 use App\Http\Controllers\PaymentMethodController;
@@ -74,6 +75,12 @@ Route::middleware('auth', 'verified')->group(function () {
             Route::get('/', [AppBannerController::class, 'index'])->name('config.app-banner.index');
             Route::get('/create', [AppBannerController::class, 'create'])->name('config.app-banner.create');
             Route::post('/create', [AppBannerController::class, 'store'])->name('config.app-banner.store');
+        });
+        Route::prefix('help-video')->group(function () {
+            Route::get('/', [HelpVideoController::class, 'index'])->name('config.help-video.index');
+            Route::get('/create', [HelpVideoController::class, 'create'])->name('config.help-video.create');
+            Route::post('/create', [HelpVideoController::class, 'store'])->name('config.help-video.store');
+            Route::get('/delete', [HelpVideoController::class, 'destroy'])->name('config.help-video.destroy');
         });
     });
 });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppBannerController;
+use App\Http\Controllers\HelpVideoController;
 use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
 use App\Modules\AppUser\Http\Controllers\UserGameController;
@@ -66,8 +67,7 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
 
         // app-banners
         Route::get('app-banners', [AppBannerController::class, 'apiGetAppBanners'])->name('api.app_user.get_app_banner');
-
-
-
+        // Help Video
+        Route::get('get-help-videos', [HelpVideoController::class, 'apiGetHelpVideos'])->name('api.app_user.get_help_video');
     });
 });

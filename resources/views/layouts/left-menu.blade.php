@@ -453,6 +453,7 @@
                 'admin.own.website.edit',
                 'config.payment-method.create',
                 'config.payment-method.edit',
+                'config.help-video.create',
                 'config.home-slide.create',
                 'config.home-slide.edit',
                 'config.app-banner.create',
@@ -470,7 +471,7 @@
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     @php
-                        $app_user = ['config.payment-method.create', 'config.payment-method.edit'];
+                        $app_user = ['config.payment-method.create', 'config.payment-method.edit','config.help-video.create'];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarElements" data-bs-toggle="collapse" role="button"
@@ -490,9 +491,9 @@
                                     <a class="nav-link" href="{{ route('config.payment-method.index') }}">Payment
                                         Methods</a>
                                 </li><!--end nav-item-->
-                                {{--  <li class="nav-item">
-                                    <a class="nav-link" href="ui-buttons.html">Buttons</a>
-                                </li><!--end nav-item--> --}}
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('config.help-video.index') }}">Help Video</a>
+                                </li><!--end nav-item-->
 
                             </ul><!--end nav-->
                         </div><!--end sidebarElements-->
@@ -562,7 +563,7 @@
                         </div><!--end sidebarAdvancedUI-->
                     </li><!--end nav-item-->
                     @php
-                        $app_user = ['config.home-slide.create', 'config.home-slide.edit','config.app-banner.create'];
+                        $app_user = ['config.home-slide.create', 'config.home-slide.edit','config.app-banner.create',''];
                     @endphp
                     <li class="nav-item">
                         <a class="nav-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
