@@ -8,6 +8,7 @@ use App\Modules\AppUser\Http\Controllers\UserGameController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use App\Modules\AppUserBalance\Http\Controllers\LevelIncomeLogController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
+use App\Modules\Game\Http\Controllers\GameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -69,5 +70,6 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('app-banners', [AppBannerController::class, 'apiGetAppBanners'])->name('api.app_user.get_app_banner');
         // Help Video
         Route::get('get-help-videos', [HelpVideoController::class, 'apiGetHelpVideos'])->name('api.app_user.get_help_video');
+        Route::get('get-active-game-list', [GameController::class, 'apiGetActiveGameList'])->name('api.app_user.get_active_game_list');
     });
 });

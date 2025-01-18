@@ -4,6 +4,7 @@ namespace App\Modules\Game\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GameResource;
 use App\Models\User;
 use App\Modules\AppUser\Http\Resources\AppUserResource;
 use App\Modules\AppUser\Models\AppUser;
@@ -96,6 +97,14 @@ class GameController extends Controller
             'status' => true,
             'datas' => $datas,
 
+        ], 200);
+    }
+    public function apiGetActiveGameList()
+    {
+        $datas = Game::where('status',1)->get();
+        return response()->json([
+            'status' => true,
+            'datas' =>  GameResource::collection($datas),
         ], 200);
     }
 

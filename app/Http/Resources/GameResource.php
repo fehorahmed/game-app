@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class HelpVideoResource extends JsonResource
+class GameResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,12 @@ class HelpVideoResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "title"=>$this->title,
-            "url"=>$this->url,
-            "serial"=>$this->serial,
+            "name"=>$this->name,
+            "image"=>$this->image,
+            "youtube_url"=>$this->youtube_url,
+            "text"=>$this->text,
+            "status"=>$this->status,
+
         ];
     }
 }
