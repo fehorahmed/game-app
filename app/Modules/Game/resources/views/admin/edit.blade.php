@@ -28,7 +28,7 @@
                                 <div class="mb-3 row">
                                     <label for="example-text-input" class="col-sm-3 col-form-label text-end">Name</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" value="{{ old('name', $game->name) }}"
+                                        <input class="form-control" type="text" value="{{ old('name', $game->name) }}" readonly
                                             name="name" id="example-text-input">
                                         @error('name')
                                             <div class="invalid-feedback">
