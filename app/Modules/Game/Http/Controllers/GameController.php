@@ -101,7 +101,7 @@ class GameController extends Controller
     }
     public function apiGetActiveGameList()
     {
-        $datas = Game::where('status',1)->get();
+        $datas = Game::where('status', 1)->get();
         return response()->json([
             'status' => true,
             'datas' =>  GameResource::collection($datas),
@@ -486,28 +486,81 @@ class GameController extends Controller
             'data' =>  $datas
         ]);
     }
-    public function apiGameProfile()
+    public function apiGameProfile(Request $request)
     {
+        $rules = [
+            'game_id' => 'nullable|numeric',
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->getMessageBag()->first()
+            ]);
+        }
         $user = AppUser::find(auth()->id());
 
         // Get the total count of groups directly using a subquery
-        $total_game = DB::table(DB::raw("(SELECT COUNT(*) as total
-FROM game_session_details
-WHERE app_user_id = " . auth()->id() . "
-GROUP BY game_session_id) as grouped"))
-            ->count();
 
-        $results = GameSessionDetail::select(
-            DB::raw('COUNT(*) as total_win_game'),
-            DB::raw('SUM(coin) as total_win_sum')
-        )->where('coin_type', 'WIN')->where('app_user_id', auth()->id())->first();
 
-        $current_streak_query =  GameSessionDetail::where('app_user_id', auth()->id())->latest()->first();
-        if ($current_streak_query) {
-            $current_streak =  $current_streak_query->streak;
+        if ($request->game_id) {
+
+
+            $game_id = $request->game_id;
+
+            $total_game = DB::table(DB::raw("(SELECT COUNT(*) as total
+                FROM game_session_details
+                JOIN game_sessions ON game_session_details.game_session_id = game_sessions.id
+                WHERE game_session_details.app_user_id = " . auth()->id() . "
+                AND game_sessions.game_id = " . $game_id . "
+                GROUP BY game_session_details.game_session_id) as grouped"))
+                ->count();
+
+
+            $results = GameSessionDetail::select(
+                DB::raw('COUNT(*) as total_win_game'),
+                DB::raw('SUM(coin) as total_win_sum')
+            )->whereHas('gameSession', function ($q) use ($game_id) {
+                $q->where('game_id', $game_id);
+            })
+                ->where('coin_type', 'WIN')->where('app_user_id', auth()->id())->first();
+
+            $current_streak_query =  GameSessionDetail::whereHas('gameSession', function ($q) use ($game_id) {
+                $q->where('game_id', $game_id);
+            })->where('app_user_id', auth()->id())->latest()->first();
+            if ($current_streak_query) {
+                $current_streak =  $current_streak_query->streak;
+            } else {
+                $current_streak =  0;
+            }
+
+            $best_win_streak = GameSessionDetail::whereHas('gameSession', function ($q) use ($game_id) {
+                $q->where('game_id', $game_id);
+            })->where('app_user_id', auth()->id())->max('streak');
         } else {
-            $current_streak =  0;
+            $total_game = DB::table(DB::raw("(SELECT COUNT(*) as total
+            FROM game_session_details
+            WHERE app_user_id = " . auth()->id() . "
+            GROUP BY game_session_id) as grouped"))
+                ->count();
+
+            $results = GameSessionDetail::select(
+                DB::raw('COUNT(*) as total_win_game'),
+                DB::raw('SUM(coin) as total_win_sum')
+            )->where('coin_type', 'WIN')->where('app_user_id', auth()->id())->first();
+
+            $current_streak_query =  GameSessionDetail::where('app_user_id', auth()->id())->latest()->first();
+            if ($current_streak_query) {
+                $current_streak =  $current_streak_query->streak;
+            } else {
+                $current_streak =  0;
+            }
+
+            $best_win_streak = GameSessionDetail::where('app_user_id', auth()->id())->max('streak');
         }
+
+        // dd($total_game,auth()->id());
+
         if ($total_game <= 0) {
             return response()->json([
                 'status' => true,
@@ -519,7 +572,7 @@ GROUP BY game_session_id) as grouped"))
                 'best_win_streak' => 0,
             ]);
         }
-        $best_win_streak = GameSessionDetail::where('app_user_id', auth()->id())->max('streak');
+
         $win_rate = ($results->total_win_game / $total_game) * 100;
         return response()->json([
             'status' => true,

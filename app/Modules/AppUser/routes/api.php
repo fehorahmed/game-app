@@ -64,6 +64,7 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('member-count-by-level', [AppUserController::class, 'apiUserMemberCountByLevel'])->name('api.app_user.member_count_by_level');
         //Routing Website List
         Route::get('routing-website-list', [AppUserController::class, 'apiRoutingWebsiteList'])->name('api.app_user.routing_website_list');
+        Route::get('own-website-list', [AppUserController::class, 'apiOwnWebsiteList'])->name('api.app_user.own_website_list');
 
 
         // app-banners

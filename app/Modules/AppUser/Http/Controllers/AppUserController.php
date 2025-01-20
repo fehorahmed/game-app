@@ -21,6 +21,7 @@ use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use App\Modules\CoinManagement\Models\UserCoinDetail;
+use App\Modules\Website\Http\Resources\OwnWebsiteResourse;
 use App\Modules\Website\Models\OwnWebsite;
 use App\Modules\Website\Models\OwnWebsiteVisitLog;
 use App\Modules\Website\Models\Website;
@@ -1093,6 +1094,18 @@ class AppUserController extends Controller
 
 
         return view('frontend.website.website_list', compact('websites'));
+    }
+    public function apiOwnWebsiteList()
+    {
+        $website_visit_logs = OwnWebsiteVisitLog::where(['date' => now()->format('Y-m-d'), 'app_user_id' => auth()->id()])->pluck('own_website_id');
+        // dd($website_visit_logs);
+        $websites = OwnWebsite::where('status', 1)->whereNotIn('id', $website_visit_logs)->get();
+        // dd($websites);
+        // return view('frontend.website.web_visiting_list', compact('websites'));
+        return response([
+            'status' => true,
+            'datas' => OwnWebsiteResourse::collection($websites)
+        ]);
     }
     public function apiRoutingWebsiteList()
     {
