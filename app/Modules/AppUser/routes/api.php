@@ -8,6 +8,7 @@ use App\Modules\AppUser\Http\Controllers\UserGameController;
 use App\Modules\AppUserBalance\Http\Controllers\AppUserBalanceController;
 use App\Modules\AppUserBalance\Http\Controllers\LevelIncomeLogController;
 use App\Modules\AppUserBalance\Http\Controllers\StarLogController;
+use App\Modules\CoinManagement\Http\Controllers\UserCoinConvertLogController;
 use App\Modules\Game\Http\Controllers\GameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,9 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         //Coin Transfer
         Route::post('/coin-transfer-store', [AppUserBalanceController::class, 'apiCoinTransferStore'])->name('api.app_user.coin-transfer.store');
         Route::get('/coin-transfer-history', [AppUserBalanceController::class, 'apiCoinTransferHistory'])->name('api.app_user.coin-transfer.history');
+        //Coin Convert
+        Route::post('/coin-convert-store', [UserCoinConvertLogController::class, 'apiCoinConvertStore'])->name('api.app_user.coin-convert.store');
+        Route::get('/coin-convert-history', [UserCoinConvertLogController::class, 'apiCoinConvertHistory'])->name('api.app_user.coin-convert.history');
 
         //Balance History
         Route::get('all-balance', [AppUserController::class, 'apiUserAllStar'])->name('api.app_user.all_balance');
