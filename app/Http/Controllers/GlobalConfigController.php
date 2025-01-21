@@ -38,14 +38,13 @@ class GlobalConfigController extends Controller
         $request->request->remove('_token');
         foreach ($request->all() as $key => $value) {
 
-            if($key == 'login_image' || $key == 'registration_image'){
+            if ($key == 'login_image' || $key == 'registration_image') {
                 $des = 'home_image';
                 $path =  Helper::saveImage($des, $request->$key, 555, 439);
                 $this->configUpdate($key, $path);
-            }else{
+            } else {
                 $this->configUpdate($key, $value);
             }
-
         }
         return redirect()->back()->with('success', 'Configuration update successfully.');
     }
@@ -75,30 +74,43 @@ class GlobalConfigController extends Controller
     }
 
 
-    public function getConfigByApi(Request $request){
+    public function getConfigByApi(Request $request)
+    {
         $rules = [
-            'key'=>'required|string|max:255',
+            'key' => 'required|string|max:255',
         ];
 
-        $validation = Validator::make($request->all(),$rules);
-        if($validation->fails()){
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
             return response()->json([
-                'status'=>false,
-                'message'=>$validation->errors()->first()
+                'status' => false,
+                'message' => $validation->errors()->first()
             ]);
         }
         $config = GlobalConfig::where('key', $request->key)->first();
-        if($config){
+        if ($config) {
             return response()->json([
-                'status'=>true,
-                'value'=>$config->value
+                'status' => true,
+                'value' => $config->value
             ]);
         }
         return response()->json([
-            'status'=>false,
-            'message'=>'Value not found for this key.'
+            'status' => false,
+            'message' => 'Value not found for this key.'
         ]);
+    }
+    public function apiSupportContact(Request $request)
+    {
 
+        $telegram_support = GlobalConfig::where('key', 'telegram_support')->first();
+        $whatsapp_support = GlobalConfig::where('key', 'whatsapp_support')->first();
+        $facebook_support = GlobalConfig::where('key', 'facebook_support')->first();
 
+        return response()->json([
+            'status' => true,
+            'telegram' => $telegram_support->value,
+            'whatsapp' => $whatsapp_support->value,
+            'facebook' => $facebook_support->value
+        ]);
     }
 }

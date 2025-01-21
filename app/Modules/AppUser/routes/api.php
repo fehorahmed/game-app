@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppBannerController;
+use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\HelpVideoController;
 use App\Modules\AppUser\Http\Controllers\AppUserAuthController;
 use App\Modules\AppUser\Http\Controllers\AppUserController;
@@ -20,6 +21,7 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
     Route::post('password/email', [AppUserAuthController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [AppUserAuthController::class, 'reset']);
 
+    Route::get('support-contact', [GlobalConfigController::class, 'apiSupportContact'])->name('api.support-contact');
 
     //Google
     Route::get('auth/google', [AppUserAuthController::class, 'redirectToGoogleByApi'])->name('api.app_user,google.login');
