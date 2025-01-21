@@ -465,17 +465,41 @@ class GameController extends Controller
             ], 401);
         }
     }
-    public function apiUserGameHistory()
+    public function apiUserGameHistory(Request $request)
     {
 
-
+        $rules = [
+            'game_id' => 'nullable|numeric',
+        ];
+        $validate = Validator::make($request->all(), $rules);
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->getMessageBag()->first()
+            ]);
+        }
         $today = Carbon::today();
-        $datas = GameSessionDetail::selectRaw('game_session_id, count(case when coin_type = "WIN" then 1 end) as win_count, sum(case when coin_type = "WIN" then coin else 0 end) as win_coin, sum(case when coin_type = "FEE" then coin else 0 end) as fee_coin')
-            ->groupBy('game_session_id')
-            ->whereDate('created_at', $today)
-            ->where('app_user_id', auth()->id())
-            ->orderBy('game_session_id', 'DESC')
-            ->get();
+        if ($request->game_id) {
+            $game_id = $request->game_id;
+            $datas = GameSessionDetail::whereHas('gameSession', function ($q) use ($game_id) {
+                $q->where('game_id', $game_id);
+            })->selectRaw('game_session_id, count(case when coin_type = "WIN" then 1 end) as win_count, sum(case when coin_type = "WIN" then coin else 0 end) as win_coin, sum(case when coin_type = "FEE" then coin else 0 end) as fee_coin')
+                ->groupBy('game_session_id')
+                ->whereDate('created_at', $today)
+                ->where('app_user_id', auth()->id())
+                ->orderBy('game_session_id', 'DESC')
+                ->get();
+        } else {
+            $datas = GameSessionDetail::selectRaw('game_session_id, count(case when coin_type = "WIN" then 1 end) as win_count, sum(case when coin_type = "WIN" then coin else 0 end) as win_coin, sum(case when coin_type = "FEE" then coin else 0 end) as fee_coin')
+                ->groupBy('game_session_id')
+                ->whereDate('created_at', $today)
+                ->where('app_user_id', auth()->id())
+                ->orderBy('game_session_id', 'DESC')
+                ->get();
+        }
+
+
+
         // $datas = GameSessionDetail::where('app_user_id', auth()->id())
         //     ->whereDate('created_at', $today)
         //     ->orderBy('id', 'DESC')
