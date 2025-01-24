@@ -5,6 +5,7 @@ namespace App\Modules\AppUserBalance\Http\Controllers;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Modules\AppUser\Models\AppUser;
+use App\Modules\AppUserBalance\Http\Resources\BalanceTransferLogResource;
 use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\BalanceTransferLog;
@@ -607,5 +608,11 @@ class AppUserBalanceController extends Controller
                 'message' => $th->getMessage(),
             ]);
         }
+    }
+
+    public function apiBalanceTransferHistory(){
+
+        $transfers = BalanceTransferLog::where('given_by', auth()->id())->orderBy('id', 'DESC')->get();
+        return response(BalanceTransferLogResource::collection($transfers));
     }
 }
