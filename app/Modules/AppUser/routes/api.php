@@ -54,6 +54,9 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         //Coin Transfer
         Route::post('/coin-transfer-store', [AppUserBalanceController::class, 'apiCoinTransferStore'])->name('api.app_user.coin-transfer.store');
         Route::get('/coin-transfer-history', [AppUserBalanceController::class, 'apiCoinTransferHistory'])->name('api.app_user.coin-transfer.history');
+        //Balance Transfer
+        Route::post('/balance-transfer-store', [AppUserBalanceController::class, 'apiBalanceTransferStore'])->name('api.app_user.balance-transfer.store');
+        Route::get('/balance-transfer-history', [AppUserBalanceController::class, 'apiBalanceTransferHistory'])->name('api.app_user.balance-transfer.history');
         //Coin Convert
         Route::post('/coin-convert-store', [UserCoinConvertLogController::class, 'apiCoinConvertStore'])->name('api.app_user.coin-convert.store');
         Route::get('/coin-convert-history', [UserCoinConvertLogController::class, 'apiCoinConvertHistory'])->name('api.app_user.coin-convert.history');
