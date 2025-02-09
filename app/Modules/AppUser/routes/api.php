@@ -75,11 +75,12 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
         Route::get('routing-website-list', [AppUserController::class, 'apiRoutingWebsiteList'])->name('api.app_user.routing_website_list');
         Route::get('own-website-list', [AppUserController::class, 'apiOwnWebsiteList'])->name('api.app_user.own_website_list');
 
-
         // app-banners
         Route::get('app-banners', [AppBannerController::class, 'apiGetAppBanners'])->name('api.app_user.get_app_banner');
         // Help Video
         Route::get('get-help-videos', [HelpVideoController::class, 'apiGetHelpVideos'])->name('api.app_user.get_help_video');
         Route::get('get-active-game-list', [GameController::class, 'apiGetActiveGameList'])->name('api.app_user.get_active_game_list');
+        // get-user by id
+        Route::get('get-user', [AppUserController::class, 'apiGetUserById'])->name('api.app_user.get_user_by_id');
     });
 });

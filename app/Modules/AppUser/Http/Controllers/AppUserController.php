@@ -1416,4 +1416,32 @@ class AppUserController extends Controller
             'data' => $data
         ]);
     }
+    public function apiGetUserById(Request $request)
+    {
+
+        $rules = [
+            'user_id' => 'required|numeric',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+
+        $app_user = AppUser::where('user_id', $request->user_id)->first();
+        if ($app_user) {
+            return response()->json([
+                'status' => true,
+                'data' => new AppUserResource($app_user),
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+    }
+
 }

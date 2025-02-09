@@ -5,6 +5,7 @@ namespace App\Modules\AppUser\Models;
 use App\Modules\AppUserBalance\Models\AppUserBalance;
 use App\Modules\AppUserBalance\Models\BalanceTransferLog;
 use App\Modules\AppUserBalance\Models\DepositLog;
+use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\AppUserBalance\Models\WithdrawLog;
 use App\Modules\CoinManagement\Models\CoinTransferLog;
 use App\Modules\CoinManagement\Models\UserCoin;
@@ -89,5 +90,9 @@ class AppUser extends Authenticatable
     public function refferalUsers()
     {
         return $this->hasMany(AppUser::class, 'referral_id','user_id');
+    }
+    public function totalStarIncome()
+    {
+        return $this->hasMany(LevelIncomeLog::class,'app_user_id')->where('type','GAIN');
     }
 }

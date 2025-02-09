@@ -29,6 +29,7 @@ class AppUserResource extends JsonResource
             "status" => 1,
             "star" => $this->balance->star ?? 0,
             "total_members" => count(Helper::get_all_referral_user_ids($this->user_id)),
+            "total_star_income" => $this->totalStarIncome->sum('amount'),
 
         ];
     }
