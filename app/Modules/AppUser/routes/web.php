@@ -88,6 +88,10 @@ Route::middleware(['auth:appuser'])->group(function () {
     Route::post('/coin_convert_store', [UserCoinController::class, 'appUserCoinConvertStore'])->name('user.coin_convert_store');
     Route::get('/coin_convert_history', [UserCoinController::class, 'appUserCoinConvertHistory'])->name('user.coin_convert.history');
 
+    Route::get('/taka_to_coin_convert', [UserCoinController::class, 'appUserTakaToCoinConvert'])->name('user.taka_to_coin_convert');
+    Route::post('/taka_to_coin_convert_store', [UserCoinController::class, 'appUserTakaToCoinConvertStore'])->name('user.taka_to_coin_convert_store');
+    Route::get('/taka_to_coin_convert_history', [UserCoinController::class, 'appUserTakaToCoinConvertHistory'])->name('user.taka_to_coin_convert.history');
+
     //Balance History
     Route::get('/balance_history', [AppUserBalanceController::class, 'appUserBalanceHistory'])->name('user.balance.history');
     Route::get('/coin_history', [AppUserBalanceController::class, 'appUserCoinHistory'])->name('user.coin.history');
