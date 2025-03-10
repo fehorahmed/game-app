@@ -15,7 +15,7 @@
             @include('frontend.layouts.message')
             <div class="heading_container heading_center">
                 <h2>
-                    Coin <span>Convert History</span>
+                    Taka to Coin <span>Convert History</span>
                 </h2>
 
             </div>
@@ -24,7 +24,7 @@
                     <table class="table table-dark">
                         <tr>
                             <th>SL</th>
-                            <th>Amount</th>
+                            <th>Coin Amount</th>
                             <th>Coin Rate</th>
                             <th>Balance</th>
                             <th>Date</th>

@@ -93,7 +93,7 @@
                         <div class="box">
                             <div class="detail-box" style="color: white;">
                                 <h5 class="font-weight-bold">
-                                    Coin Convert
+                                    Coin to Balance Convert
                                 </h5>
                                 <p>
                                     You can convert your coin to your blance
@@ -107,7 +107,7 @@
                         <div class="box">
                             <div class="detail-box" style="color: white;">
                                 <h5 class="font-weight-bold">
-                                    Taka to Coin Convert
+                                    Balance to Coin Convert
                                 </h5>
                                 <p>
                                     You can convert your balance to coin

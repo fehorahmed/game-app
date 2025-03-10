@@ -264,6 +264,7 @@ class UserCoinController extends Controller
         DB::beginTransaction();
         try {
             $convert_log = new UserCoinConvertLog();
+            $convert_log->convert_type = 'COIN';
             $convert_log->app_user_id = auth()->id();
             $convert_log->coin = $request->amount;
             $convert_log->coin_rate = $convert_rate;
@@ -324,7 +325,9 @@ class UserCoinController extends Controller
 
     public function appUserCoinConvertHistory()
     {
-        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())
+            ->where('convert_type', 'COIN')
+            ->orderBy('id', 'DESC')->get();
         return view("frontend.transfer.coin_convert_history", compact('datas'));
     }
     public function appUserTakaToCoinConvert()
@@ -341,7 +344,7 @@ class UserCoinController extends Controller
             "amount" => 'required|numeric',
             "password" => 'required|string',
         ]);
-        dd($request->all());
+        // dd($request->all());
         if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
             return redirect()->back()->withInput()->with('error', 'You do not have enough balance.');
         }
@@ -362,27 +365,28 @@ class UserCoinController extends Controller
             return redirect()->back()->withInput()->with('error', 'Please contact with support center. Rate is not fixed yet.');
         }
 
-        $balance = $request->amount / $convert_rate;
+        $coin = $request->amount * $convert_rate;
 
         $transactionFail = false;
         DB::beginTransaction();
         try {
             $convert_log = new UserCoinConvertLog();
             $convert_log->app_user_id = auth()->id();
-            $convert_log->coin = $request->amount;
+            $convert_log->convert_type = 'BALANCE';
+            $convert_log->coin = $coin;
             $convert_log->coin_rate = $convert_rate;
-            $convert_log->balance = $balance;
+            $convert_log->balance = $request->amount;
             if ($convert_log->save()) {
 
-                // For Coin Giving
+                // For Coin Update
                 $g_user = UserCoin::where('app_user_id', auth()->id())->first();
-                $g_user->coin -= $request->amount;
+                $g_user->coin += $coin;
                 if ($g_user->update()) {
                     $b_detail = new UserCoinDetail();
                     $b_detail->source = 'COIN_CONVERT';
-                    $b_detail->coin_type = 'SUB';
+                    $b_detail->coin_type = 'ADD';
                     $b_detail->user_coin_id = $g_user->id;
-                    $b_detail->coin = $request->amount;
+                    $b_detail->coin = $coin;
                     $b_detail->user_coin_convert_log_id = $convert_log->id;
                     if (!$b_detail->save()) {
                         $transactionFail = true;
@@ -393,14 +397,14 @@ class UserCoinController extends Controller
 
                 // For Balance update
                 $r_user = AppUserBalance::where('app_user_id', auth()->id())->first();
-                $r_user->balance += $balance;
+                $r_user->balance -= $request->amount;
 
                 if ($r_user->save()) {
                     $r_b_detail = new AppUserBalanceDetail();
                     $r_b_detail->app_user_balance_id = $r_user->id;
                     $r_b_detail->source = 'COIN_CONVERT';
-                    $r_b_detail->balance_type = 'ADD';
-                    $r_b_detail->balance = $balance;
+                    $r_b_detail->balance_type = 'SUB';
+                    $r_b_detail->balance = $request->amount;
                     $r_b_detail->user_coin_convert_log_id = $convert_log->id;
                     if (!$r_b_detail->save()) {
                         $transactionFail = true;
@@ -417,7 +421,7 @@ class UserCoinController extends Controller
                 return redirect()->back()->withInput()->with('error', 'Something went wrong.');
             } else {
                 DB::commit();
-                return redirect()->route('user.coin_convert.history')->with('success', 'Coin convert done successfully.');
+                return redirect()->route('user.taka_to_coin_convert.history')->with('success', 'Coin convert done successfully.');
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -427,7 +431,9 @@ class UserCoinController extends Controller
     }
     public function appUserTakaToCoinConvertHistory()
     {
-        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())
+            ->where('convert_type', 'BALANCE')
+            ->orderBy('id', 'DESC')->get();
         return view("frontend.transfer.taka_to_coin_convert_history", compact('datas'));
     }
 }

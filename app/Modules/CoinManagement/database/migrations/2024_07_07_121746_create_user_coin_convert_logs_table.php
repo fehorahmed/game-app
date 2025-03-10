@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_coin_convert_logs', function (Blueprint $table) {
             $table->id();
+            $table->enum('convert_type',['COIN','BALANCE'])->default('COIN');
             $table->foreignId('app_user_id');
             $table->bigInteger('coin')->default(0);
             $table->bigInteger('coin_rate')->default(0);
