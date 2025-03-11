@@ -39,8 +39,6 @@
                                 <td> {{ $item->balance }} </td>
                                 <td>{{ $item->created_at }}</td>
 
-
-
                             </tr>
                         @endforeach
                     </table>
