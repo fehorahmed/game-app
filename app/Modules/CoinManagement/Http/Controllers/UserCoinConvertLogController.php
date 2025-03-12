@@ -149,7 +149,7 @@ class UserCoinConvertLogController extends Controller
      */
     public function apiCoinConvertHistory()
     {
-        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->where('convert_type', 'COIN')->orderBy('id', 'DESC')->get();
 
         return response(UserCoinConvertLogResource::collection($datas));
     }
@@ -169,7 +169,7 @@ class UserCoinConvertLogController extends Controller
             ]);
         }
 
-        if (!isset(auth()->user()->coin) || (auth()->user()->coin->coin < $request->amount)) {
+        if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
             return response()->json([
                 'status' => false,
                 'message' => 'You do not have enough balance.',
@@ -188,43 +188,47 @@ class UserCoinConvertLogController extends Controller
             ]);
         }
 
-        $minimum_coin = Helper::get_config('minimum_convert_coin') ?? 0;
+        $minimum_coin = Helper::get_config('minimum_convert_taka_to_coin') ?? 0;
         if ($minimum_coin > $request->amount) {
+
             return response()->json([
                 'status' => false,
-                'message' => 'Minimun coin convert amount is ' . $minimum_coin . ' .',
+                'message' => 'Minimun balance convert amount is ' . $minimum_coin . ' .'
             ]);
         }
 
         $convert_rate = Helper::get_config('coin_convert_amount') ?? 0;
+
+        //Check Convert Rate
         if ($convert_rate <= 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'Please contact with support center. Rate is not fixed yet.',
+                'message' => 'Please contact with support center. Rate is not fixed yet.'
             ]);
         }
 
-        $balance = $request->amount / $convert_rate;
+        $coin = $request->amount * $convert_rate;
 
         $transactionFail = false;
         DB::beginTransaction();
         try {
             $convert_log = new UserCoinConvertLog();
             $convert_log->app_user_id = auth()->id();
-            $convert_log->coin = $request->amount;
+            $convert_log->convert_type = 'BALANCE';
+            $convert_log->coin = $coin;
             $convert_log->coin_rate = $convert_rate;
-            $convert_log->balance = $balance;
+            $convert_log->balance = $request->amount;
             if ($convert_log->save()) {
 
-                // For Coin Giving
+                // For Coin Update
                 $g_user = UserCoin::where('app_user_id', auth()->id())->first();
-                $g_user->coin -= $request->amount;
+                $g_user->coin += $coin;
                 if ($g_user->update()) {
                     $b_detail = new UserCoinDetail();
                     $b_detail->source = 'COIN_CONVERT';
-                    $b_detail->coin_type = 'SUB';
+                    $b_detail->coin_type = 'ADD';
                     $b_detail->user_coin_id = $g_user->id;
-                    $b_detail->coin = $request->amount;
+                    $b_detail->coin = $coin;
                     $b_detail->user_coin_convert_log_id = $convert_log->id;
                     if (!$b_detail->save()) {
                         $transactionFail = true;
@@ -235,14 +239,14 @@ class UserCoinConvertLogController extends Controller
 
                 // For Balance update
                 $r_user = AppUserBalance::where('app_user_id', auth()->id())->first();
-                $r_user->balance += $balance;
+                $r_user->balance -= $request->amount;
 
                 if ($r_user->save()) {
                     $r_b_detail = new AppUserBalanceDetail();
                     $r_b_detail->app_user_balance_id = $r_user->id;
                     $r_b_detail->source = 'COIN_CONVERT';
-                    $r_b_detail->balance_type = 'ADD';
-                    $r_b_detail->balance = $balance;
+                    $r_b_detail->balance_type = 'SUB';
+                    $r_b_detail->balance = $request->amount;
                     $r_b_detail->user_coin_convert_log_id = $convert_log->id;
                     if (!$r_b_detail->save()) {
                         $transactionFail = true;
@@ -258,14 +262,14 @@ class UserCoinConvertLogController extends Controller
                 DB::rollBack();
                 return response()->json([
                     'status' => false,
-                    'message' => 'Something went wrong.',
+                    'message' => 'Something went wrong.'
                 ]);
+
             } else {
                 DB::commit();
                 return response()->json([
                     'status' => true,
-                    'message' => 'Coin convert done successfully.',
-                    'taka' => $balance,
+                    'message' => 'Coin convert done successfully.'
                 ]);
             }
         } catch (\Throwable $th) {
@@ -273,7 +277,7 @@ class UserCoinConvertLogController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' =>  $th->getMessage()
             ]);
         }
     }
@@ -281,9 +285,11 @@ class UserCoinConvertLogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function apiBalanceToCoinConvertHistory()
     {
-        //
+        $datas = UserCoinConvertLog::where('app_user_id', auth()->id())->where('convert_type', 'BALANCE')->orderBy('id', 'DESC')->get();
+
+        return response(UserCoinConvertLogResource::collection($datas));
     }
 
     /**
