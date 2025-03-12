@@ -47,6 +47,7 @@ class AppUserAuthController extends Controller
         $credentials = [
             $loginField => $request->email,
             'password' => $request->password,
+            'status' => 1,
         ];
 
 
@@ -344,5 +345,25 @@ class AppUserAuthController extends Controller
         $user->sendPasswordResetNotification($token);
         return redirect()->back()->with('success','Password reset link send to your email. Please check...');
 
+    }
+
+
+    public function apiDeleteAccount(Request $request){
+
+        $id = auth()->id();
+        $user=  AppUser::find($id);
+        $user->status=0;
+        if($user->update()){
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'status'=>true,
+                'message'=>'Account deleted success.'
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'message'=>'Something went wrong.'
+            ]);
+        }
     }
 }

@@ -23,11 +23,16 @@ Route::group(['prefix' => 'api/app-user', 'middleware' => 'throttle:1000,10'], f
 
     Route::get('support-contact', [GlobalConfigController::class, 'apiSupportContact'])->name('api.support-contact');
 
+
+
     //Google
     Route::get('auth/google', [AppUserAuthController::class, 'redirectToGoogleByApi'])->name('api.app_user,google.login');
     Route::get('google/auth-receiver', [AppUserAuthController::class, 'redirectToGoogleByApi'])->name('api.app_user.google.auth-receive');
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
+        //Delete Account
+        Route::get('delete-account', [AppUserAuthController::class, 'apiDeleteAccount'])->name('api.delete-account');
+
         Route::get('user-details', [AppUserController::class, 'apiUserDetails'])->name('api.app_user.details');
         Route::post('profile-update', [AppUserController::class, 'apiUserProfileUpdate'])->name('api.app_user.profile_update');
         Route::post('profile-photo-update', [AppUserController::class, 'apiUserProfilePhotoUpdate'])->name('api.app_user.profile_photo_update');
