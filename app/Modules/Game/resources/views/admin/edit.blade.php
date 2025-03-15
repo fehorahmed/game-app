@@ -53,6 +53,34 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="google_drive_url" class="col-sm-3 col-form-label text-end">Google Drive Url</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" value="{{ old('google_drive_url', $game->google_drive_url??'') }}"
+                                            name="google_drive_url" id="google_drive_url">
+                                        @error('google_drive_url')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="microsoft_drive_url" class="col-sm-3 col-form-label text-end">Microsoft Drive Url</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" value="{{ old('microsoft_drive_url', $game->microsoft_drive_url??'') }}"
+                                            name="microsoft_drive_url" id="microsoft_drive_url">
+                                        @error('microsoft_drive_url')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
 
                                 <div class="row mb-3">
                                     <label class="col-md-3 my-1 control-label text-end">Status</label>

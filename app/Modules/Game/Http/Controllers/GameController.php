@@ -72,7 +72,9 @@ class GameController extends Controller
 
         $request->validate([
             "name" => 'required|string',
-            "youtube_url" => 'required|string|max:255',
+            "youtube_url" => 'nullable|string|max:255',
+            "google_drive_url" => 'nullable|string|max:255',
+            "microsoft_drive_url" => 'nullable|string|max:255',
             "status" => 'required|boolean',
             "text" => 'required|string|max:200000'
         ]);
@@ -80,6 +82,8 @@ class GameController extends Controller
         $game = Game::findOrFail($id);
         $game->name = $request->name;
         $game->youtube_url = $request->youtube_url;
+        $game->google_drive_url = $request->google_drive_url;
+        $game->microsoft_drive_url = $request->microsoft_drive_url;
         $game->text = $request->text;
         $game->status = $request->status;
         $game->updator = auth()->id();

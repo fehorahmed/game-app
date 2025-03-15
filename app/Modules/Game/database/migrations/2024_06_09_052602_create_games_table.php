@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('image')->nullable();
             $table->string('youtube_url')->nullable();
+            $table->string('google_drive_url')->nullable();
+            $table->string('microsoft_drive_url')->nullable();
             $table->mediumText('text')->nullable();
             $table->boolean('status')->default(1);
             $table->foreignId('creator');
@@ -43,6 +45,10 @@ return new class extends Migration
         ]);
         DB::table('games')->insert([
             'name' => 'CHESS',
+            'creator' => 1
+        ]);
+        DB::table('games')->insert([
+            'name' => 'TeenPattiHub',
             'creator' => 1
         ]);
     }
