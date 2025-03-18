@@ -391,7 +391,7 @@ class AppUserController extends Controller
         ]);
         $loginField = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'user_id';
 
-        if (Auth::guard('appuser')->attempt([$loginField => $request->input('email'), 'password' => $request->input('password')])) {
+        if (Auth::guard('appuser')->attempt([$loginField => $request->input('email'), 'password' => $request->input('password'),'status'=>1])) {
 
             return redirect()->route('user.dashboard');
         }
