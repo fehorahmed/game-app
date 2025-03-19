@@ -391,7 +391,7 @@ class AppUserController extends Controller
         ]);
         $loginField = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'user_id';
 
-        if (Auth::guard('appuser')->attempt([$loginField => $request->input('email'), 'password' => $request->input('password'),'status'=>1])) {
+        if (Auth::guard('appuser')->attempt([$loginField => $request->input('email'), 'password' => $request->input('password'), 'status' => 1])) {
 
             return redirect()->route('user.dashboard');
         }
@@ -428,14 +428,16 @@ class AppUserController extends Controller
                 return redirect()->back()->withInput()->withErrors($validate);
             }
 
-            $user_ref_ck = AppUser::where('referral_id', $request->referral_id)->get();
-            $chk_value = Helper::get_config('max_referral_user') ?? 5;
-            if (count($user_ref_ck) >= $chk_value) {
-                $validate->errors()->add(
-                    'referral_id',
-                    'Referral user over limit. Please use others referral code !'
-                );
-                return redirect()->back()->withInput()->withErrors($validate);
+            if ($ck_referral->user_type != 2) {
+                $user_ref_ck = AppUser::where('referral_id', $request->referral_id)->get();
+                $chk_value = Helper::get_config('max_referral_user') ?? 5;
+                if (count($user_ref_ck) >= $chk_value) {
+                    $validate->errors()->add(
+                        'referral_id',
+                        'Referral user over limit. Please use others referral code !'
+                    );
+                    return redirect()->back()->withInput()->withErrors($validate);
+                }
             }
         }
         $transactionFail = false;
@@ -981,11 +983,12 @@ class AppUserController extends Controller
         if (!$r_request) {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
-        $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
-        if ($total_ref >= 5) {
-            return redirect()->back()->with('error', 'You have maximum referral user. You can not added more.');
+        if (auth()->user()->user_type != 2) {
+            $total_ref = AppUser::where('referral_id', auth()->user()->user_id)->count();
+            if ($total_ref >= 5) {
+                return redirect()->back()->with('error', 'You have maximum referral user. You can not added more.');
+            }
         }
-
         $user = AppUser::find($r_request->app_user_id);
         if ($user->referral_id) {
             return redirect()->back()->with('error', 'User already added on another user. Please reject this request.');
@@ -1184,13 +1187,13 @@ class AppUserController extends Controller
     }
     public function appUserWebVisitCount(Request $request, OwnWebsite $website)
     {
-        $rules=[
+        $rules = [
             "other_user" => 'required|numeric',
             "other_visiting_id" =>  'required|numeric',
             "other_url" => 'required|string',
         ];
-        $validation = Validator::make($request->all(),$rules);
-        if($validation->fails()){
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => $validation->errors()->first()
@@ -1443,5 +1446,4 @@ class AppUserController extends Controller
             ]);
         }
     }
-
 }
