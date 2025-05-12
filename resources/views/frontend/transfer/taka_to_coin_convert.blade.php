@@ -15,9 +15,10 @@
             @include('frontend.layouts.message')
             <div class="heading_container justify-content-between" style="flex-direction: row;">
                 <h2>
-                   Taka To Coin <span>Convert</span>
+                    Taka To Coin <span>Convert</span>
                 </h2>
-                <a href="{{route('user.taka_to_coin_convert.history')}}" class="btn btn-info">Taka to Coin Convert  History</a>
+                <a href="{{ route('user.taka_to_coin_convert.history') }}" class="btn btn-info">Taka to Coin Convert
+                    History</a>
 
             </div>
             <div class="row justify-content-center">
@@ -27,13 +28,19 @@
                             @csrf
 
                             <div class="card-body payment-body">
-                                <h3 class="text-center">Your Current Balance : {{ auth()->user()->balance->balance ?? 0 }} TK</h3>
+                                <h3 class="text-center">Your Current Balance : {{\App\Helpers\Helper::getTakaToCoinConvertAvailableBalance(auth()->id()) }}
+                                    TK</h3>
 
                                 <h2 class="text-center"> Taka to Coin Convert Rate </h2>
-                                <h4 class="text-center"><b> 1 tk = <span id="global_amount">{{\App\Helpers\Helper::get_config('coin_convert_amount')??0}}</span> coin  </b></h4>
+                                <h4 class="text-center"><b> 1 tk = <span
+                                            id="global_amount">{{ \App\Helpers\Helper::get_config('coin_convert_amount') ?? 0 }}</span>
+                                        coin </b></h4>
 
-                                <label for="amount" class="mt-3">Balance Amount <span class="text-danger">*</span></label>
-                                <input type="number" name="amount" required min="{{\App\Helpers\Helper::get_config('minimum_convert_taka_to_coin')??0 }}" class="form-control" id="amount" value="{{old('amount')}}">
+                                <label for="amount" class="mt-3">Balance Amount <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" name="amount" required
+                                    min="{{ \App\Helpers\Helper::get_config('minimum_convert_taka_to_coin') ?? 0 }}"
+                                    class="form-control" id="amount" value="{{ old('amount') }}">
                                 @error('amount')
                                     <p class="text-warning">{{ $message }}</p>
                                 @enderror
@@ -71,10 +78,10 @@
             $('#amount').keyup(function() {
 
                 var amount = parseFloat($(this).val()); // Ensure the value is treated as a number
-                var globalAmount = "{{\App\Helpers\Helper::get_config('coin_convert_amount')??0}}";
+                var globalAmount = "{{ \App\Helpers\Helper::get_config('coin_convert_amount') ?? 0 }}";
                 var total = 0;
                 if (amount > 0) {
-                    total = amount *globalAmount;
+                    total = amount * globalAmount;
 
 
                 }

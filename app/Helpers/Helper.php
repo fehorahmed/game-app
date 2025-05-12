@@ -6,6 +6,7 @@ use App\Models\GlobalConfig;
 use App\Models\StarConfig;
 use App\Models\User;
 use App\Modules\AppUser\Models\AppUser;
+use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\CoinManagement\Models\UserCoin;
 use Illuminate\Support\Facades\File;
@@ -22,6 +23,14 @@ class Helper
 
 
         return 'text valurr';
+    }
+    public static function getTakaToCoinConvertAvailableBalance($user_id)
+    {
+        $user = AppUser::findOrFail($user_id);
+        return $user->balance->balance ?? 0;
+        AppUserBalanceDetail::where(['source'=>'LEVEL','balance_type'=>'ADD']);
+
+
     }
     /**
      * @param $key
