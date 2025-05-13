@@ -26,11 +26,14 @@ class Helper
     }
     public static function getTakaToCoinConvertAvailableBalance($user_id)
     {
-        $user = AppUser::findOrFail($user_id);
-        return $user->balance->balance ?? 0;
-        AppUserBalanceDetail::where(['source'=>'LEVEL','balance_type'=>'ADD']);
+        // $user = AppUser::findOrFail($user_id);
 
-
+        $total = AppUserBalanceDetail::whereIn('source', ['LEVEL', 'COIN_CONVERT'])
+        ->where('balance_type', 'ADD')
+        ->whereHas('appUserBalance',function($q) use ($user_id){
+            $q->where('app_user_id',$user_id);
+        })->sum('balance');
+        return $total;
     }
     /**
      * @param $key
@@ -251,7 +254,7 @@ class Helper
         // dd(self::$referral_user_ids);
         return self::$referral_user_ids;
     }
-    public static function get_all_referral_user_ids($user_id=null)
+    public static function get_all_referral_user_ids($user_id = null)
     {
         self::$referral_user_ids = [];
 
@@ -276,11 +279,11 @@ class Helper
         } else {
             $avg = $total;
         }
-        $data= [
-            'level'=>$level,
-            'count'=>$count,
-            'avg'=>$avg,
-            'total'=>$total,
+        $data = [
+            'level' => $level,
+            'count' => $count,
+            'avg' => $avg,
+            'total' => $total,
         ];
         return $data;
     }
@@ -300,11 +303,11 @@ class Helper
         } else {
             $avg = $total;
         }
-        $data= [
-            'level'=>$level,
-            'count'=>$count,
-            'avg'=>$avg,
-            'total'=>$total,
+        $data = [
+            'level' => $level,
+            'count' => $count,
+            'avg' => $avg,
+            'total' => $total,
         ];
         return $data;
     }

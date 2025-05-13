@@ -291,6 +291,13 @@ class UserCoinConvertLogController extends Controller
 
         return response(UserCoinConvertLogResource::collection($datas));
     }
+    public function apiBalanceToCoinConvertAvailableBalance(){
+        $balance=  Helper::getTakaToCoinConvertAvailableBalance(auth()->id());
+        return response()->json([
+            'status' => true,
+            'balance' =>  $balance
+        ]);
+    }
 
     /**
      * Display the specified resource.

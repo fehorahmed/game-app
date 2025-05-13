@@ -28,7 +28,7 @@
                             @csrf
 
                             <div class="card-body payment-body">
-                                <h3 class="text-center">Your Current Balance : {{\App\Helpers\Helper::getTakaToCoinConvertAvailableBalance(auth()->id()) }}
+                                <h3 class="text-center">Your available convert Balance : {{\App\Helpers\Helper::getTakaToCoinConvertAvailableBalance(auth()->id()) }}
                                     TK</h3>
 
                                 <h2 class="text-center"> Taka to Coin Convert Rate </h2>
