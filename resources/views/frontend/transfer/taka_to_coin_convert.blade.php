@@ -30,7 +30,7 @@
                             <div class="card-body payment-body">
                                 <h3 class="text-center">Your available convert Balance : {{\App\Helpers\Helper::getTakaToCoinConvertAvailableBalance(auth()->id()) }}
                                     TK</h3>
-
+                                    <h4 class="text-center" style="background: darkgreen;">You can convert your level income.</h4>
                                 <h2 class="text-center"> Taka to Coin Convert Rate </h2>
                                 <h4 class="text-center"><b> 1 tk = <span
                                             id="global_amount">{{ \App\Helpers\Helper::get_config('coin_convert_amount') ?? 0 }}</span>

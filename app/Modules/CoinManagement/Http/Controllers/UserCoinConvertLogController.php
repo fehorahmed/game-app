@@ -169,6 +169,15 @@ class UserCoinConvertLogController extends Controller
             ]);
         }
 
+        $av_ck = Helper::getTakaToCoinConvertAvailableBalance(auth()->id());
+        if($request->amount > $av_ck){
+            return response()->json([
+                'status' => false,
+                'message' => 'You do not have enough available level income balance.',
+            ]);
+        }
+
+
         if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
             return response()->json([
                 'status' => false,
@@ -295,7 +304,7 @@ class UserCoinConvertLogController extends Controller
         $balance=  Helper::getTakaToCoinConvertAvailableBalance(auth()->id());
         return response()->json([
             'status' => true,
-            'balance' =>  $balance
+            'available_balance' =>  $balance
         ]);
     }
 

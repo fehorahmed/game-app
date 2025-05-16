@@ -9,6 +9,7 @@ use App\Modules\AppUser\Models\AppUser;
 use App\Modules\AppUserBalance\Models\AppUserBalanceDetail;
 use App\Modules\AppUserBalance\Models\LevelIncomeLog;
 use App\Modules\CoinManagement\Models\UserCoin;
+use App\Modules\CoinManagement\Models\UserCoinConvertLog;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
@@ -27,13 +28,16 @@ class Helper
     public static function getTakaToCoinConvertAvailableBalance($user_id)
     {
         // $user = AppUser::findOrFail($user_id);
+        // 'COIN_CONVERT'
+        $total = AppUserBalanceDetail::whereIn('source', ['LEVEL'])
+            ->where('balance_type', 'ADD')
+            ->whereHas('appUserBalance', function ($q) use ($user_id) {
+                $q->where('app_user_id', $user_id);
+            })->sum('balance');
 
-        $total = AppUserBalanceDetail::whereIn('source', ['LEVEL', 'COIN_CONVERT'])
-        ->where('balance_type', 'ADD')
-        ->whereHas('appUserBalance',function($q) use ($user_id){
-            $q->where('app_user_id',$user_id);
-        })->sum('balance');
-        return $total;
+        $u_coin_convertck = UserCoinConvertLog::where(['app_user_id' => $user_id, 'convert_type' => 'BALANCE'])->sum('balance');
+        $result = $total - $u_coin_convertck;
+        return $result < 0 ? 0 : $result;
     }
     /**
      * @param $key

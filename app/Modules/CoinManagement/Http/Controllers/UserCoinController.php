@@ -345,6 +345,11 @@ class UserCoinController extends Controller
             "password" => 'required|string',
         ]);
         // dd($request->all());
+        $av_ck = Helper::getTakaToCoinConvertAvailableBalance(auth()->id());
+        if($request->amount > $av_ck){
+            return redirect()->back()->withInput()->with('error', 'You do not have enough available level income balance.');
+
+        }
         if (!isset(auth()->user()->balance) || (auth()->user()->balance->balance < $request->amount)) {
             return redirect()->back()->withInput()->with('error', 'You do not have enough balance.');
         }
